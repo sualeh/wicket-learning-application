@@ -17,7 +17,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
-public class DataAccessOperator<T>
+class DataAccessOperator<T>
 {
 
   @PersistenceContext

@@ -31,7 +31,7 @@ public class HomePage
     final Border border = new BoxBorder("border");
     border
       .add(new Label("message",
-                     "If you see this message wicket is properly configured and running"));
+                     "This message is generated from the Wicket page Java code."));
     add(border);
 
     add(new PageLink("events", EventsPage.class));
