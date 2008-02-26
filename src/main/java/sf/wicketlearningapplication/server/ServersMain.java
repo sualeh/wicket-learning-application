@@ -28,6 +28,34 @@ import sf.wicketlearningapplication.persistence.UserDataAccessOperator;
 public class ServersMain
 {
 
+  public static void main(final String[] args)
+  {
+    try
+    {
+      final DatabaseServer databaseServer = new DatabaseServer();
+      databaseServer.start();
+      createData();
+
+      final String webApplicationPath = args[0];
+      final int port = Integer.parseInt(args[1]);
+      final WebApplicationServer webApplicationServer = new WebApplicationServer(webApplicationPath,
+                                                                                 port);
+      webApplicationServer.start();
+
+      while (System.in.available() == 0)
+      {
+        Thread.sleep(5000);
+      }
+      webApplicationServer.stop();
+      databaseServer.stop();
+    }
+    catch (final Exception e)
+    {
+      e.printStackTrace();
+      System.exit(100);
+    }
+  }
+
   private static void createData()
   {
     final int USER_COUNT = 3;
@@ -68,34 +96,6 @@ public class ServersMain
 
     em.clear();
     em.close();
-  }
-
-  public static void main(final String[] args)
-  {
-    try
-    {
-      final DatabaseServer databaseServer = new DatabaseServer();
-      databaseServer.start();
-      createData();
-
-      final String webApplicationPath = args[0];
-      final int port = Integer.parseInt(args[1]);
-      final WebApplicationServer webApplicationServer = new WebApplicationServer(webApplicationPath,
-                                                                                 port);
-      webApplicationServer.start();
-
-      while (System.in.available() == 0)
-      {
-        Thread.sleep(5000);
-      }
-      webApplicationServer.stop();
-      databaseServer.stop();
-    }
-    catch (final Exception e)
-    {
-      e.printStackTrace();
-      System.exit(100);
-    }
   }
 
 }
