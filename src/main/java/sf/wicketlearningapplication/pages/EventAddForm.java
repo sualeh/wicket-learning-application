@@ -19,7 +19,7 @@ import sf.wicketlearningapplication.WicketLearningApplicationSession;
 import sf.wicketlearningapplication.domain.DurationType;
 import sf.wicketlearningapplication.domain.Event;
 import sf.wicketlearningapplication.domain.User;
-import sf.wicketlearningapplication.persistence.DataAccessOperator;
+import sf.wicketlearningapplication.persistence.EventDataAccessOperator;
 import sf.wicketlearningapplication.persistence.Persistence;
 
 final class EventAddForm
@@ -75,7 +75,7 @@ final class EventAddForm
   {
     final EntityManager em = Persistence.getEntityManagerFactory()
       .createEntityManager();
-    final DataAccessOperator<Event> eventDao = new DataAccessOperator<Event>(em);
+    final EventDataAccessOperator eventDao = new EventDataAccessOperator(em);
 
     eventDao.beginTransaction();
     eventDao.save(event);

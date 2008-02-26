@@ -21,21 +21,23 @@ import sf.wicketlearningapplication.domain.Duration;
 import sf.wicketlearningapplication.domain.DurationType;
 import sf.wicketlearningapplication.domain.Event;
 import sf.wicketlearningapplication.domain.User;
-import sf.wicketlearningapplication.persistence.DataAccessOperator;
+import sf.wicketlearningapplication.persistence.EventDataAccessOperator;
 import sf.wicketlearningapplication.persistence.Persistence;
+import sf.wicketlearningapplication.persistence.UserDataAccessOperator;
 
 public class ServersMain
 {
-  private static final int USER_COUNT = 3;
-  private static final int EVENT_COUNT = 45;
 
-  public static synchronized void createData()
+  private static void createData()
   {
+    final int USER_COUNT = 3;
+    final int EVENT_COUNT = 45;
+
     final EntityManager em = Persistence.getEntityManagerFactory()
       .createEntityManager();
 
     final List<User> users = new ArrayList<User>();
-    final DataAccessOperator<User> userDao = new DataAccessOperator<User>(em);
+    final UserDataAccessOperator userDao = new UserDataAccessOperator(em);
     userDao.beginTransaction();
     for (int i = 0; i < USER_COUNT; i++)
     {
@@ -49,7 +51,7 @@ public class ServersMain
     }
     userDao.commitTransaction();
 
-    final DataAccessOperator<Event> eventDao = new DataAccessOperator<Event>(em);
+    final EventDataAccessOperator eventDao = new EventDataAccessOperator(em);
     eventDao.beginTransaction();
     for (int i = 0; i < EVENT_COUNT; i++)
     {
@@ -72,14 +74,10 @@ public class ServersMain
   {
     try
     {
-      // Start the database server
       final DatabaseServer databaseServer = new DatabaseServer();
       databaseServer.start();
-
-      // Create dummy data
       createData();
 
-      // Start web container
       final String webApplicationPath = args[0];
       final int port = Integer.parseInt(args[1]);
       final WebApplicationServer webApplicationServer = new WebApplicationServer(webApplicationPath,

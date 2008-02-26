@@ -30,7 +30,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import sf.wicketlearningapplication.domain.Duration;
 import sf.wicketlearningapplication.domain.DurationType;
 import sf.wicketlearningapplication.domain.Event;
-import sf.wicketlearningapplication.persistence.DataAccessOperator;
+import sf.wicketlearningapplication.persistence.EventDataAccessOperator;
 import sf.wicketlearningapplication.server.DatabaseServer;
 
 public class TestSpringJpa
@@ -54,7 +54,7 @@ public class TestSpringJpa
     Event event;
 
     final EntityManager em = entityManagerFactory.createEntityManager();
-    final DataAccessOperator<Event> eventDao = new DataAccessOperator<Event>(em);
+    final EventDataAccessOperator eventDao = new EventDataAccessOperator(em);
     EntityTransaction transaction;
 
     transaction = em.getTransaction();

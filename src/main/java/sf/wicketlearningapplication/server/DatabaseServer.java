@@ -65,12 +65,10 @@ public class DatabaseServer
         .getConnection("jdbc:hsqldb:hsql://localhost/wicketlearningapplication",
                        "sa",
                        "");
-      if (connection != null)
-      {
-        statement = connection.createStatement();
-        statement.execute("SHUTDOWN");
-        connection.close();
-      }
+      statement = connection.createStatement();
+      statement.execute("SHUTDOWN");
+      statement.close();
+      connection.close();
     }
     catch (final SQLException e)
     {
@@ -78,27 +76,16 @@ public class DatabaseServer
     }
     finally
     {
-      if (statement != null)
+      try
       {
-        try
-        {
-          statement.close();
-        }
-        catch (final SQLException e)
-        {
-          LOGGER.log(Level.WARNING, "", e);
-        }
-      }
-      if (connection != null)
-      {
-        try
+        if (connection != null)
         {
           connection.close();
         }
-        catch (final SQLException e)
-        {
-          LOGGER.log(Level.WARNING, "", e);
-        }
+      }
+      catch (final SQLException e)
+      {
+        LOGGER.log(Level.WARNING, "", e);
       }
     }
   }

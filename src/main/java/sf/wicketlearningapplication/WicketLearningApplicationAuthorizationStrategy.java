@@ -17,6 +17,7 @@ import org.apache.wicket.authorization.strategies.page.SimplePageAuthorizationSt
 class WicketLearningApplicationAuthorizationStrategy
   extends SimplePageAuthorizationStrategy
 {
+
   WicketLearningApplicationAuthorizationStrategy(final Class securePageSuperType,
                                                  final Class signInPageClass)
   {
@@ -28,4 +29,5 @@ class WicketLearningApplicationAuthorizationStrategy
   {
     return ((WicketLearningApplicationSession) Session.get()).getLoggedInUser() != null;
   }
+
 }
