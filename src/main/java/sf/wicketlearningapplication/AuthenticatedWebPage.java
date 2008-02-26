@@ -17,9 +17,6 @@ public class AuthenticatedWebPage
   extends WebPage
 {
 
-  /**
-   * 
-   */
   private static final long serialVersionUID = 654881418850384557L;
 
   @Override
