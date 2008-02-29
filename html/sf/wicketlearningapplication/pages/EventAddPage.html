@@ -1,0 +1,41 @@
+<!-- 
+  Copyright 2007-2008, Sualeh Fatehi <sualeh@hotmail.com>
+  
+  This work is licensed under the Creative Commons Attribution 3.0 License. 
+  To view a copy of this license, visit 
+  http://creativecommons.org/licenses/by/3.0/ 
+  or send a letter to 
+  Creative Commons
+  171 Second Street, Suite 300, San Francisco, California, 94105, USA.
+-->
+<html>
+<head>
+<title>Add New Event - Wicket Learning Application</title>
+<link type="text/css" rel="stylesheet" href="basic_styles.css" />
+</head>
+<body>
+<h1>Add New Event</h1>
+<br />
+<span wicket:id="errorMessages" />
+<form wicket:id="eventAddForm">
+<table>
+	<tr>
+		<td>Event:</td>
+		<td><input type="text" wicket:id="name"></td>
+	</tr>
+	<tr>
+		<td>Start Date:</td>
+		<td><input type="text" wicket:id="startDate"></td>
+	</tr>
+	<tr>
+		<td>Duration:</td>
+		<td><input type="text" wicket:id="duration.duration"> <select
+			wicket:id="duration.durationType"/></td>
+	</tr>
+	<tr>
+		<td colspan="2"><input type="submit" value="Add New Event"></td>
+	</tr>
+</table>
+</form>
+</body>
+</html>
