@@ -11,20 +11,24 @@
 package sf.wicketlearningapplication.pages;
 
 
+import org.apache.wicket.markup.html.WebPage;
 import org.apache.wicket.markup.html.link.PageLink;
 
 import sf.wicketlearningapplication.AuthenticatedWebPage;
+import sf.wicketlearningapplication.WicketLearningApplicationSession;
 import sf.wicketlearningapplication.domain.User;
 
 public class EventsPage
-  extends AuthenticatedWebPage
+  extends WebPage
+  implements AuthenticatedWebPage
 {
 
   private static final long serialVersionUID = -4454721164415868831L;
 
   public EventsPage()
   {
-    final User user = getSession().getLoggedInUser();
+    final User user = ((WicketLearningApplicationSession) getSession())
+      .getLoggedInUser();
     final EventsTable eventsView = new EventsTable("eventsTable", 5, user);
     add(eventsView);
 

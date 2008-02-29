@@ -11,13 +11,15 @@
 package sf.wicketlearningapplication.pages;
 
 
+import org.apache.wicket.markup.html.WebPage;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.panel.FeedbackPanel;
 
 import sf.wicketlearningapplication.AuthenticatedWebPage;
 
 public class EventAddPage
-  extends AuthenticatedWebPage
+  extends WebPage
+  implements AuthenticatedWebPage
 {
 
   private static final long serialVersionUID = 8546164546033425516L;

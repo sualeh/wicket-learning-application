@@ -11,18 +11,7 @@
 package sf.wicketlearningapplication;
 
 
-import org.apache.wicket.markup.html.WebPage;
-
-public class AuthenticatedWebPage
-  extends WebPage
+public interface AuthenticatedWebPage
 {
-
-  private static final long serialVersionUID = 654881418850384557L;
-
-  @Override
-  public WicketLearningApplicationSession getSession()
-  {
-    return (WicketLearningApplicationSession) super.getSession();
-  }
 
 }
