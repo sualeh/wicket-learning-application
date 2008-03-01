@@ -37,11 +37,6 @@ public class WicketLearningApplicationSession
     super(application, request);
   }
 
-  public User getLoggedInUser()
-  {
-    return loggedInUser;
-  }
-
   @Override
   public boolean authenticate(final String username, final String password)
   {
@@ -57,6 +52,11 @@ public class WicketLearningApplicationSession
       loggedInUser = null;
     }
     return loggedInUser != null;
+  }
+
+  public User getLoggedInUser()
+  {
+    return loggedInUser;
   }
 
   @Override
