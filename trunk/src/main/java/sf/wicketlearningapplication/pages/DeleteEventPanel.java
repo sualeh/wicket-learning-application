@@ -14,28 +14,31 @@ package sf.wicketlearningapplication.pages;
 import javax.persistence.EntityManager;
 
 import org.apache.wicket.markup.html.link.Link;
+import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.model.IModel;
 
 import sf.wicketlearningapplication.domain.Event;
 import sf.wicketlearningapplication.persistence.EventDataAccessOperator;
 import sf.wicketlearningapplication.persistence.Persistence;
 
-final class DeleteEventLink
-  extends Link
+final class DeleteEventPanel
+  extends Panel
 {
 
   private static final long serialVersionUID = 2753920209773575465L;
 
-  DeleteEventLink(final String id, IModel model)
+  DeleteEventPanel(final String id, IModel model)
   {
     super(id, model);
-  }
-
-  @Override
-  public void onClick()
-  {
-    deleteEvent((Event) getModelObject());
-    setResponsePage(EventsPage.class);
+    add(new Link("delete", model)
+    {
+      @Override
+      public void onClick()
+      {
+        deleteEvent((Event) getModelObject());
+        setResponsePage(EventsPage.class);
+      }
+    });
   }
 
   private void deleteEvent(final Event event)
@@ -51,4 +54,5 @@ final class DeleteEventLink
     em.clear();
     em.close();
   }
+
 }

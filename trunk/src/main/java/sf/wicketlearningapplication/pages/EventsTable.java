@@ -49,7 +49,7 @@ public class EventsTable
                                    final String componentId,
                                    final IModel rowModel)
           {
-            cellItem.add(new DeleteEventLink(componentId, rowModel));
+            cellItem.add(new DeleteEventPanel(componentId, rowModel));
           }
         },
     };
