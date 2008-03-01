@@ -28,6 +28,11 @@ class DataAccessOperator<T>
     this.em = em;
   }
 
+  public T attach(final T entity)
+  {
+    return em.merge(entity);
+  }
+
   public void beginTransaction()
   {
     em.getTransaction().begin();
@@ -36,11 +41,6 @@ class DataAccessOperator<T>
   public void commitTransaction()
   {
     em.getTransaction().commit();
-  }
-
-  public T attach(final T entity)
-  {
-    return em.merge(entity);
   }
 
   public void delete(final T entity)

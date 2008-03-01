@@ -43,7 +43,7 @@ public class EventsTable
         },
         new AbstractColumn(new Model("Delete"))
         {
-          private static final long serialVersionUID = 0L;
+          private static final long serialVersionUID = 6566804574749277918L;
 
           public void populateItem(final Item cellItem,
                                    final String componentId,
