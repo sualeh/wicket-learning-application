@@ -11,22 +11,30 @@
 package sf.wicketlearningapplication;
 
 
+import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
+
 import org.apache.wicket.Request;
-import org.apache.wicket.protocol.http.WebSession;
+import org.apache.wicket.authentication.AuthenticatedWebApplication;
+import org.apache.wicket.authentication.AuthenticatedWebSession;
+import org.apache.wicket.authorization.strategies.role.Roles;
 
 import sf.wicketlearningapplication.domain.User;
+import sf.wicketlearningapplication.persistence.Persistence;
+import sf.wicketlearningapplication.persistence.UserDataAccessOperator;
 
 public class WicketLearningApplicationSession
-  extends WebSession
+  extends AuthenticatedWebSession
 {
 
   private static final long serialVersionUID = 4142570295721648419L;
 
   private User loggedInUser;
 
-  public WicketLearningApplicationSession(final Request request)
+  public WicketLearningApplicationSession(final AuthenticatedWebApplication application,
+                                          final Request request)
   {
-    super(request);
+    super(application, request);
   }
 
   public User getLoggedInUser()
@@ -34,9 +42,32 @@ public class WicketLearningApplicationSession
     return loggedInUser;
   }
 
-  public void setLoggedInUser(final User loggedInUser)
+  @Override
+  public boolean authenticate(final String username, final String password)
   {
-    this.loggedInUser = loggedInUser;
+    try
+    {
+      final EntityManager em = Persistence.getEntityManagerFactory()
+        .createEntityManager();
+      final UserDataAccessOperator userDao = new UserDataAccessOperator(em);
+      loggedInUser = userDao.find(username, password);
+    }
+    catch (final NoResultException e)
+    {
+      loggedInUser = null;
+    }
+    return loggedInUser != null;
+  }
+
+  @Override
+  public Roles getRoles()
+  {
+    final Roles roles = new Roles();
+    if (isSignedIn())
+    {
+      roles.add("USER");
+    }
+    return roles;
   }
 
 }

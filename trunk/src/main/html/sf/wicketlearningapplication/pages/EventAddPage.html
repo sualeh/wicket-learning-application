@@ -14,28 +14,30 @@
 <link type="text/css" rel="stylesheet" href="basic_styles.css" />
 </head>
 <body>
-<h1>Add New Event</h1>
-<br />
-<span wicket:id="errorMessages" />
-<form wicket:id="eventAddForm">
-<table>
-	<tr>
-		<td>Event:</td>
-		<td><input type="text" wicket:id="name"></td>
-	</tr>
-	<tr>
-		<td>Start Date:</td>
-		<td><input type="text" wicket:id="startDate"></td>
-	</tr>
-	<tr>
-		<td>Duration:</td>
-		<td><input type="text" wicket:id="duration.duration"> <select
-			wicket:id="duration.durationType"/></td>
-	</tr>
-	<tr>
-		<td colspan="2"><input type="submit" value="Add New Event"></td>
-	</tr>
-</table>
-</form>
+<wicket:extend>
+	<h1>Add New Event</h1>
+	<br />
+	<span wicket:id="errorMessages" />
+	<form wicket:id="eventAddForm">
+	<table>
+		<tr>
+			<td>Event:</td>
+			<td><input type="text" wicket:id="name"></td>
+		</tr>
+		<tr>
+			<td>Start Date:</td>
+			<td><input type="text" wicket:id="startDate"></td>
+		</tr>
+		<tr>
+			<td>Duration:</td>
+			<td><input type="text" wicket:id="duration.duration"> <select
+				wicket:id="duration.durationType"/></td>
+		</tr>
+		<tr>
+			<td colspan="2"><input type="submit" value="Add New Event"></td>
+		</tr>
+	</table>
+	</form>
+</wicket:extend>
 </body>
 </html>

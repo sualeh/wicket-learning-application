@@ -14,6 +14,7 @@ import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.TextField;
 import org.apache.wicket.model.CompoundPropertyModel;
 import org.apache.wicket.validation.validator.NumberValidator;
+import org.apache.wicket.validation.validator.StringValidator;
 
 import sf.wicketlearningapplication.WicketLearningApplicationSession;
 import sf.wicketlearningapplication.domain.DurationType;
@@ -39,6 +40,7 @@ final class EventAddForm
 
     final TextField eventName = new TextField("name");
     eventName.setRequired(true);
+    eventName.add(StringValidator.maximumLength(256));
     add(eventName);
 
     final TextField eventStartDate = new TextField("startDate", Date.class);

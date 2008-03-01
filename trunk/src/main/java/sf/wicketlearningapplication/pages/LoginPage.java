@@ -11,19 +11,19 @@
 package sf.wicketlearningapplication.pages;
 
 
-import org.apache.wicket.markup.html.WebPage;
-import org.apache.wicket.markup.html.panel.FeedbackPanel;
+import org.apache.wicket.authentication.panel.SignInPanel;
+
+import sf.wicketlearningapplication.BaseWebPage;
 
 public class LoginPage
-  extends WebPage
+  extends BaseWebPage
 {
 
   private static final long serialVersionUID = 5785408843233190968L;
 
   public LoginPage()
   {
-    add(new FeedbackPanel("errorMsg"));
-    add(new LoginForm("loginForm"));
+    add(new SignInPanel("signInPanel"));
   }
 
 }

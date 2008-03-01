@@ -11,15 +11,15 @@
 package sf.wicketlearningapplication.pages;
 
 
-import org.apache.wicket.markup.html.WebPage;
+import org.apache.wicket.authorization.strategies.role.annotations.AuthorizeInstantiation;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.panel.FeedbackPanel;
 
-import sf.wicketlearningapplication.AuthenticatedWebPage;
+import sf.wicketlearningapplication.BaseWebPage;
 
+@AuthorizeInstantiation("USER")
 public class EventAddPage
-  extends WebPage
-  implements AuthenticatedWebPage
+  extends BaseWebPage
 {
 
   private static final long serialVersionUID = 8546164546033425516L;

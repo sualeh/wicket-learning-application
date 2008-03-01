@@ -11,16 +11,15 @@
 package sf.wicketlearningapplication;
 
 
-import org.apache.wicket.Request;
-import org.apache.wicket.Response;
-import org.apache.wicket.Session;
-import org.apache.wicket.protocol.http.WebApplication;
+import org.apache.wicket.authentication.AuthenticatedWebApplication;
+import org.apache.wicket.authentication.AuthenticatedWebSession;
+import org.apache.wicket.markup.html.WebPage;
 
 import sf.wicketlearningapplication.pages.HomePage;
 import sf.wicketlearningapplication.pages.LoginPage;
 
 public class WicketLearningApplication
-  extends WebApplication
+  extends AuthenticatedWebApplication
 {
 
   @Override
@@ -30,17 +29,15 @@ public class WicketLearningApplication
   }
 
   @Override
-  public Session newSession(final Request request, final Response response)
+  protected Class<? extends WebPage> getSignInPageClass()
   {
-    return new WicketLearningApplicationSession(request);
+    return LoginPage.class;
   }
 
   @Override
-  protected void init()
+  protected Class<? extends AuthenticatedWebSession> getWebSessionClass()
   {
-    getSecuritySettings()
-      .setAuthorizationStrategy(new WicketLearningApplicationAuthorizationStrategy(AuthenticatedWebPage.class,
-                                                                                   LoginPage.class));
+    return WicketLearningApplicationSession.class;
   }
 
 }
