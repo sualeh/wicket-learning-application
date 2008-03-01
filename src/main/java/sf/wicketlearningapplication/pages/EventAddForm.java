@@ -4,13 +4,13 @@
 package sf.wicketlearningapplication.pages;
 
 
-import java.util.Date;
-
 import javax.persistence.EntityManager;
 
+import org.apache.wicket.extensions.markup.html.form.DateTextField;
 import org.apache.wicket.extensions.yui.calendar.DatePicker;
 import org.apache.wicket.markup.html.form.DropDownChoice;
 import org.apache.wicket.markup.html.form.Form;
+import org.apache.wicket.markup.html.form.RequiredTextField;
 import org.apache.wicket.markup.html.form.TextField;
 import org.apache.wicket.model.CompoundPropertyModel;
 import org.apache.wicket.validation.validator.NumberValidator;
@@ -38,18 +38,16 @@ final class EventAddForm
     event = new Event();
     setModel(new CompoundPropertyModel(event));
 
-    final TextField eventName = new TextField("name");
-    eventName.setRequired(true);
+    final TextField eventName = new RequiredTextField("name");
     eventName.add(StringValidator.maximumLength(256));
     add(eventName);
 
-    final TextField eventStartDate = new TextField("startDate", Date.class);
-    eventStartDate.setRequired(true);
+    final TextField eventStartDate = new DateTextField("startDate");
     eventStartDate.add(new DatePicker());
     add(eventStartDate);
 
-    final TextField eventDuration = new TextField("duration.duration",
-                                                  Integer.class);
+    final TextField eventDuration = new RequiredTextField("duration.duration",
+                                                          Integer.class);
     eventDuration.setRequired(true);
     eventDuration.add(NumberValidator.POSITIVE);
     add(eventDuration);
