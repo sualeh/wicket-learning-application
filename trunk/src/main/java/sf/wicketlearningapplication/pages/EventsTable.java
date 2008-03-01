@@ -1,6 +1,7 @@
 package sf.wicketlearningapplication.pages;
 
 
+import org.apache.wicket.extensions.markup.html.repeater.data.table.AbstractColumn;
 import org.apache.wicket.extensions.markup.html.repeater.data.table.DefaultDataTable;
 import org.apache.wicket.extensions.markup.html.repeater.data.table.IColumn;
 import org.apache.wicket.extensions.markup.html.repeater.data.table.PropertyColumn;
@@ -38,6 +39,17 @@ public class EventsTable
                                    final IModel rowModel)
           {
             cellItem.add(new OwnerDetailsPanel(componentId, rowModel));
+          }
+        },
+        new AbstractColumn(new Model("Delete"))
+        {
+          private static final long serialVersionUID = 0L;
+
+          public void populateItem(final Item cellItem,
+                                   final String componentId,
+                                   final IModel rowModel)
+          {
+            cellItem.add(new DeleteEventLink(componentId, rowModel));
           }
         },
     };
