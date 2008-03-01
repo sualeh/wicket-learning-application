@@ -11,17 +11,17 @@
 package sf.wicketlearningapplication.pages;
 
 
-import org.apache.wicket.markup.html.WebPage;
+import org.apache.wicket.authorization.strategies.role.annotations.AuthorizeInstantiation;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.border.Border;
 import org.apache.wicket.markup.html.border.BoxBorder;
 import org.apache.wicket.markup.html.link.PageLink;
 
-import sf.wicketlearningapplication.AuthenticatedWebPage;
+import sf.wicketlearningapplication.BaseWebPage;
 
+@AuthorizeInstantiation("USER")
 public class HomePage
-  extends WebPage
-  implements AuthenticatedWebPage
+  extends BaseWebPage
 {
 
   private static final long serialVersionUID = 8957237889070269644L;

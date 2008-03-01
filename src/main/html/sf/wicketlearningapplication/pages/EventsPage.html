@@ -14,16 +14,17 @@
 <link type="text/css" rel="stylesheet" href="basic_styles.css" />
 </head>
 <body>
-<h1>Events</h1>
-<br />
-
-<table wicket:id="eventsTable" border="0"></table>
-
-<ul>
-	<li><a wicket:id="home">Back</a></li>
-	<li><a wicket:id="eventAdd">Add New Event</a></li>
-	<li><a wicket:id="logout">Logout</a></li>
-</ul>
-
+<wicket:extend>
+	<h1>Events</h1>
+	<br />
+	
+	<table wicket:id="eventsTable" border="0"></table>
+	
+	<ul>
+		<li><a wicket:id="home">Back</a></li>
+		<li><a wicket:id="eventAdd">Add New Event</a></li>
+		<li><a wicket:id="logout">Logout</a></li>
+	</ul>
+</wicket:extend>
 </body>
 </html>

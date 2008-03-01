@@ -11,7 +11,10 @@
 package sf.wicketlearningapplication;
 
 
-public interface AuthenticatedWebPage
+import org.apache.wicket.markup.html.WebPage;
+
+public abstract class BaseWebPage
+  extends WebPage
 {
 
 }
