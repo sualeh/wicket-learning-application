@@ -38,9 +38,14 @@ class DataAccessOperator<T>
     em.getTransaction().commit();
   }
 
+  public T attach(final T entity)
+  {
+    return em.merge(entity);
+  }
+
   public void delete(final T entity)
   {
-    em.remove(entity);
+    em.remove(attach(entity));
   }
 
   public T find(final Class<T> clazz, final long id)
