@@ -12,6 +12,7 @@ package sf.wicketlearningapplication.pages;
 
 
 import org.apache.wicket.authorization.strategies.role.annotations.AuthorizeInstantiation;
+import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.panel.FeedbackPanel;
 
 import sf.wicketlearningapplication.BaseWebPage;
@@ -31,6 +32,16 @@ public class EventPage
 
   public EventPage(final Event event)
   {
+    final String header;
+    if (event == null)
+    {
+      header = "Add New Event";
+    }
+    else
+    {
+      header = "Edit Event";
+    }
+    add(new Label("header", header));
     add(new EventForm("eventAddForm", event));
     add(new FeedbackPanel("errorMessages"));
   }

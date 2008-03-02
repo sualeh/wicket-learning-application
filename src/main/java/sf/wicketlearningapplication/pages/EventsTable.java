@@ -41,7 +41,7 @@ public class EventsTable
             cellItem.add(new OwnerDetailsPanel(componentId, rowModel));
           }
         },
-        new AbstractColumn(new Model("Delete"))
+        new AbstractColumn(new Model("Edit/ Delete"))
         {
           private static final long serialVersionUID = 6566804574749277918L;
 

@@ -8,6 +8,7 @@ import javax.persistence.EntityManager;
 
 import org.apache.wicket.extensions.markup.html.form.DateTextField;
 import org.apache.wicket.extensions.yui.calendar.DatePicker;
+import org.apache.wicket.markup.html.form.Button;
 import org.apache.wicket.markup.html.form.DropDownChoice;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.RequiredTextField;
@@ -67,6 +68,17 @@ final class EventForm
                                                                   .list());
     eventDurationType.setRequired(true);
     add(eventDurationType);
+
+    Button cancelButton = new Button("cancel")
+    {
+      @Override
+      public void onSubmit()
+      {
+        setResponsePage(EventsPage.class);
+      }
+    };
+    cancelButton.setDefaultFormProcessing(false);
+    add(cancelButton);
   }
 
   @Override
