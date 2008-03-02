@@ -12,7 +12,7 @@ package sf.wicketlearningapplication.server;
 
 
 import java.util.ArrayList;
-import java.util.Date;
+import java.util.Calendar;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -83,11 +83,16 @@ public class ServersMain
     eventDao.beginTransaction();
     for (int i = 0; i < EVENT_COUNT; i++)
     {
+      final int duration = (int) (Math.random() * 100);
+      final DurationType durationType = DurationType.values()[(int) (Math
+        .random() * DurationType.values().length)];
+      Calendar calendar = Calendar.getInstance();
+      calendar.add(Calendar.DAY_OF_MONTH, (int) (Math.random() * 30));
+      //
       final Event event = new Event();
       event.setName("Event #" + (i + 1));
-      event.setDuration(new Duration((int) (Math.random() * 100),
-                                     DurationType.days));
-      event.setStartDate(new Date());
+      event.setDuration(new Duration(duration, durationType));
+      event.setStartDate(calendar.getTime());
       event.setOwner(users.get((int) (Math.random() * 100 % USER_COUNT)));
       // 
       eventDao.create(event);
@@ -97,5 +102,4 @@ public class ServersMain
     em.clear();
     em.close();
   }
-
 }
