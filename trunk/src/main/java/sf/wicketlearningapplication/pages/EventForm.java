@@ -69,8 +69,13 @@ final class EventForm
     eventDurationType.setRequired(true);
     add(eventDurationType);
 
-    Button cancelButton = new Button("cancel")
+    final Button cancelButton = new Button("cancel")
     {
+      /**
+       * 
+       */
+      private static final long serialVersionUID = 8251200359384967045L;
+
       @Override
       public void onSubmit()
       {

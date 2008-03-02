@@ -2,6 +2,7 @@ package sf.wicketlearningapplication.pages;
 
 
 import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 
 import org.apache.wicket.extensions.markup.html.repeater.data.table.AbstractColumn;
 import org.apache.wicket.extensions.markup.html.repeater.data.table.DefaultDataTable;
@@ -21,7 +22,7 @@ public class EventsTable
 
   private static final long serialVersionUID = 8016043970738990340L;
 
-  private static final DateFormat dateFormat = DateFormat.getDateInstance();
+  private static final DateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
 
   private static IColumn[] getEventsColumns()
   {
@@ -37,17 +38,23 @@ public class EventsTable
                                    final String componentId,
                                    final IModel rowModel)
           {
-            Event event = (Event) rowModel.getObject();
+            final Event event = (Event) rowModel.getObject();
             cellItem.add(new Label(componentId, new Model(dateFormat
               .format(event.getStartDate()))));
           }
         },
-        new PropertyColumn(new Model("Duration"),
-                           "duration.duration",
-                           "duration.duration"),
-        new PropertyColumn(new Model("Duration Type"),
-                           "duration.durationType",
-                           "duration.durationType"),
+        new PropertyColumn(new Model("Duration"), "duration", "duration")
+        {
+          private static final long serialVersionUID = 7863677007871016499L;
+
+          @Override
+          public void populateItem(final Item cellItem,
+                                   final String componentId,
+                                   final IModel rowModel)
+          {
+            cellItem.add(new EventDurationPanel(componentId, rowModel));
+          }
+        },
         new PropertyColumn(new Model("Owner"), "owner.name", "owner.name")
         {
           private static final long serialVersionUID = 7459737880589990417L;

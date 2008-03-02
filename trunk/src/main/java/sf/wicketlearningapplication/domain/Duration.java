@@ -20,12 +20,13 @@ import org.apache.commons.lang.builder.ToStringStyle;
 
 @Embeddable
 public class Duration
-  implements Serializable
+  implements Serializable, Comparable<Duration>
 {
 
   private static final long serialVersionUID = 67206557276146560L;
 
   private int duration;
+
   private DurationType durationType;
 
   public Duration()
@@ -36,6 +37,14 @@ public class Duration
   {
     this.duration = duration;
     this.durationType = durationType;
+  }
+
+  public int compareTo(final Duration duration)
+  {
+    final long thisDurationLength = this.duration * durationType.getSeconds();
+    final long otherDurationLength = duration.duration
+                                     * duration.durationType.getSeconds();
+    return (int) (thisDurationLength - otherDurationLength);
   }
 
   public int getDuration()
