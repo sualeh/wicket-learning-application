@@ -15,10 +15,10 @@ import org.apache.wicket.markup.repeater.Item;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.Model;
 
-import sf.wicketlearningapplication.domain.Event;
+import sf.wicketlearningapplication.domain.Bug;
 import sf.wicketlearningapplication.domain.User;
 
-public class EventsTable
+public class BugsTable
   extends DefaultDataTable
 {
 
@@ -26,7 +26,7 @@ public class EventsTable
 
   private static final DateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
 
-  private static IColumn[] getEventsColumns(final User user)
+  private static IColumn[] getColumns(final User user)
   {
     final List<IColumn> columns = new ArrayList<IColumn>();
     columns.add(new AbstractColumn(new Model("Edit/ Delete"))
@@ -37,14 +37,17 @@ public class EventsTable
                                final String componentId,
                                final IModel rowModel)
       {
-        cellItem.add(new EventEditDeletePanel(componentId, rowModel));
+        cellItem.add(new BugEditDeletePanel(componentId, rowModel));
       }
     });
     columns.add(new PropertyColumn(new Model("Id"), "id", "id"));
-    columns.add(new PropertyColumn(new Model("Event"), "name", "name"));
-    columns.add(new PropertyColumn(new Model("Start Date"),
-      "startDate",
-      "startDate")
+    columns.add(new PropertyColumn(new Model("Summary"), "summary", "summary"));
+    columns.add(new PropertyColumn(new Model("Severity"),
+                                   "severity",
+                                   "severity"));
+    columns.add(new PropertyColumn(new Model("Due By Date"),
+      "dueByDate",
+      "dueByDate")
     {
       private static final long serialVersionUID = 6019283751055902836L;
 
@@ -53,25 +56,14 @@ public class EventsTable
                                final String componentId,
                                final IModel rowModel)
       {
-        final Event event = (Event) rowModel.getObject();
-        cellItem.add(new Label(componentId, new Model(dateFormat.format(event
-          .getStartDate()))));
+        final Bug bug = (Bug) rowModel.getObject();
+        cellItem.add(new Label(componentId, new Model(dateFormat.format(bug
+          .getDueByDate()))));
       }
     });
-    columns.add(new PropertyColumn(new Model("Duration"),
-      "duration",
-      "duration")
-    {
-      private static final long serialVersionUID = 7863677007871016499L;
-
-      @Override
-      public void populateItem(final Item cellItem,
-                               final String componentId,
-                               final IModel rowModel)
-      {
-        cellItem.add(new EventDurationPanel(componentId, rowModel));
-      }
-    });
+    columns.add(new PropertyColumn(new Model("Estimated Hours"),
+                                   "estimatedHours",
+                                   "estimatedHours"));
     if (user == null || user.getId() <= 1)
     {
       columns.add(new PropertyColumn(new Model("Owner"),
@@ -81,12 +73,9 @@ public class EventsTable
     return columns.toArray(new IColumn[columns.size()]);
   }
 
-  EventsTable(final String id, final int itemsPerPage, final User user)
+  BugsTable(final String id, final int itemsPerPage, final User user)
   {
-    super(id,
-          getEventsColumns(user),
-          new EventsDataProvider(user),
-          itemsPerPage);
+    super(id, getColumns(user), new BugsDataProvider(user), itemsPerPage);
   }
 
 }

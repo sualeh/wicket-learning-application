@@ -15,7 +15,7 @@ import org.apache.wicket.util.tester.WicketTester;
 import org.junit.Before;
 import org.junit.Test;
 
-import sf.wicketlearningapplication.pages.EventsPage;
+import sf.wicketlearningapplication.pages.BugsPage;
 import sf.wicketlearningapplication.pages.HomePage;
 
 public class TestHomePage
@@ -33,7 +33,7 @@ public class TestHomePage
     tester.assertRenderedPage(HomePage.class);
 
     // assert rendered link component
-    tester.assertPageLink("events", EventsPage.class);
+    tester.assertPageLink("bugs", BugsPage.class);
   }
 
   @Before

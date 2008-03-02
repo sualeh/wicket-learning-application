@@ -14,25 +14,13 @@ package sf.wicketlearningapplication.domain;
 import java.util.Arrays;
 import java.util.List;
 
-public enum DurationType
+public enum Severity
 {
-  minutes(60), hours(60 * 60), days(24 * 60 * 60), weeks(7 * 24 * 60 * 60);
+  showstopper, high, medium, low;
 
-  public static List<DurationType> list()
+  public static List<Severity> list()
   {
-    return Arrays.asList(DurationType.values());
-  }
-
-  private final long seconds;
-
-  private DurationType(final long seconds)
-  {
-    this.seconds = seconds;
-  }
-
-  long getSeconds()
-  {
-    return seconds;
+    return Arrays.asList(Severity.values());
   }
 
 }

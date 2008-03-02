@@ -15,35 +15,35 @@ import org.apache.wicket.authorization.strategies.role.annotations.AuthorizeInst
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.panel.Panel;
 
-import sf.wicketlearningapplication.domain.Event;
+import sf.wicketlearningapplication.domain.Bug;
 
 @AuthorizeInstantiation("USER")
-public class EventPanel
+public class BugPanel
   extends Panel
 {
 
   private static final long serialVersionUID = 8546164546033425516L;
 
-  public EventPanel(String id)
+  public BugPanel(String id)
   {
     this(id, null);
   }
 
-  public EventPanel(String id, final Event event)
+  public BugPanel(String id, final Bug bug)
   {
     super(id);
 
     final String header;
-    if (event == null)
+    if (bug == null)
     {
-      header = "Add New Event";
+      header = "Add New Bug";
     }
     else
     {
-      header = "Edit Event";
+      header = "Edit Bug";
     }
     add(new Label("header", header));
-    add(new EventForm("eventAddForm", event));
+    add(new BugForm("bugAddForm", bug));
   }
 
 }

@@ -34,7 +34,7 @@ public class HomePage
                      "This message is generated from the Wicket page Java code."));
     add(border);
 
-    add(new PageLink("events", EventsPage.class));
+    add(new PageLink("bugs", BugsPage.class));
     add(new LogoutLink("logout"));
   }
 

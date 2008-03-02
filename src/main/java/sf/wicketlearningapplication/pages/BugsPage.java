@@ -23,38 +23,37 @@ import sf.wicketlearningapplication.WicketLearningApplicationSession;
 import sf.wicketlearningapplication.domain.User;
 
 @AuthorizeInstantiation("USER")
-public class EventsPage
+public class BugsPage
   extends BaseWebPage
 {
 
   private static final long serialVersionUID = -4454721164415868831L;
 
-  public EventsPage()
+  public BugsPage()
   {
     add(new FeedbackPanel("errorMessages"));
 
     final User user = ((WicketLearningApplicationSession) getSession())
       .getLoggedInUser();
-    final EventsTable eventsView = new EventsTable("eventsTable", 5, user);
-    add(eventsView);
+    add(new BugsTable("bugsTable", 5, user));
 
-    final Panel eventPanel = new EventPanel("eventAdd");
-    eventPanel.setVisible(false);
-    eventPanel.setOutputMarkupPlaceholderTag(true);
-    add(eventPanel);
+    final Panel bugPanel = new BugPanel("bugAdd");
+    bugPanel.setVisible(false);
+    bugPanel.setOutputMarkupPlaceholderTag(true);
+    add(bugPanel);
 
-    final AjaxLink addEventLink = new AjaxLink("add")
+    final AjaxLink addBugLink = new AjaxLink("add")
     {
       private static final long serialVersionUID = -846141758899328311L;
 
       @Override
       public void onClick(AjaxRequestTarget target)
       {
-        eventPanel.setVisible(!eventPanel.isVisible());
-        target.addComponent(eventPanel);
+        bugPanel.setVisible(!bugPanel.isVisible());
+        target.addComponent(bugPanel);
       }
     };
-    add(addEventLink);
+    add(addBugLink);
 
     add(new PageLink("home", HomePage.class));
     add(new LogoutLink("logout"));

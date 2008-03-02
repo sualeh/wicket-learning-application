@@ -15,7 +15,6 @@ import java.io.Serializable;
 import java.util.Date;
 
 import javax.persistence.Basic;
-import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -28,27 +27,28 @@ import org.apache.commons.lang.builder.ReflectionToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
 
 @Entity
-public class Event
+public class Bug
   implements Serializable
 {
 
   private static final long serialVersionUID = 67206557276146560L;
 
   private Long id;
-  private String name;
-  private Date startDate;
-  private Duration duration;
+  private String summary;
+  private Date dueByDate;
+  private int estimatedHours;
+  private Severity severity;
   private User owner;
 
-  public Event()
+  @Temporal(TemporalType.TIMESTAMP)
+  public Date getDueByDate()
   {
-    duration = new Duration();
+    return dueByDate;
   }
 
-  @Embedded
-  public Duration getDuration()
+  public int getEstimatedHours()
   {
-    return duration;
+    return estimatedHours;
   }
 
   @Id
@@ -59,9 +59,9 @@ public class Event
   }
 
   @Basic
-  public String getName()
+  public String getSummary()
   {
-    return name;
+    return summary;
   }
 
   @ManyToOne
@@ -70,15 +70,19 @@ public class Event
     return owner;
   }
 
-  @Temporal(TemporalType.TIMESTAMP)
-  public Date getStartDate()
+  public Severity getSeverity()
   {
-    return startDate;
+    return severity;
   }
 
-  public void setDuration(final Duration duration)
+  public void setDueByDate(final Date dueByDate)
   {
-    this.duration = duration;
+    this.dueByDate = dueByDate;
+  }
+
+  public void setEstimatedHours(final int estimatedHours)
+  {
+    this.estimatedHours = estimatedHours;
   }
 
   public void setId(final Long id)
@@ -86,9 +90,9 @@ public class Event
     this.id = id;
   }
 
-  public void setName(final String name)
+  public void setSummary(final String summary)
   {
-    this.name = name;
+    this.summary = summary;
   }
 
   public void setOwner(final User owner)
@@ -96,9 +100,9 @@ public class Event
     this.owner = owner;
   }
 
-  public void setStartDate(final Date startDate)
+  public void setSeverity(final Severity severity)
   {
-    this.startDate = startDate;
+    this.severity = severity;
   }
 
   @Override

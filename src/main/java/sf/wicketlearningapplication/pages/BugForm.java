@@ -18,13 +18,13 @@ import org.apache.wicket.validation.validator.NumberValidator;
 import org.apache.wicket.validation.validator.StringValidator;
 
 import sf.wicketlearningapplication.WicketLearningApplicationSession;
-import sf.wicketlearningapplication.domain.DurationType;
-import sf.wicketlearningapplication.domain.Event;
+import sf.wicketlearningapplication.domain.Bug;
+import sf.wicketlearningapplication.domain.Severity;
 import sf.wicketlearningapplication.domain.User;
-import sf.wicketlearningapplication.persistence.EventDataAccessOperator;
+import sf.wicketlearningapplication.persistence.BugDao;
 import sf.wicketlearningapplication.persistence.Persistence;
 
-final class EventForm
+final class BugForm
   extends Form
 {
 
@@ -32,54 +32,50 @@ final class EventForm
 
   private final boolean isInEditMode;
 
-  EventForm(final String id, final Event event)
+  BugForm(final String id, final Bug bug)
   {
     super(id);
 
     final CompoundPropertyModel model;
-    if (event == null)
+    if (bug == null)
     {
       isInEditMode = false;
-      model = new CompoundPropertyModel(new Event());
+      model = new CompoundPropertyModel(new Bug());
     }
     else
     {
       isInEditMode = true;
-      model = new CompoundPropertyModel(event);
+      model = new CompoundPropertyModel(bug);
     }
     setModel(model);
 
-    final TextField eventName = new RequiredTextField("name");
-    eventName.add(StringValidator.maximumLength(256));
-    add(eventName);
+    final TextField summary = new RequiredTextField("summary");
+    summary.add(StringValidator.maximumLength(256));
+    add(summary);
 
-    final TextField eventStartDate = new DateTextField("startDate");
-    eventStartDate.add(new DatePicker());
-    add(eventStartDate);
+    final DropDownChoice severity = new DropDownChoice("severity", Severity
+      .list());
+    severity.setRequired(true);
+    add(severity);
 
-    final TextField eventDuration = new RequiredTextField("duration.duration",
-                                                          Integer.class);
-    eventDuration.setRequired(true);
-    eventDuration.add(NumberValidator.POSITIVE);
-    add(eventDuration);
+    final TextField dueByDate = new DateTextField("dueByDate");
+    dueByDate.add(new DatePicker());
+    add(dueByDate);
 
-    final DropDownChoice eventDurationType = new DropDownChoice("duration.durationType",
-                                                                DurationType
-                                                                  .list());
-    eventDurationType.setRequired(true);
-    add(eventDurationType);
+    final TextField estimatedHours = new RequiredTextField("estimatedHours",
+                                                           Integer.class);
+    estimatedHours.setRequired(true);
+    estimatedHours.add(NumberValidator.POSITIVE);
+    add(estimatedHours);
 
     final Button cancelButton = new Button("cancel")
     {
-      /**
-       * 
-       */
       private static final long serialVersionUID = 8251200359384967045L;
 
       @Override
       public void onSubmit()
       {
-        setResponsePage(EventsPage.class);
+        setResponsePage(BugsPage.class);
       }
     };
     cancelButton.setDefaultFormProcessing(false);
@@ -89,20 +85,20 @@ final class EventForm
   @Override
   protected void onSubmit()
   {
-    final Event event = (Event) getModelObject();
+    final Bug event = (Bug) getModelObject();
     final User user = ((WicketLearningApplicationSession) getSession())
       .getLoggedInUser();
     event.setOwner(user);
     saveEvent(event);
 
-    setResponsePage(EventsPage.class);
+    setResponsePage(BugsPage.class);
   }
 
-  private void saveEvent(final Event event)
+  private void saveEvent(final Bug event)
   {
     final EntityManager em = Persistence.getEntityManagerFactory()
       .createEntityManager();
-    final EventDataAccessOperator eventDao = new EventDataAccessOperator(em);
+    final BugDao eventDao = new BugDao(em);
 
     eventDao.beginTransaction();
     if (isInEditMode)

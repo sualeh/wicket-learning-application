@@ -18,14 +18,14 @@ import javax.persistence.Query;
 
 import org.apache.commons.lang.StringUtils;
 
-import sf.wicketlearningapplication.domain.Event;
+import sf.wicketlearningapplication.domain.Bug;
 import sf.wicketlearningapplication.domain.User;
 
-public class EventDataAccessOperator
-  extends DataAccessOperator<Event>
+public class BugDao
+  extends DataAccessOperator<Bug>
 {
 
-  public EventDataAccessOperator(final EntityManager em)
+  public BugDao(final EntityManager em)
   {
     super(em);
   }
@@ -33,10 +33,10 @@ public class EventDataAccessOperator
   public int countAllForOwner(final User owner)
   {
     beginTransaction();
-    String hql = "select count(*) from Event e";
+    String hql = "select count(*) from Bug b";
     if (owner != null && owner.getId() > 1)
     {
-      hql = hql + " where e.owner = :owner";
+      hql = hql + " where b.owner = :owner";
     }
     final Query query = createQuery(hql);
     if (owner != null && owner.getId() > 1)
@@ -49,16 +49,16 @@ public class EventDataAccessOperator
   }
 
   @SuppressWarnings("unchecked")
-  public List<Event> findAllForOwner(final User owner,
-                                     final String orderBy,
-                                     final boolean isAscending)
+  public List<Bug> findAllForOwner(final User owner,
+                                   final String orderBy,
+                                   final boolean isAscending)
   {
     beginTransaction();
-    List<Event> events = null;
-    String hql = "from Event e";
+    List<Bug> bugs = null;
+    String hql = "from Bug b";
     if (owner != null && owner.getId() > 1)
     {
-      hql = hql + " where e.owner = :owner";
+      hql = hql + " where b.owner = :owner";
     }
     if (!StringUtils.isBlank(orderBy))
     {
@@ -69,9 +69,9 @@ public class EventDataAccessOperator
     {
       query.setParameter("owner", owner);
     }
-    events = query.getResultList();
+    bugs = query.getResultList();
     commitTransaction();
-    return events;
+    return bugs;
   }
 
 }
