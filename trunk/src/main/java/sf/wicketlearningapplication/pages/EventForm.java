@@ -23,20 +23,30 @@ import sf.wicketlearningapplication.domain.User;
 import sf.wicketlearningapplication.persistence.EventDataAccessOperator;
 import sf.wicketlearningapplication.persistence.Persistence;
 
-final class EventAddForm
+final class EventForm
   extends Form
 {
 
   private static final long serialVersionUID = 2682300618749680498L;
 
-  private Event event;
+  private final boolean isInEditMode;
 
-  EventAddForm(final String id)
+  EventForm(final String id, final Event event)
   {
     super(id);
 
-    event = new Event();
-    setModel(new CompoundPropertyModel(event));
+    final CompoundPropertyModel model;
+    if (event == null)
+    {
+      isInEditMode = false;
+      model = new CompoundPropertyModel(new Event());
+    }
+    else
+    {
+      isInEditMode = true;
+      model = new CompoundPropertyModel(event);
+    }
+    setModel(model);
 
     final TextField eventName = new RequiredTextField("name");
     eventName.add(StringValidator.maximumLength(256));
@@ -62,11 +72,11 @@ final class EventAddForm
   @Override
   protected void onSubmit()
   {
+    final Event event = (Event) getModelObject();
     final User user = ((WicketLearningApplicationSession) getSession())
       .getLoggedInUser();
     event.setOwner(user);
     saveEvent(event);
-    event = null;
 
     setResponsePage(EventsPage.class);
   }
@@ -78,7 +88,14 @@ final class EventAddForm
     final EventDataAccessOperator eventDao = new EventDataAccessOperator(em);
 
     eventDao.beginTransaction();
-    eventDao.save(event);
+    if (isInEditMode)
+    {
+      eventDao.save(event);
+    }
+    else
+    {
+      eventDao.create(event);
+    }
     eventDao.commitTransaction();
 
     em.clear();
