@@ -39,11 +39,11 @@ public class Duration
     this.durationType = durationType;
   }
 
-  public int compareTo(final Duration duration)
+  public int compareTo(final Duration otherDuration)
   {
-    final long thisDurationLength = this.duration * durationType.getSeconds();
-    final long otherDurationLength = duration.duration
-                                     * duration.durationType.getSeconds();
+    final long thisDurationLength = duration * durationType.getSeconds();
+    final long otherDurationLength = otherDuration.duration
+                                     * otherDuration.durationType.getSeconds();
     return (int) (thisDurationLength - otherDurationLength);
   }
 
