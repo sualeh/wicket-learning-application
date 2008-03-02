@@ -11,8 +11,12 @@
 package sf.wicketlearningapplication.pages;
 
 
+import org.apache.wicket.ajax.AjaxRequestTarget;
+import org.apache.wicket.ajax.markup.html.AjaxLink;
 import org.apache.wicket.authorization.strategies.role.annotations.AuthorizeInstantiation;
 import org.apache.wicket.markup.html.link.PageLink;
+import org.apache.wicket.markup.html.panel.FeedbackPanel;
+import org.apache.wicket.markup.html.panel.Panel;
 
 import sf.wicketlearningapplication.BaseWebPage;
 import sf.wicketlearningapplication.WicketLearningApplicationSession;
@@ -27,13 +31,32 @@ public class EventsPage
 
   public EventsPage()
   {
+    add(new FeedbackPanel("errorMessages"));
+
     final User user = ((WicketLearningApplicationSession) getSession())
       .getLoggedInUser();
     final EventsTable eventsView = new EventsTable("eventsTable", 5, user);
     add(eventsView);
 
+    final Panel eventPanel = new EventPanel("eventAdd");
+    eventPanel.setVisible(false);
+    eventPanel.setOutputMarkupPlaceholderTag(true);
+    add(eventPanel);
+
+    final AjaxLink addEventLink = new AjaxLink("add")
+    {
+      private static final long serialVersionUID = -846141758899328311L;
+
+      @Override
+      public void onClick(AjaxRequestTarget target)
+      {
+        eventPanel.setVisible(!eventPanel.isVisible());
+        target.addComponent(eventPanel);
+      }
+    };
+    add(addEventLink);
+
     add(new PageLink("home", HomePage.class));
-    add(new PageLink("eventAdd", HomePage.class));
     add(new LogoutLink("logout"));
   }
 

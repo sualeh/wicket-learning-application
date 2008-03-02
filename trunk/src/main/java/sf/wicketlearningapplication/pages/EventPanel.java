@@ -13,7 +13,6 @@ package sf.wicketlearningapplication.pages;
 
 import org.apache.wicket.authorization.strategies.role.annotations.AuthorizeInstantiation;
 import org.apache.wicket.markup.html.basic.Label;
-import org.apache.wicket.markup.html.panel.FeedbackPanel;
 import org.apache.wicket.markup.html.panel.Panel;
 
 import sf.wicketlearningapplication.domain.Event;
@@ -45,7 +44,6 @@ public class EventPanel
     }
     add(new Label("header", header));
     add(new EventForm("eventAddForm", event));
-    add(new FeedbackPanel("errorMessages"));
   }
 
 }
