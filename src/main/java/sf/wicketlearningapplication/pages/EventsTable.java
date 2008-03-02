@@ -75,19 +75,8 @@ public class EventsTable
     if (user == null || user.getId() <= 1)
     {
       columns.add(new PropertyColumn(new Model("Owner"),
-        "owner.name",
-        "owner.name")
-      {
-        private static final long serialVersionUID = 7459737880589990417L;
-
-        @Override
-        public void populateItem(final Item cellItem,
-                                 final String componentId,
-                                 final IModel rowModel)
-        {
-          cellItem.add(new OwnerDetailsPanel(componentId, rowModel));
-        }
-      });
+                                     "owner.name",
+                                     "owner.name"));
     }
     return columns.toArray(new IColumn[columns.size()]);
   }

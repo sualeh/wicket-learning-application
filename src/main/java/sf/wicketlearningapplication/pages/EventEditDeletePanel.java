@@ -29,22 +29,22 @@ final class EventEditDeletePanel
     super(id, model);
 
     Event event = (Event) model.getObject();
-    final Panel eventEditDeletePanel = new EventPanel("eventEdit", event);
-    eventEditDeletePanel.setVisible(false);
-    eventEditDeletePanel.setOutputMarkupPlaceholderTag(true);
-    add(eventEditDeletePanel);
+    final Panel eventPanel = new EventPanel("eventEdit", event);
+    eventPanel.setVisible(false);
+    eventPanel.setOutputMarkupPlaceholderTag(true);
+    add(eventPanel);
 
     add(new DeleteEventLink("delete", model));
 
     final AjaxLink editEventLink = new AjaxLink("edit")
     {
-      private static final long serialVersionUID = 0L;
+      private static final long serialVersionUID = 7695320796784956116L;
 
       @Override
       public void onClick(AjaxRequestTarget target)
       {
-        eventEditDeletePanel.setVisible(!eventEditDeletePanel.isVisible());
-        target.addComponent(eventEditDeletePanel);
+        eventPanel.setVisible(!eventPanel.isVisible());
+        target.addComponent(eventPanel);
       }
     };
     add(editEventLink);
