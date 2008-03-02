@@ -16,38 +16,38 @@ import org.apache.wicket.ajax.markup.html.AjaxLink;
 import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.model.IModel;
 
-import sf.wicketlearningapplication.domain.Event;
+import sf.wicketlearningapplication.domain.Bug;
 
-final class EventEditDeletePanel
+final class BugEditDeletePanel
   extends Panel
 {
 
   private static final long serialVersionUID = 2753920209773575465L;
 
-  EventEditDeletePanel(final String id, final IModel model)
+  BugEditDeletePanel(final String id, final IModel model)
   {
     super(id, model);
 
-    Event event = (Event) model.getObject();
-    final Panel eventPanel = new EventPanel("eventEdit", event);
-    eventPanel.setVisible(false);
-    eventPanel.setOutputMarkupPlaceholderTag(true);
-    add(eventPanel);
+    Bug bug = (Bug) model.getObject();
+    final Panel bugPanel = new BugPanel("bugEdit", bug);
+    bugPanel.setVisible(false);
+    bugPanel.setOutputMarkupPlaceholderTag(true);
+    add(bugPanel);
 
-    add(new DeleteEventLink("delete", model));
+    add(new DeleteBugLink("delete", model));
 
-    final AjaxLink editEventLink = new AjaxLink("edit")
+    final AjaxLink editLink = new AjaxLink("edit")
     {
       private static final long serialVersionUID = 7695320796784956116L;
 
       @Override
       public void onClick(AjaxRequestTarget target)
       {
-        eventPanel.setVisible(!eventPanel.isVisible());
-        target.addComponent(eventPanel);
+        bugPanel.setVisible(!bugPanel.isVisible());
+        target.addComponent(bugPanel);
       }
     };
-    add(editEventLink);
+    add(editLink);
 
   }
 }

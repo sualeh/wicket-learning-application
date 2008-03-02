@@ -14,7 +14,6 @@ package sf.wicketlearningapplication.test;
 import static org.junit.Assert.assertEquals;
 
 import java.util.Collection;
-import java.util.Date;
 import java.util.Iterator;
 
 import javax.persistence.EntityManager;
@@ -27,16 +26,15 @@ import org.junit.Test;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.jdbc.core.JdbcTemplate;
 
-import sf.wicketlearningapplication.domain.Duration;
-import sf.wicketlearningapplication.domain.DurationType;
-import sf.wicketlearningapplication.domain.Event;
-import sf.wicketlearningapplication.persistence.EventDataAccessOperator;
+import sf.wicketlearningapplication.domain.Bug;
+import sf.wicketlearningapplication.persistence.BugDao;
 import sf.wicketlearningapplication.server.DatabaseServer;
+import sf.wicketlearningapplication.server.ServersMain;
 
 public class TestSpringJpa
 {
 
-  private static final String EVENT_COUNT_SQL = "SELECT COUNT(*) FROM Event";
+  private static final String BUG_COUNT_SQL = "SELECT COUNT(*) FROM Bug";
 
   private ClassPathXmlApplicationContext context;
   private DatabaseServer databaseServer;
@@ -50,45 +48,45 @@ public class TestSpringJpa
     final JdbcTemplate jdbcTemplate = (JdbcTemplate) context
       .getBean("jdbcTemplate", JdbcTemplate.class);
 
-    int eventCount;
-    Event event;
+    int bugCount;
+    Bug bug;
 
     final EntityManager em = entityManagerFactory.createEntityManager();
-    final EventDataAccessOperator eventDao = new EventDataAccessOperator(em);
+    final BugDao bugDao = new BugDao(em);
     EntityTransaction transaction;
 
     transaction = em.getTransaction();
     transaction.begin();
 
-    event = createNewEvent();
-    eventDao.create(event);
+    bug = ServersMain.createNewBugInstance();
+    bugDao.create(bug);
     transaction.commit();
 
-    event = null;
+    bug = null;
 
-    eventCount = jdbcTemplate.queryForInt(EVENT_COUNT_SQL);
-    assertEquals("Save test: Number of events do not match", 1, eventCount);
+    bugCount = jdbcTemplate.queryForInt(BUG_COUNT_SQL);
+    assertEquals("Save test: Number of bugs do not match", 1, bugCount);
 
-    Collection<Event> events;
+    Collection<Bug> bugs;
     transaction = em.getTransaction();
     transaction.begin();
-    events = eventDao.findAll(Event.class);
-    for (final Iterator<Event> iter = events.iterator(); iter.hasNext();)
+    bugs = bugDao.findAll(Bug.class);
+    for (final Iterator<Bug> iter = bugs.iterator(); iter.hasNext();)
     {
-      event = iter.next();
-      if (event == null)
+      bug = iter.next();
+      if (bug == null)
       {
         throw new RuntimeException("Got null entity");
       }
-      eventDao.delete(event);
-      event = null;
+      bugDao.delete(bug);
+      bug = null;
     }
     transaction.commit();
 
-    event = null;
+    bug = null;
 
-    eventCount = jdbcTemplate.queryForInt(EVENT_COUNT_SQL);
-    assertEquals("Delete test: Number of events do not match", 0, eventCount);
+    bugCount = jdbcTemplate.queryForInt(BUG_COUNT_SQL);
+    assertEquals("Delete test: Number of bugs do not match", 0, bugCount);
 
   }
 
@@ -109,16 +107,6 @@ public class TestSpringJpa
 
     databaseServer.stop();
     databaseServer = null;
-  }
-
-  private Event createNewEvent()
-  {
-    final Event event = new Event();
-    event.setName("Event");
-    event.setDuration(new Duration((int) (Math.random() * 100),
-                                   DurationType.days));
-    event.setStartDate(new Date());
-    return event;
   }
 
 }

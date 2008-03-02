@@ -8,24 +8,24 @@ import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.Model;
 
-import sf.wicketlearningapplication.domain.Event;
-import sf.wicketlearningapplication.persistence.EventDataAccessOperator;
+import sf.wicketlearningapplication.domain.Bug;
+import sf.wicketlearningapplication.persistence.BugDao;
 import sf.wicketlearningapplication.persistence.Persistence;
 
-final class DeleteEventLink
+final class DeleteBugLink
   extends Link
 {
 
   private static final long serialVersionUID = -1627754859597257917L;
 
-  DeleteEventLink(final String id, final IModel object)
+  DeleteBugLink(final String id, final IModel object)
   {
     super(id, object);
-    final Event event = (Event) getModelObject();
+    final Bug bug = (Bug) getModelObject();
     final String call = String
       .format("return getConfirmation('Are you you want to permanently delete \"%s\"?')",
               new Object[] {
-                event.getName()
+                bug.getSummary()
               });
     add(new AttributeModifier("onClick", true, new Model(call)));
   }
@@ -33,19 +33,19 @@ final class DeleteEventLink
   @Override
   public void onClick()
   {
-    deleteEvent((Event) getModelObject());
-    setResponsePage(EventsPage.class);
+    delete((Bug) getModelObject());
+    setResponsePage(BugsPage.class);
   }
 
-  private void deleteEvent(final Event event)
+  private void delete(final Bug bug)
   {
     final EntityManager em = Persistence.getEntityManagerFactory()
       .createEntityManager();
-    final EventDataAccessOperator eventDao = new EventDataAccessOperator(em);
+    final BugDao bugDao = new BugDao(em);
 
-    eventDao.beginTransaction();
-    eventDao.delete(event);
-    eventDao.commitTransaction();
+    bugDao.beginTransaction();
+    bugDao.delete(bug);
+    bugDao.commitTransaction();
 
     em.clear();
     em.close();

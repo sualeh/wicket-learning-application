@@ -17,11 +17,10 @@ import java.util.List;
 
 import javax.persistence.EntityManager;
 
-import sf.wicketlearningapplication.domain.Duration;
-import sf.wicketlearningapplication.domain.DurationType;
-import sf.wicketlearningapplication.domain.Event;
+import sf.wicketlearningapplication.domain.Bug;
+import sf.wicketlearningapplication.domain.Severity;
 import sf.wicketlearningapplication.domain.User;
-import sf.wicketlearningapplication.persistence.EventDataAccessOperator;
+import sf.wicketlearningapplication.persistence.BugDao;
 import sf.wicketlearningapplication.persistence.Persistence;
 import sf.wicketlearningapplication.persistence.UserDataAccessOperator;
 
@@ -59,7 +58,7 @@ public class ServersMain
   private static void createData()
   {
     final int USER_COUNT = 3;
-    final int EVENT_COUNT = 45;
+    final int BUG_COUNT = 45;
 
     final EntityManager em = Persistence.getEntityManagerFactory()
       .createEntityManager();
@@ -79,27 +78,35 @@ public class ServersMain
     }
     userDao.commitTransaction();
 
-    final EventDataAccessOperator eventDao = new EventDataAccessOperator(em);
-    eventDao.beginTransaction();
-    for (int i = 0; i < EVENT_COUNT; i++)
+    final BugDao bugDao = new BugDao(em);
+    bugDao.beginTransaction();
+    for (int i = 0; i < BUG_COUNT; i++)
     {
-      final int duration = (int) (Math.random() * 100);
-      final DurationType durationType = DurationType.values()[(int) (Math
-        .random() * DurationType.values().length)];
-      final Calendar calendar = Calendar.getInstance();
-      calendar.add(Calendar.DAY_OF_MONTH, (int) (Math.random() * 30));
-      //
-      final Event event = new Event();
-      event.setName("Event #" + (i + 1));
-      event.setDuration(new Duration(duration, durationType));
-      event.setStartDate(calendar.getTime());
-      event.setOwner(users.get((int) (Math.random() * 100 % USER_COUNT)));
+      final Bug bug = createNewBugInstance();
+      bug.setOwner(users.get((int) (Math.random() * 100 % USER_COUNT)));
       // 
-      eventDao.create(event);
+      bugDao.create(bug);
     }
-    eventDao.commitTransaction();
+    bugDao.commitTransaction();
 
     em.clear();
     em.close();
   }
+
+  public static Bug createNewBugInstance()
+  {
+    final int estimatedHours = (int) (Math.random() * 8);
+    final Severity severity = Severity.values()[(int) (Math.random() * Severity
+      .values().length)];
+    final Calendar calendar = Calendar.getInstance();
+    calendar.add(Calendar.DAY_OF_MONTH, (int) (Math.random() * 30));
+    //
+    final Bug bug = new Bug();
+    bug.setSummary("This is a " + severity + " severity bug");
+    bug.setSeverity(severity);
+    bug.setEstimatedHours(estimatedHours);
+    bug.setDueByDate(calendar.getTime());
+    return bug;
+  }
+
 }

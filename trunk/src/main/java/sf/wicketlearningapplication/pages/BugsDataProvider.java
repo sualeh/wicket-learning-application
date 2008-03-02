@@ -23,12 +23,12 @@ import org.apache.wicket.extensions.markup.html.repeater.util.SortableDataProvid
 import org.apache.wicket.model.CompoundPropertyModel;
 import org.apache.wicket.model.IModel;
 
-import sf.wicketlearningapplication.domain.Event;
+import sf.wicketlearningapplication.domain.Bug;
 import sf.wicketlearningapplication.domain.User;
-import sf.wicketlearningapplication.persistence.EventDataAccessOperator;
+import sf.wicketlearningapplication.persistence.BugDao;
 import sf.wicketlearningapplication.persistence.Persistence;
 
-final class EventsDataProvider
+final class BugsDataProvider
   extends SortableDataProvider
 {
 
@@ -36,7 +36,7 @@ final class EventsDataProvider
 
   private final User user;
 
-  EventsDataProvider(final User user)
+  BugsDataProvider(final User user)
   {
     this.user = user;
   }
@@ -47,21 +47,21 @@ final class EventsDataProvider
     SortParam sortParam = super.getSort();
     if (sortParam == null)
     {
-      sortParam = new SortParam("name", true);
+      sortParam = new SortParam("summary", true);
     }
     return sortParam;
   }
 
-  public Iterator<Event> iterator(final int first, final int count)
+  public Iterator<Bug> iterator(final int first, final int count)
   {
-    final int eventsCount = size();
+    final int bugsCount = size();
     int toIndex = first + count;
-    if (toIndex > eventsCount)
+    if (toIndex > bugsCount)
     {
-      toIndex = getEventsCount(user);
+      toIndex = getBugCount(user);
     }
-    final List<Event> eventsList = getEvents();
-    return eventsList.subList(first, toIndex).listIterator();
+    final List<Bug> bugsList = getBugs();
+    return bugsList.subList(first, toIndex).listIterator();
   }
 
   public IModel model(final Object object)
@@ -71,37 +71,37 @@ final class EventsDataProvider
 
   public int size()
   {
-    return getEventsCount(user);
+    return getBugCount(user);
   }
 
-  private List<Event> getEvents()
+  private List<Bug> getBugs()
   {
-    final Collection<Event> events;
+    final Collection<Bug> bugs;
     final EntityManager em = Persistence.getEntityManagerFactory()
       .createEntityManager();
-    final EventDataAccessOperator eventDao = new EventDataAccessOperator(em);
+    final BugDao bugDao = new BugDao(em);
     if (user != null)
     {
       final SortParam sort = getSort();
-      events = eventDao.findAllForOwner(user, sort.getProperty(), sort
+      bugs = bugDao.findAllForOwner(user, sort.getProperty(), sort
         .isAscending());
     }
     else
     {
-      events = eventDao.findAll(Event.class);
+      bugs = bugDao.findAll(Bug.class);
     }
-    return new ArrayList<Event>(events);
+    return new ArrayList<Bug>(bugs);
   }
 
-  private int getEventsCount(final User user)
+  private int getBugCount(final User user)
   {
     int count = 0;
     final EntityManager em = Persistence.getEntityManagerFactory()
       .createEntityManager();
-    final EventDataAccessOperator eventDao = new EventDataAccessOperator(em);
+    final BugDao bugDao = new BugDao(em);
     if (user != null)
     {
-      count = eventDao.countAllForOwner(user);
+      count = bugDao.countAllForOwner(user);
     }
     return count;
   }

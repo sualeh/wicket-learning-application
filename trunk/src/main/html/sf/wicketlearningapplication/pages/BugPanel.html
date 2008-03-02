@@ -11,24 +11,27 @@
 <wicket:panel>
 	<b><span wicket:id="header" /></b>
 	<br />
-	<form wicket:id="eventAddForm">
+	<form wicket:id="bugAddForm">
 	<table>
 		<tr>
-			<td>Event:</td>
-			<td><input type="text" wicket:id="name"></td>
+			<td>Bug:</td>
+			<td><input type="text" wicket:id="summary"></td>
 		</tr>
 		<tr>
-			<td>Start Date:</td>
-			<td><input type="text" wicket:id="startDate"></td>
+			<td>Severity:</td>
+			<td><select wicket:id="severity" /></td>
 		</tr>
 		<tr>
-			<td>Duration:</td>
-			<td><input type="text" wicket:id="duration.duration"> <select
-				wicket:id="duration.durationType"/></td>
+			<td>Due By Date:</td>
+			<td><input type="text" wicket:id="dueByDate"></td>
+		</tr>
+		<tr>
+			<td>Estimated Hours:</td>
+			<td><input type="text" wicket:id="estimatedHours"></td>
 		</tr>
 		<tr>
 			<td><input type="submit" value="Save"></td>
-			<td><input type="submit" wicket:id="cancel" value="Cancel" ></td>
+			<td><input type="submit" wicket:id="cancel" value="Cancel"></td>
 		</tr>
 	</table>
 	</form>
