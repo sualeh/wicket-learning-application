@@ -11,8 +11,12 @@
 package sf.wicketlearningapplication.pages;
 
 
+import org.apache.wicket.ajax.AjaxRequestTarget;
+import org.apache.wicket.ajax.markup.html.AjaxLink;
 import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.model.IModel;
+
+import sf.wicketlearningapplication.domain.Event;
 
 final class EventEditDeletePanel
   extends Panel
@@ -23,7 +27,27 @@ final class EventEditDeletePanel
   EventEditDeletePanel(final String id, final IModel model)
   {
     super(id, model);
+
+    Event event = (Event) model.getObject();
+    final Panel eventEditDeletePanel = new EventPanel("eventEdit", event);
+    eventEditDeletePanel.setVisible(false);
+    eventEditDeletePanel.setOutputMarkupPlaceholderTag(true);
+    add(eventEditDeletePanel);
+
     add(new DeleteEventLink("delete", model));
-    add(new EditEventLink("edit", model));
+
+    final AjaxLink editEventLink = new AjaxLink("edit")
+    {
+      private static final long serialVersionUID = 0L;
+
+      @Override
+      public void onClick(AjaxRequestTarget target)
+      {
+        eventEditDeletePanel.setVisible(!eventEditDeletePanel.isVisible());
+        target.addComponent(eventEditDeletePanel);
+      }
+    };
+    add(editEventLink);
+
   }
 }

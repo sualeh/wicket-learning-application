@@ -33,7 +33,7 @@ public class EventsPage
     add(eventsView);
 
     add(new PageLink("home", HomePage.class));
-    add(new PageLink("eventAdd", EventPage.class));
+    add(new PageLink("eventAdd", HomePage.class));
     add(new LogoutLink("logout"));
   }
 
