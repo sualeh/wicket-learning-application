@@ -61,7 +61,7 @@ public class TestSpringJpa
     transaction.begin();
 
     event = createNewEvent();
-    eventDao.save(event);
+    eventDao.create(event);
     transaction.commit();
 
     event = null;

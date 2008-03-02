@@ -74,7 +74,7 @@ public class ServersMain
       user.setUsername("user" + i);
       user.setPassword("user" + i);
       // 
-      userDao.save(user);
+      userDao.create(user);
       users.add(user);
     }
     userDao.commitTransaction();
@@ -84,13 +84,13 @@ public class ServersMain
     for (int i = 0; i < EVENT_COUNT; i++)
     {
       final Event event = new Event();
-      event.setName("Event #" + i);
+      event.setName("Event #" + (i + 1));
       event.setDuration(new Duration((int) (Math.random() * 100),
                                      DurationType.days));
       event.setStartDate(new Date());
       event.setOwner(users.get((int) (Math.random() * 100 % USER_COUNT)));
       // 
-      eventDao.save(event);
+      eventDao.create(event);
     }
     eventDao.commitTransaction();
 

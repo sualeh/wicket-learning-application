@@ -28,11 +28,6 @@ class DataAccessOperator<T>
     this.em = em;
   }
 
-  public T attach(final T entity)
-  {
-    return em.merge(entity);
-  }
-
   public void beginTransaction()
   {
     em.getTransaction().begin();
@@ -45,7 +40,7 @@ class DataAccessOperator<T>
 
   public void delete(final T entity)
   {
-    em.remove(attach(entity));
+    em.remove(em.merge(entity));
   }
 
   public T find(final Class<T> clazz, final long id)
@@ -70,9 +65,23 @@ class DataAccessOperator<T>
     em.getTransaction().rollback();
   }
 
-  public void save(final T entity)
+  public void create(final T entity)
   {
     em.persist(entity);
+  }
+
+  public void save(final T entity)
+  {
+    T mergedEntity;
+    try
+    {
+      mergedEntity = em.merge(entity);
+    }
+    catch (RuntimeException e)
+    {
+      mergedEntity = entity;
+    }
+    em.persist(mergedEntity);
   }
 
   public void update(final T entity)

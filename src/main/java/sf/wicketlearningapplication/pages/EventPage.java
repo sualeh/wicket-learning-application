@@ -12,26 +12,27 @@ package sf.wicketlearningapplication.pages;
 
 
 import org.apache.wicket.authorization.strategies.role.annotations.AuthorizeInstantiation;
-import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.panel.FeedbackPanel;
 
 import sf.wicketlearningapplication.BaseWebPage;
+import sf.wicketlearningapplication.domain.Event;
 
 @AuthorizeInstantiation("USER")
-public class EventAddPage
+public class EventPage
   extends BaseWebPage
 {
 
   private static final long serialVersionUID = 8546164546033425516L;
 
-  public EventAddPage()
+  public EventPage()
   {
+    this(null);
+  }
 
-    final Form form = new EventAddForm("eventAddForm");
-    add(form);
-
-    final FeedbackPanel errorMessages = new FeedbackPanel("errorMessages");
-    add(errorMessages);
+  public EventPage(final Event event)
+  {
+    add(new EventForm("eventAddForm", event));
+    add(new FeedbackPanel("errorMessages"));
   }
 
 }

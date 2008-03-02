@@ -14,16 +14,16 @@ package sf.wicketlearningapplication.pages;
 import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.model.IModel;
 
-final class DeleteEventPanel
+final class EventEditDeletePanel
   extends Panel
 {
 
   private static final long serialVersionUID = 2753920209773575465L;
 
-  DeleteEventPanel(final String id, final IModel model)
+  EventEditDeletePanel(final String id, final IModel model)
   {
     super(id, model);
     add(new DeleteEventLink("delete", model));
+    add(new EditEventLink("edit", model));
   }
-
 }
