@@ -16,11 +16,23 @@ import java.util.List;
 
 public enum DurationType
 {
-  minutes, hours, days, weeks, months, years;
+  minutes(60), hours(60 * 60), days(24 * 60 * 60), weeks(7 * 24 * 60 * 60);
 
   public static List<DurationType> list()
   {
     return Arrays.asList(DurationType.values());
+  }
+
+  private final long seconds;
+
+  private DurationType(final long seconds)
+  {
+    this.seconds = seconds;
+  }
+
+  long getSeconds()
+  {
+    return seconds;
   }
 
 }

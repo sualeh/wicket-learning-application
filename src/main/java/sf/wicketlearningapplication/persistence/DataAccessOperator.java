@@ -38,6 +38,11 @@ class DataAccessOperator<T>
     em.getTransaction().commit();
   }
 
+  public void create(final T entity)
+  {
+    em.persist(entity);
+  }
+
   public void delete(final T entity)
   {
     em.remove(em.merge(entity));
@@ -65,11 +70,6 @@ class DataAccessOperator<T>
     em.getTransaction().rollback();
   }
 
-  public void create(final T entity)
-  {
-    em.persist(entity);
-  }
-
   public void save(final T entity)
   {
     T mergedEntity;
@@ -77,7 +77,7 @@ class DataAccessOperator<T>
     {
       mergedEntity = em.merge(entity);
     }
-    catch (RuntimeException e)
+    catch (final RuntimeException e)
     {
       mergedEntity = entity;
     }

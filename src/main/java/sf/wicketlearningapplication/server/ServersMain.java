@@ -86,7 +86,7 @@ public class ServersMain
       final int duration = (int) (Math.random() * 100);
       final DurationType durationType = DurationType.values()[(int) (Math
         .random() * DurationType.values().length)];
-      Calendar calendar = Calendar.getInstance();
+      final Calendar calendar = Calendar.getInstance();
       calendar.add(Calendar.DAY_OF_MONTH, (int) (Math.random() * 30));
       //
       final Event event = new Event();
