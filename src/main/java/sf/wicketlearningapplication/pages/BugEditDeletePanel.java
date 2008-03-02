@@ -34,7 +34,7 @@ final class BugEditDeletePanel
     bugPanel.setOutputMarkupPlaceholderTag(true);
     add(bugPanel);
 
-    add(new DeleteBugLink("delete", model));
+    add(new BugDeleteLink("delete", model));
 
     final AjaxLink editLink = new AjaxLink("edit")
     {

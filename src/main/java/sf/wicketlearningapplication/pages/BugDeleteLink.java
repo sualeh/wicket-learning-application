@@ -12,13 +12,13 @@ import sf.wicketlearningapplication.domain.Bug;
 import sf.wicketlearningapplication.persistence.BugDao;
 import sf.wicketlearningapplication.persistence.Persistence;
 
-final class DeleteBugLink
+final class BugDeleteLink
   extends Link
 {
 
   private static final long serialVersionUID = -1627754859597257917L;
 
-  DeleteBugLink(final String id, final IModel object)
+  BugDeleteLink(final String id, final IModel object)
   {
     super(id, object);
     final Bug bug = (Bug) getModelObject();
