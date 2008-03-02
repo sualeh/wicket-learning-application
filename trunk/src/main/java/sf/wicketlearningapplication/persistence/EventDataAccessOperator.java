@@ -14,6 +14,7 @@ package sf.wicketlearningapplication.persistence;
 import java.util.List;
 
 import javax.persistence.EntityManager;
+import javax.persistence.Query;
 
 import org.apache.commons.lang.StringUtils;
 
@@ -32,13 +33,17 @@ public class EventDataAccessOperator
   public int countAllForOwner(final User owner)
   {
     beginTransaction();
-    String query = "select count(*) from Event e";
-    if (owner != null)
+    String hql = "select count(*) from Event e";
+    if (owner != null && owner.getId() > 1)
     {
-      query = query + " where e.owner = :owner";
+      hql = hql + " where e.owner = :owner";
     }
-    final int count = ((Number) createQuery(query).setParameter("owner", owner)
-      .getSingleResult()).intValue();
+    final Query query = createQuery(hql);
+    if (owner != null && owner.getId() > 1)
+    {
+      query.setParameter("owner", owner);
+    }
+    final int count = ((Number) query.getSingleResult()).intValue();
     commitTransaction();
     return count;
   }
@@ -50,17 +55,21 @@ public class EventDataAccessOperator
   {
     beginTransaction();
     List<Event> events = null;
-    String query = "from Event e";
-    if (owner != null)
+    String hql = "from Event e";
+    if (owner != null && owner.getId() > 1)
     {
-      query = query + " where e.owner = :owner";
+      hql = hql + " where e.owner = :owner";
     }
     if (!StringUtils.isBlank(orderBy))
     {
-      query = query + " order by " + orderBy + " "
-              + (isAscending? "asc": "desc");
+      hql = hql + " order by " + orderBy + " " + (isAscending? "asc": "desc");
     }
-    events = createQuery(query).setParameter("owner", owner).getResultList();
+    final Query query = createQuery(hql);
+    if (owner != null && owner.getId() > 1)
+    {
+      query.setParameter("owner", owner);
+    }
+    events = query.getResultList();
     commitTransaction();
     return events;
   }
