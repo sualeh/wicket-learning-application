@@ -14,24 +14,26 @@ package sf.wicketlearningapplication.pages;
 import org.apache.wicket.authorization.strategies.role.annotations.AuthorizeInstantiation;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.panel.FeedbackPanel;
+import org.apache.wicket.markup.html.panel.Panel;
 
-import sf.wicketlearningapplication.BaseWebPage;
 import sf.wicketlearningapplication.domain.Event;
 
 @AuthorizeInstantiation("USER")
-public class EventPage
-  extends BaseWebPage
+public class EventPanel
+  extends Panel
 {
 
   private static final long serialVersionUID = 8546164546033425516L;
 
-  public EventPage()
+  public EventPanel(String id)
   {
-    this(null);
+    this(id, null);
   }
 
-  public EventPage(final Event event)
+  public EventPanel(String id, final Event event)
   {
+    super(id);
+
     final String header;
     if (event == null)
     {
