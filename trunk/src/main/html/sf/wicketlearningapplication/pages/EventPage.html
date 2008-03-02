@@ -9,7 +9,7 @@
   171 Second Street, Suite 300, San Francisco, California, 94105, USA.
 -->
 <wicket:extend>
-	<h1>Add New Event</h1>
+	<h1><span wicket:id="header" /></h1>
 	<br />
 	<span wicket:id="errorMessages" />
 	<form wicket:id="eventAddForm">
@@ -28,7 +28,8 @@
 				wicket:id="duration.durationType"/></td>
 		</tr>
 		<tr>
-			<td colspan="2"><input type="submit" value="Add New Event"></td>
+			<td><input type="submit" value="Save"></td>
+			<td><input type="submit" wicket:id="cancel" value="Cancel" ></td>
 		</tr>
 	</table>
 	</form>
