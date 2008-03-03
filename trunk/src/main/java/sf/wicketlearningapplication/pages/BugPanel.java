@@ -11,6 +11,8 @@
 package sf.wicketlearningapplication.pages;
 
 
+import java.util.Arrays;
+
 import org.apache.wicket.authorization.strategies.role.annotations.AuthorizeInstantiation;
 import org.apache.wicket.extensions.markup.html.form.DateTextField;
 import org.apache.wicket.extensions.yui.calendar.DatePicker;
@@ -65,8 +67,8 @@ public class BugPanel
       summary.add(StringValidator.maximumLength(256));
       add(summary);
 
-      final DropDownChoice severity = new DropDownChoice("severity", Severity
-        .list());
+      final DropDownChoice severity = new DropDownChoice("severity", Arrays
+        .asList(Severity.values()));
       severity.setRequired(true);
       add(severity);
 
