@@ -11,12 +11,16 @@
 package sf.wicketlearningapplication.pages;
 
 
+import org.apache.wicket.AttributeModifier;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.markup.html.AjaxLink;
+import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.model.IModel;
+import org.apache.wicket.model.Model;
 
 import sf.wicketlearningapplication.domain.Bug;
+import sf.wicketlearningapplication.persistence.BugDao;
 
 final class BugEditDeletePanel
   extends Panel
@@ -34,7 +38,24 @@ final class BugEditDeletePanel
     bugPanel.setOutputMarkupPlaceholderTag(true);
     add(bugPanel);
 
-    add(new BugDeleteLink("delete", model));
+    final Link deleteLink = new Link("delete", model)
+    {
+      private static final long serialVersionUID = 8375528747622018389L;
+
+      @Override
+      public void onClick()
+      {
+        BugDao.deleteBug((Bug) getModelObject());
+        setResponsePage(BugsPage.class);
+      }
+    };
+    final String callConfirmJs = String
+      .format("return getConfirmation('Are you you want to permanently delete \"%s\"?')",
+              bug.getSummary());
+    deleteLink.add(new AttributeModifier("onClick",
+                                         true,
+                                         new Model(callConfirmJs)));
+    add(deleteLink);
 
     final AjaxLink editLink = new AjaxLink("edit")
     {
@@ -50,4 +71,5 @@ final class BugEditDeletePanel
     add(editLink);
 
   }
+
 }
