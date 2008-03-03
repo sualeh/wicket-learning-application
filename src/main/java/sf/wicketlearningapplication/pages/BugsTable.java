@@ -38,31 +38,15 @@ public class BugsTable
     BugsDataProvider(final User user)
     {
       this.user = user;
-    }
-
-    @Override
-    public SortParam getSort()
-    {
-      SortParam sortParam = super.getSort();
-      if (sortParam == null)
-      {
-        sortParam = new SortParam("summary", true);
-      }
-      return sortParam;
+      setSort(new SortParam("severity", false));
     }
 
     public Iterator<Bug> iterator(final int first, final int count)
     {
-      final int bugsCount = size();
-      int toIndex = first + count;
-      if (toIndex > bugsCount)
-      {
-        toIndex = BugDao.countBugsByOwner(user);
-      }
       final SortParam sortParam = getSort();
       final List<Bug> bugsList = BugDao.listBugsByOwner(user, sortParam
         .getProperty(), sortParam.isAscending());
-      return bugsList.subList(first, toIndex).listIterator();
+      return bugsList.listIterator(first);
     }
 
     public IModel model(final Object object)
