@@ -38,7 +38,7 @@ public class BugsTable
     BugsDataProvider(final User user)
     {
       this.user = user;
-      setSort(new SortParam("severity", false));
+      setSort(new SortParam("severity", true));
     }
 
     public Iterator<Bug> iterator(final int first, final int count)
