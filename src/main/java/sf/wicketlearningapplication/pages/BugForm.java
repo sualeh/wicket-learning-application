@@ -38,7 +38,7 @@ final class BugForm
 
   private final boolean isInEditMode;
 
-  BugForm(final BugPanel bugPanel, final String id, final Bug bug)
+  BugForm(final String id, final Bug bug)
   {
     super(id);
 

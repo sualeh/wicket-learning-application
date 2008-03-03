@@ -27,7 +27,7 @@ public class BugsTable
   extends DefaultDataTable
 {
 
-  private final static class BugsDataProvider
+  private static final class BugsDataProvider
     extends SortableDataProvider
   {
 
@@ -79,7 +79,7 @@ public class BugsTable
 
   private static final long serialVersionUID = 8016043970738990340L;
 
-  private static final DateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
+  private static final DateFormat DATE_FORMAT = new SimpleDateFormat("MM/dd/yyyy");
 
   private static IColumn[] getColumns(final User user)
   {
@@ -112,7 +112,7 @@ public class BugsTable
                                final IModel rowModel)
       {
         final Bug bug = (Bug) rowModel.getObject();
-        final Model model = new Model(dateFormat.format(bug.getDueByDate()));
+        final Model model = new Model(DATE_FORMAT.format(bug.getDueByDate()));
         cellItem.add(new Label(componentId, model));
       }
     });

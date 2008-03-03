@@ -15,12 +15,12 @@ import javax.persistence.EntityManagerFactory;
 
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
-public class Persistence
+public final class Persistence
 {
 
   private static ClassPathXmlApplicationContext context;
 
-  public synchronized static EntityManagerFactory getEntityManagerFactory()
+  public static synchronized EntityManagerFactory getEntityManagerFactory()
   {
     if (context == null)
     {

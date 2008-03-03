@@ -62,7 +62,7 @@ final class BugEditDeletePanel
       private static final long serialVersionUID = 7695320796784956116L;
 
       @Override
-      public void onClick(AjaxRequestTarget target)
+      public void onClick(final AjaxRequestTarget target)
       {
         bugPanel.setVisible(!bugPanel.isVisible());
         target.addComponent(bugPanel);
