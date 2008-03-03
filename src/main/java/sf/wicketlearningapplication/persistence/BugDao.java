@@ -28,18 +28,17 @@ public class BugDao
 
   public static int countBugsByOwner(final User owner)
   {
-    final boolean hasOwner = owner != null && owner.getId() > 1;
     int count = 0;
     final EntityManager em = Persistence.getEntityManagerFactory()
       .createEntityManager();
     final BugDao bugDao = new BugDao(em);
-    if (hasOwner)
+    if (UserDao.isAdmin(owner))
     {
-      count = bugDao.countAllForOwner(owner);
+      count = bugDao.countAll();
     }
     else
     {
-      count = bugDao.countAll();
+      count = bugDao.countAllForOwner(owner);
     }
     return count;
   }
@@ -62,18 +61,17 @@ public class BugDao
                                           final String orderBy,
                                           final boolean isAscending)
   {
-    final boolean hasOwner = owner != null && owner.getId() > 1;
     final Collection<Bug> bugs;
     final EntityManager em = Persistence.getEntityManagerFactory()
       .createEntityManager();
     final BugDao bugDao = new BugDao(em);
-    if (hasOwner)
+    if (UserDao.isAdmin(owner))
     {
-      bugs = bugDao.findAllForOwner(owner, orderBy, isAscending);
+      bugs = bugDao.findAll(Bug.class);
     }
     else
     {
-      bugs = bugDao.findAll(Bug.class);
+      bugs = bugDao.findAllForOwner(owner, orderBy, isAscending);
     }
     return new ArrayList<Bug>(bugs);
   }

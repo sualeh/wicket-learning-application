@@ -82,7 +82,7 @@ public class BugPanel
       estimatedHours.add(NumberValidator.POSITIVE);
       add(estimatedHours);
 
-      Button cancelButton = new Button("cancel")
+      final Button cancelButton = new Button("cancel")
       {
         private static final long serialVersionUID = 8251200359384967045L;
 
@@ -101,7 +101,7 @@ public class BugPanel
     {
       final Bug bug = (Bug) getModelObject();
       final User user = ((WicketLearningApplicationSession) getSession())
-        .getLoggedInUser();
+        .getSignedInUser();
       bug.setOwner(user);
       BugDao.saveBug(bug, !isInEditMode);
 

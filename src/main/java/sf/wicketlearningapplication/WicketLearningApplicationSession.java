@@ -25,7 +25,7 @@ public class WicketLearningApplicationSession
 
   private static final long serialVersionUID = 4142570295721648419L;
 
-  private User loggedInUser;
+  private User signedInUser;
 
   public WicketLearningApplicationSession(final AuthenticatedWebApplication application,
                                           final Request request)
@@ -36,13 +36,8 @@ public class WicketLearningApplicationSession
   @Override
   public boolean authenticate(final String username, final String password)
   {
-    loggedInUser = UserDao.findUser(username, password);
-    return loggedInUser != null;
-  }
-
-  public User getLoggedInUser()
-  {
-    return loggedInUser;
+    signedInUser = UserDao.findUser(username, password);
+    return signedInUser != null;
   }
 
   @Override
@@ -51,9 +46,18 @@ public class WicketLearningApplicationSession
     final Roles roles = new Roles();
     if (isSignedIn())
     {
-      roles.add("USER");
+      roles.add(Roles.USER);
+      if (UserDao.isAdmin(signedInUser))
+      {
+        roles.add(Roles.ADMIN);
+      }
     }
     return roles;
+  }
+
+  public User getSignedInUser()
+  {
+    return signedInUser;
   }
 
 }
