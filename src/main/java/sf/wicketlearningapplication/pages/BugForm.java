@@ -4,8 +4,6 @@
 package sf.wicketlearningapplication.pages;
 
 
-import javax.persistence.EntityManager;
-
 import org.apache.wicket.extensions.markup.html.form.DateTextField;
 import org.apache.wicket.extensions.yui.calendar.DatePicker;
 import org.apache.wicket.markup.html.form.Button;
@@ -22,11 +20,28 @@ import sf.wicketlearningapplication.domain.Bug;
 import sf.wicketlearningapplication.domain.Severity;
 import sf.wicketlearningapplication.domain.User;
 import sf.wicketlearningapplication.persistence.BugDao;
-import sf.wicketlearningapplication.persistence.Persistence;
 
 final class BugForm
   extends Form
 {
+
+  private final class CancelButton
+    extends Button
+  {
+    private static final long serialVersionUID = 8251200359384967045L;
+
+    private CancelButton(final String id)
+    {
+      super(id);
+      setDefaultFormProcessing(false);
+    }
+
+    @Override
+    public void onSubmit()
+    {
+      setResponsePage(BugsPage.class);
+    }
+  }
 
   private static final long serialVersionUID = 2682300618749680498L;
 
@@ -68,51 +83,19 @@ final class BugForm
     estimatedHours.add(NumberValidator.POSITIVE);
     add(estimatedHours);
 
-    final Button cancelButton = new Button("cancel")
-    {
-      private static final long serialVersionUID = 8251200359384967045L;
-
-      @Override
-      public void onSubmit()
-      {
-        setResponsePage(BugsPage.class);
-      }
-    };
-    cancelButton.setDefaultFormProcessing(false);
-    add(cancelButton);
+    add(new CancelButton("cancel"));
   }
 
   @Override
   protected void onSubmit()
   {
-    final Bug event = (Bug) getModelObject();
+    final Bug bug = (Bug) getModelObject();
     final User user = ((WicketLearningApplicationSession) getSession())
       .getLoggedInUser();
-    event.setOwner(user);
-    saveEvent(event);
+    bug.setOwner(user);
+    BugDao.saveBug(bug, !isInEditMode);
 
     setResponsePage(BugsPage.class);
-  }
-
-  private void saveEvent(final Bug event)
-  {
-    final EntityManager em = Persistence.getEntityManagerFactory()
-      .createEntityManager();
-    final BugDao eventDao = new BugDao(em);
-
-    eventDao.beginTransaction();
-    if (isInEditMode)
-    {
-      eventDao.save(event);
-    }
-    else
-    {
-      eventDao.create(event);
-    }
-    eventDao.commitTransaction();
-
-    em.clear();
-    em.close();
   }
 
 }

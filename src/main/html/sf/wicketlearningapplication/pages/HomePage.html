@@ -12,9 +12,6 @@
 	<h1>Wicket Learning Application</h1>
 	<br />
 	
-	<span wicket:id="border"> <span wicket:id="message">message</span>
-	</span>
-	
 	This application demonstrates:
 	<ul>
 		<li>Login (and authentication)</li>
@@ -22,7 +19,7 @@
 		<li>Navigation from one page to another</li>
 		<li>Paged lists of domain objects</li>
 		<li>Forms that allow adding domain objects</li>
-		<li>Drop-down lists in forms</li>	
+		<li>Drop-down lists in forms</li>
 		<li>JavaScript "behaviors", such as date pickers</li>
 		<li>Validation of input</li>
 		<li>Display of error messages</li>
@@ -39,9 +36,11 @@
 		<li>Images</li>
 		<li>Search functionality</li>
 	</ul>
-	
-	<ul>
-		<li><a wicket:id="bugs">Bugs</a></li>
-		<li><a wicket:id="logout">Logout</a></li>
-	</ul>
+
+	<span wicket:id="border">
+		<ul>
+			<li><a wicket:id="bugs">Bugs</a></li>
+			<li><a wicket:id="logout">Logout</a></li>
+		</ul>
+	</span>
 </wicket:extend>

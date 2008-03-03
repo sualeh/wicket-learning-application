@@ -12,7 +12,6 @@ package sf.wicketlearningapplication.pages;
 
 
 import org.apache.wicket.authorization.strategies.role.annotations.AuthorizeInstantiation;
-import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.border.Border;
 import org.apache.wicket.markup.html.border.BoxBorder;
 import org.apache.wicket.markup.html.link.PageLink;
@@ -29,13 +28,9 @@ public class HomePage
   public HomePage()
   {
     final Border border = new BoxBorder("border");
-    border
-      .add(new Label("message",
-                     "This message is generated from the Wicket page Java code."));
+    border.add(new PageLink("bugs", BugsPage.class));
+    border.add(new LogoutLink("logout"));
     add(border);
-
-    add(new PageLink("bugs", BugsPage.class));
-    add(new LogoutLink("logout"));
   }
 
 }

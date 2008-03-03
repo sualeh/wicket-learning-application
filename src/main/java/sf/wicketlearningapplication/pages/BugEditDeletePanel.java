@@ -28,7 +28,7 @@ final class BugEditDeletePanel
   {
     super(id, model);
 
-    Bug bug = (Bug) model.getObject();
+    final Bug bug = (Bug) model.getObject();
     final Panel bugPanel = new BugPanel("bugEdit", bug);
     bugPanel.setVisible(false);
     bugPanel.setOutputMarkupPlaceholderTag(true);
