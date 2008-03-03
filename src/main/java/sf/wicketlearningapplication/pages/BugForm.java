@@ -16,7 +16,6 @@ import java.util.Date;
 
 import org.apache.wicket.extensions.markup.html.form.DateTextField;
 import org.apache.wicket.extensions.yui.calendar.DatePicker;
-import org.apache.wicket.markup.html.form.Button;
 import org.apache.wicket.markup.html.form.DropDownChoice;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.RequiredTextField;
@@ -76,19 +75,6 @@ final class BugForm
     estimatedHours.setRequired(true);
     estimatedHours.add(NumberValidator.POSITIVE);
     add(estimatedHours);
-
-    final Button cancelButton = new Button("cancel")
-    {
-      private static final long serialVersionUID = 8251200359384967045L;
-
-      @Override
-      public void onSubmit()
-      {
-        setResponsePage(BugsPage.class);
-      }
-    };
-    cancelButton.setDefaultFormProcessing(false);
-    add(cancelButton);
   }
 
   @Override
