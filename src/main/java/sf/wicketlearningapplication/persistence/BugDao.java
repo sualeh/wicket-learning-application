@@ -26,20 +26,6 @@ public class BugDao
   extends Dao<Bug>
 {
 
-  public static void deleteBug(final Bug bug)
-  {
-    final EntityManager em = Persistence.getEntityManagerFactory()
-      .createEntityManager();
-    final BugDao bugDao = new BugDao(em);
-
-    bugDao.beginTransaction();
-    bugDao.delete(bug);
-    bugDao.commitTransaction();
-
-    em.clear();
-    em.close();
-  }
-
   public static int countBugsByOwner(final User owner)
   {
     final boolean hasOwner = owner != null && owner.getId() > 1;
@@ -56,6 +42,20 @@ public class BugDao
       count = bugDao.countAll();
     }
     return count;
+  }
+
+  public static void deleteBug(final Bug bug)
+  {
+    final EntityManager em = Persistence.getEntityManagerFactory()
+      .createEntityManager();
+    final BugDao bugDao = new BugDao(em);
+
+    bugDao.beginTransaction();
+    bugDao.delete(bug);
+    bugDao.commitTransaction();
+
+    em.clear();
+    em.close();
   }
 
   public static List<Bug> listBugsByOwner(final User owner,
@@ -104,6 +104,16 @@ public class BugDao
     super(em);
   }
 
+  public int countAll()
+  {
+    beginTransaction();
+    final String hql = "select count(*) from Bug b";
+    final int count = ((Number) createQuery(hql).getSingleResult()).intValue();
+    commitTransaction();
+
+    return count;
+  }
+
   public int countAllForOwner(final User owner)
   {
     if (owner == null)
@@ -115,16 +125,6 @@ public class BugDao
     final String hql = "select count(*) from Bug b where b.owner = :owner";
     final int count = ((Number) createQuery(hql).setParameter("owner", owner)
       .getSingleResult()).intValue();
-    commitTransaction();
-
-    return count;
-  }
-
-  public int countAll()
-  {
-    beginTransaction();
-    final String hql = "select count(*) from Bug b";
-    final int count = ((Number) createQuery(hql).getSingleResult()).intValue();
     commitTransaction();
 
     return count;

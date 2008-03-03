@@ -20,6 +20,21 @@ public class UserDao
   extends Dao<User>
 {
 
+  public static User findUser(final String username, final String password)
+  {
+    try
+    {
+      final EntityManager em = Persistence.getEntityManagerFactory()
+        .createEntityManager();
+      final UserDao userDao = new UserDao(em);
+      return userDao.find(username, password);
+    }
+    catch (final NoResultException e)
+    {
+      return null;
+    }
+  }
+
   public UserDao(final EntityManager em)
   {
     super(em);
@@ -34,21 +49,6 @@ public class UserDao
       .setParameter("password", password).getSingleResult();
     commitTransaction();
     return user;
-  }
-
-  public static User findUser(final String username, final String password)
-  {
-    try
-    {
-      final EntityManager em = Persistence.getEntityManagerFactory()
-        .createEntityManager();
-      final UserDao userDao = new UserDao(em);
-      return userDao.find(username, password);
-    }
-    catch (final NoResultException e)
-    {
-      return null;
-    }
   }
 
 }
