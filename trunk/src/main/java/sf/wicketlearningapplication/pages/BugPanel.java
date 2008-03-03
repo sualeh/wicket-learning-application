@@ -40,24 +40,6 @@ public class BugPanel
     extends Form
   {
 
-    private final class CancelButton
-      extends Button
-    {
-      private static final long serialVersionUID = 8251200359384967045L;
-
-      private CancelButton(final String id)
-      {
-        super(id);
-        setDefaultFormProcessing(false);
-      }
-
-      @Override
-      public void onSubmit()
-      {
-        setResponsePage(BugsPage.class);
-      }
-    }
-
     private static final long serialVersionUID = 2682300618749680498L;
 
     private final boolean isInEditMode;
@@ -98,7 +80,18 @@ public class BugPanel
       estimatedHours.add(NumberValidator.POSITIVE);
       add(estimatedHours);
 
-      add(new CancelButton("cancel"));
+      Button cancelButton = new Button("cancel")
+      {
+        private static final long serialVersionUID = 8251200359384967045L;
+
+        @Override
+        public void onSubmit()
+        {
+          setResponsePage(BugsPage.class);
+        }
+      };
+      cancelButton.setDefaultFormProcessing(false);
+      add(cancelButton);
     }
 
     @Override
