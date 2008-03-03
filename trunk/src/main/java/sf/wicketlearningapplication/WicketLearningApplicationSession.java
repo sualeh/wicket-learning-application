@@ -11,17 +11,13 @@
 package sf.wicketlearningapplication;
 
 
-import javax.persistence.EntityManager;
-import javax.persistence.NoResultException;
-
 import org.apache.wicket.Request;
 import org.apache.wicket.authentication.AuthenticatedWebApplication;
 import org.apache.wicket.authentication.AuthenticatedWebSession;
 import org.apache.wicket.authorization.strategies.role.Roles;
 
 import sf.wicketlearningapplication.domain.User;
-import sf.wicketlearningapplication.persistence.Persistence;
-import sf.wicketlearningapplication.persistence.UserDataAccessOperator;
+import sf.wicketlearningapplication.persistence.UserDao;
 
 public class WicketLearningApplicationSession
   extends AuthenticatedWebSession
@@ -40,17 +36,7 @@ public class WicketLearningApplicationSession
   @Override
   public boolean authenticate(final String username, final String password)
   {
-    try
-    {
-      final EntityManager em = Persistence.getEntityManagerFactory()
-        .createEntityManager();
-      final UserDataAccessOperator userDao = new UserDataAccessOperator(em);
-      loggedInUser = userDao.find(username, password);
-    }
-    catch (final NoResultException e)
-    {
-      loggedInUser = null;
-    }
+    loggedInUser = UserDao.findUser(username, password);
     return loggedInUser != null;
   }
 

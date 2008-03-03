@@ -22,7 +22,7 @@ import sf.wicketlearningapplication.domain.Severity;
 import sf.wicketlearningapplication.domain.User;
 import sf.wicketlearningapplication.persistence.BugDao;
 import sf.wicketlearningapplication.persistence.Persistence;
-import sf.wicketlearningapplication.persistence.UserDataAccessOperator;
+import sf.wicketlearningapplication.persistence.UserDao;
 
 public class ServersMain
 {
@@ -64,7 +64,7 @@ public class ServersMain
       .createEntityManager();
 
     final List<User> users = new ArrayList<User>();
-    final UserDataAccessOperator userDao = new UserDataAccessOperator(em);
+    final UserDao userDao = new UserDao(em);
     userDao.beginTransaction();
     for (int i = 0; i < USER_COUNT; i++)
     {
