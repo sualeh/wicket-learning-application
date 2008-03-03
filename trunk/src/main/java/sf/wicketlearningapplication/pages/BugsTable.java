@@ -4,23 +4,78 @@ package sf.wicketlearningapplication.pages;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import org.apache.wicket.extensions.markup.html.repeater.data.table.AbstractColumn;
 import org.apache.wicket.extensions.markup.html.repeater.data.table.DefaultDataTable;
 import org.apache.wicket.extensions.markup.html.repeater.data.table.IColumn;
 import org.apache.wicket.extensions.markup.html.repeater.data.table.PropertyColumn;
+import org.apache.wicket.extensions.markup.html.repeater.util.SortParam;
+import org.apache.wicket.extensions.markup.html.repeater.util.SortableDataProvider;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.repeater.Item;
+import org.apache.wicket.model.CompoundPropertyModel;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.Model;
 
 import sf.wicketlearningapplication.domain.Bug;
 import sf.wicketlearningapplication.domain.User;
+import sf.wicketlearningapplication.persistence.BugDao;
 
 public class BugsTable
   extends DefaultDataTable
 {
+
+  private final static class BugsDataProvider
+    extends SortableDataProvider
+  {
+
+    private static final long serialVersionUID = -7664388454797401713L;
+
+    private final User user;
+
+    BugsDataProvider(final User user)
+    {
+      this.user = user;
+    }
+
+    @Override
+    public SortParam getSort()
+    {
+      SortParam sortParam = super.getSort();
+      if (sortParam == null)
+      {
+        sortParam = new SortParam("summary", true);
+      }
+      return sortParam;
+    }
+
+    public Iterator<Bug> iterator(final int first, final int count)
+    {
+      final int bugsCount = size();
+      int toIndex = first + count;
+      if (toIndex > bugsCount)
+      {
+        toIndex = BugDao.countBugsByOwner(user);
+      }
+      final SortParam sortParam = getSort();
+      final List<Bug> bugsList = BugDao.listBugsByOwner(user, sortParam
+        .getProperty(), sortParam.isAscending());
+      return bugsList.subList(first, toIndex).listIterator();
+    }
+
+    public IModel model(final Object object)
+    {
+      return new CompoundPropertyModel(object);
+    }
+
+    public int size()
+    {
+      return BugDao.countBugsByOwner(user);
+    }
+
+  }
 
   private static final long serialVersionUID = 8016043970738990340L;
 
@@ -57,8 +112,7 @@ public class BugsTable
                                final IModel rowModel)
       {
         final Bug bug = (Bug) rowModel.getObject();
-        Model model = new Model(dateFormat.format(bug
-          .getDueByDate()));
+        final Model model = new Model(dateFormat.format(bug.getDueByDate()));
         cellItem.add(new Label(componentId, model));
       }
     });
@@ -78,5 +132,4 @@ public class BugsTable
   {
     super(id, getColumns(user), new BugsDataProvider(user), itemsPerPage);
   }
-
 }
