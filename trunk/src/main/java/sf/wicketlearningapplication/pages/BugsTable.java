@@ -57,8 +57,9 @@ public class BugsTable
                                final IModel rowModel)
       {
         final Bug bug = (Bug) rowModel.getObject();
-        cellItem.add(new Label(componentId, new Model(dateFormat.format(bug
-          .getDueByDate()))));
+        Model model = new Model(dateFormat.format(bug
+          .getDueByDate()));
+        cellItem.add(new Label(componentId, model));
       }
     });
     columns.add(new PropertyColumn(new Model("Estimated Hours"),
