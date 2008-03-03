@@ -23,7 +23,7 @@ public class WicketLearningApplication
 {
 
   @Override
-  public Class getHomePage()
+  public Class<? extends WebPage> getHomePage()
   {
     return HomePage.class;
   }

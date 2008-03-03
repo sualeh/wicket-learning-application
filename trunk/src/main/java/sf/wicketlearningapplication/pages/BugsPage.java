@@ -50,7 +50,7 @@ public class BugsPage
       private static final long serialVersionUID = -846141758899328311L;
 
       @Override
-      public void onClick(AjaxRequestTarget target)
+      public void onClick(final AjaxRequestTarget target)
       {
         bugPanel.setVisible(!bugPanel.isVisible());
         target.addComponent(bugPanel);

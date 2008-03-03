@@ -44,7 +44,7 @@ public class BugPanel
     }
     add(new Label("header", header));
 
-    add(new BugForm(this, "bugAddForm", bug));
+    add(new BugForm("bugAddForm", bug));
   }
 
 }
