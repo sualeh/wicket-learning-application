@@ -132,4 +132,5 @@ public class BugsTable
   {
     super(id, getColumns(user), new BugsDataProvider(user), itemsPerPage);
   }
+
 }
