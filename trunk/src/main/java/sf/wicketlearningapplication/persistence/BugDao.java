@@ -38,22 +38,22 @@ public class BugDao
     em.close();
   }
 
-  public static void saveBug(final Bug event, final boolean create)
+  public static void saveBug(final Bug bug, final boolean create)
   {
     final EntityManager em = Persistence.getEntityManagerFactory()
       .createEntityManager();
-    final BugDao eventDao = new BugDao(em);
+    final BugDao bugDao = new BugDao(em);
 
-    eventDao.beginTransaction();
+    bugDao.beginTransaction();
     if (create)
     {
-      eventDao.create(event);
+      bugDao.create(bug);
     }
     else
     {
-      eventDao.save(event);
+      bugDao.save(bug);
     }
-    eventDao.commitTransaction();
+    bugDao.commitTransaction();
 
     em.clear();
     em.close();
