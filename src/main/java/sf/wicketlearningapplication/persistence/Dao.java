@@ -17,13 +17,13 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
-class DataAccessOperator<T>
+class Dao<T>
 {
 
   @PersistenceContext
   private final EntityManager em;
 
-  public DataAccessOperator(final EntityManager em)
+  public Dao(final EntityManager em)
   {
     this.em = em;
   }

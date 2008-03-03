@@ -12,14 +12,15 @@ package sf.wicketlearningapplication.persistence;
 
 
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 
 import sf.wicketlearningapplication.domain.User;
 
-public class UserDataAccessOperator
-  extends DataAccessOperator<User>
+public class UserDao
+  extends Dao<User>
 {
 
-  public UserDataAccessOperator(final EntityManager em)
+  public UserDao(final EntityManager em)
   {
     super(em);
   }
@@ -33,6 +34,21 @@ public class UserDataAccessOperator
       .setParameter("password", password).getSingleResult();
     commitTransaction();
     return user;
+  }
+
+  public static User findUser(final String username, final String password)
+  {
+    try
+    {
+      final EntityManager em = Persistence.getEntityManagerFactory()
+        .createEntityManager();
+      final UserDao userDao = new UserDao(em);
+      return userDao.find(username, password);
+    }
+    catch (final NoResultException e)
+    {
+      return null;
+    }
   }
 
 }

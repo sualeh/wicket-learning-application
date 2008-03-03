@@ -23,7 +23,7 @@ import sf.wicketlearningapplication.domain.Bug;
 import sf.wicketlearningapplication.domain.User;
 
 public class BugDao
-  extends DataAccessOperator<Bug>
+  extends Dao<Bug>
 {
 
   public static void deleteBug(final Bug bug)
