@@ -12,6 +12,7 @@ package sf.wicketlearningapplication.pages;
 
 
 import java.util.Arrays;
+import java.util.Date;
 
 import org.apache.wicket.extensions.markup.html.form.DateTextField;
 import org.apache.wicket.extensions.yui.calendar.DatePicker;
@@ -21,6 +22,7 @@ import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.RequiredTextField;
 import org.apache.wicket.markup.html.form.TextField;
 import org.apache.wicket.model.CompoundPropertyModel;
+import org.apache.wicket.validation.validator.DateValidator;
 import org.apache.wicket.validation.validator.NumberValidator;
 import org.apache.wicket.validation.validator.StringValidator;
 
@@ -66,6 +68,7 @@ final class BugForm
 
     final TextField dueByDate = new DateTextField("dueByDate");
     dueByDate.add(new DatePicker());
+    dueByDate.add(DateValidator.minimum(new Date()));
     add(dueByDate);
 
     final TextField estimatedHours = new RequiredTextField("estimatedHours",
