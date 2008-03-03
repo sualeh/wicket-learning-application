@@ -11,6 +11,8 @@
 package sf.wicketlearningapplication.server;
 
 
+import java.io.File;
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -39,13 +41,37 @@ public class DatabaseServer
     }
   }
 
+  private final File workingDirectory;
+
+  public DatabaseServer()
+  {
+    this("./target");
+  }
+
+  public DatabaseServer(final String workingDirectory)
+  {
+    this.workingDirectory = new File(workingDirectory);
+    try
+    {
+      File.createTempFile("dir", ".test", this.workingDirectory).mkdirs();
+    }
+    catch (final IOException e)
+    {
+      LOGGER.log(Level.WARNING, "", e);
+    }
+  }
+
   public void start()
   {
     LOGGER.log(Level.FINE, toString() + " - Setting up database");
+    final String path = workingDirectory
+                        + "\\"
+                        + "hsqldb.wicketlearningapplication."
+                        + String.valueOf(System.currentTimeMillis())
+                          .substring(7);
     Server.main(new String[] {
         "-database.0",
-        "hsqldb.wicketlearningapplication."
-            + String.valueOf(System.currentTimeMillis()).substring(7),
+        path,
         "-dbname.0",
         "wicketlearningapplication",
         "-silent",

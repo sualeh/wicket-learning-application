@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <launchConfiguration type="org.eclipse.jdt.launching.localJavaApplication">
 <listAttribute key="org.eclipse.debug.core.MAPPED_RESOURCE_PATHS">
-<listEntry value="/Wicket Learning Application/src/main/java/sf/wicketlearningapplication/server/ServersMain.java"/>
+<listEntry value="/Wicket Learning Application/src/test/java/sf/wicketlearningapplication/server/ServersMain.java"/>
 </listAttribute>
 <listAttribute key="org.eclipse.debug.core.MAPPED_RESOURCE_TYPES">
 <listEntry value="1"/>
@@ -12,7 +12,6 @@
 <listEntry value="org.eclipse.debug.ui.launchGroup.debug"/>
 </listAttribute>
 <stringAttribute key="org.eclipse.jdt.launching.MAIN_TYPE" value="sf.wicketlearningapplication.server.ServersMain"/>
-<stringAttribute key="org.eclipse.jdt.launching.PROGRAM_ARGUMENTS" value="../src/main/webapp 8191"/>
+<stringAttribute key="org.eclipse.jdt.launching.PROGRAM_ARGUMENTS" value="src/main/webapp 8191"/>
 <stringAttribute key="org.eclipse.jdt.launching.PROJECT_ATTR" value="Wicket Learning Application"/>
-<stringAttribute key="org.eclipse.jdt.launching.WORKING_DIRECTORY" value="${workspace_loc:Wicket Learning Application/target}"/>
 </launchConfiguration>
