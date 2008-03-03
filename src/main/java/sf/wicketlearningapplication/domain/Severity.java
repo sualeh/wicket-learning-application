@@ -11,16 +11,7 @@
 package sf.wicketlearningapplication.domain;
 
 
-import java.util.Arrays;
-import java.util.List;
-
 public enum Severity
 {
-  showstopper, high, medium, low;
-
-  public static List<Severity> list()
-  {
-    return Arrays.asList(Severity.values());
-  }
-
+  showstopper, high, medium, low
 }
