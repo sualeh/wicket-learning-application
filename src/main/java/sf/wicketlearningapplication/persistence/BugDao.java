@@ -11,6 +11,8 @@
 package sf.wicketlearningapplication.persistence;
 
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -36,6 +38,44 @@ public class BugDao
 
     em.clear();
     em.close();
+  }
+
+  public static int countBugsByOwner(final User owner)
+  {
+    final boolean hasOwner = owner != null && owner.getId() > 1;
+    int count = 0;
+    final EntityManager em = Persistence.getEntityManagerFactory()
+      .createEntityManager();
+    final BugDao bugDao = new BugDao(em);
+    if (hasOwner)
+    {
+      count = bugDao.countAllForOwner(owner);
+    }
+    else
+    {
+      count = bugDao.countAll();
+    }
+    return count;
+  }
+
+  public static List<Bug> listBugsByOwner(final User owner,
+                                          final String orderBy,
+                                          final boolean isAscending)
+  {
+    final boolean hasOwner = owner != null && owner.getId() > 1;
+    final Collection<Bug> bugs;
+    final EntityManager em = Persistence.getEntityManagerFactory()
+      .createEntityManager();
+    final BugDao bugDao = new BugDao(em);
+    if (hasOwner)
+    {
+      bugs = bugDao.findAllForOwner(owner, orderBy, isAscending);
+    }
+    else
+    {
+      bugs = bugDao.findAll(Bug.class);
+    }
+    return new ArrayList<Bug>(bugs);
   }
 
   public static void saveBug(final Bug bug, final boolean create)
@@ -75,6 +115,16 @@ public class BugDao
     final String hql = "select count(*) from Bug b where b.owner = :owner";
     final int count = ((Number) createQuery(hql).setParameter("owner", owner)
       .getSingleResult()).intValue();
+    commitTransaction();
+
+    return count;
+  }
+
+  public int countAll()
+  {
+    beginTransaction();
+    final String hql = "select count(*) from Bug b";
+    final int count = ((Number) createQuery(hql).getSingleResult()).intValue();
     commitTransaction();
 
     return count;
