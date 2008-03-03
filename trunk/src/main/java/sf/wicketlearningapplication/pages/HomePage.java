@@ -11,6 +11,7 @@
 package sf.wicketlearningapplication.pages;
 
 
+import org.apache.wicket.authorization.strategies.role.Roles;
 import org.apache.wicket.authorization.strategies.role.annotations.AuthorizeInstantiation;
 import org.apache.wicket.markup.html.border.Border;
 import org.apache.wicket.markup.html.border.BoxBorder;
@@ -18,7 +19,7 @@ import org.apache.wicket.markup.html.link.PageLink;
 
 import sf.wicketlearningapplication.BaseWebPage;
 
-@AuthorizeInstantiation("USER")
+@AuthorizeInstantiation(Roles.USER)
 public class HomePage
   extends BaseWebPage
 {

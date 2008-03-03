@@ -35,6 +35,11 @@ public class UserDao
     }
   }
 
+  public static boolean isAdmin(final User user)
+  {
+    return user != null && user.getId() == 1;
+  }
+
   public UserDao(final EntityManager em)
   {
     super(em);
