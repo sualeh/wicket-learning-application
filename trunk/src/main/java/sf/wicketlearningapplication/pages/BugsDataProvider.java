@@ -11,12 +11,8 @@
 package sf.wicketlearningapplication.pages;
 
 
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
-
-import javax.persistence.EntityManager;
 
 import org.apache.wicket.extensions.markup.html.repeater.util.SortParam;
 import org.apache.wicket.extensions.markup.html.repeater.util.SortableDataProvider;
@@ -26,7 +22,6 @@ import org.apache.wicket.model.IModel;
 import sf.wicketlearningapplication.domain.Bug;
 import sf.wicketlearningapplication.domain.User;
 import sf.wicketlearningapplication.persistence.BugDao;
-import sf.wicketlearningapplication.persistence.Persistence;
 
 final class BugsDataProvider
   extends SortableDataProvider
@@ -58,9 +53,11 @@ final class BugsDataProvider
     int toIndex = first + count;
     if (toIndex > bugsCount)
     {
-      toIndex = getBugCount(user);
+      toIndex = BugDao.countBugsByOwner(user);
     }
-    final List<Bug> bugsList = getBugs();
+    SortParam sortParam = getSort();
+    final List<Bug> bugsList = BugDao.listBugsByOwner(user, sortParam
+      .getProperty(), sortParam.isAscending());
     return bugsList.subList(first, toIndex).listIterator();
   }
 
@@ -71,40 +68,7 @@ final class BugsDataProvider
 
   public int size()
   {
-    return getBugCount(user);
-  }
-
-  private int getBugCount(final User user)
-  {
-    int count = 0;
-    final EntityManager em = Persistence.getEntityManagerFactory()
-      .createEntityManager();
-    final BugDao bugDao = new BugDao(em);
-    if (user != null)
-    {
-      count = bugDao.countAllForOwner(user);
-    }
-    return count;
-  }
-
-  private List<Bug> getBugs()
-  {
-    final boolean hasOwner = user != null && user.getId() > 1;
-    final Collection<Bug> bugs;
-    final EntityManager em = Persistence.getEntityManagerFactory()
-      .createEntityManager();
-    final BugDao bugDao = new BugDao(em);
-    if (hasOwner)
-    {
-      final SortParam sort = getSort();
-      bugs = bugDao.findAllForOwner(user, sort.getProperty(), sort
-        .isAscending());
-    }
-    else
-    {
-      bugs = bugDao.findAll(Bug.class);
-    }
-    return new ArrayList<Bug>(bugs);
+    return BugDao.countBugsByOwner(user);
   }
 
 }
