@@ -43,7 +43,14 @@ public class Bug
   @Temporal(TemporalType.TIMESTAMP)
   public Date getDueByDate()
   {
-    return new Date(dueByDate.getTime());
+    if (dueByDate != null)
+    {
+      return new Date(dueByDate.getTime());
+    }
+    else
+    {
+      return null;
+    }
   }
 
   public int getEstimatedHours()
