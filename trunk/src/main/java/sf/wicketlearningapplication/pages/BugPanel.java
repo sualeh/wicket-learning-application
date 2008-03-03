@@ -24,12 +24,12 @@ public class BugPanel
 
   private static final long serialVersionUID = 8546164546033425516L;
 
-  public BugPanel(String id)
+  public BugPanel(final String id)
   {
     this(id, null);
   }
 
-  public BugPanel(String id, final Bug bug)
+  public BugPanel(final String id, final Bug bug)
   {
     super(id);
 
@@ -43,6 +43,7 @@ public class BugPanel
       header = "Edit Bug";
     }
     add(new Label("header", header));
+
     add(new BugForm("bugAddForm", bug));
   }
 

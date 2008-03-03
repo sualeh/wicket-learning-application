@@ -58,12 +58,6 @@ public class Bug
     return id;
   }
 
-  @Basic
-  public String getSummary()
-  {
-    return summary;
-  }
-
   @ManyToOne
   public User getOwner()
   {
@@ -73,6 +67,12 @@ public class Bug
   public Severity getSeverity()
   {
     return severity;
+  }
+
+  @Basic
+  public String getSummary()
+  {
+    return summary;
   }
 
   public void setDueByDate(final Date dueByDate)
@@ -90,11 +90,6 @@ public class Bug
     this.id = id;
   }
 
-  public void setSummary(final String summary)
-  {
-    this.summary = summary;
-  }
-
   public void setOwner(final User owner)
   {
     this.owner = owner;
@@ -103,6 +98,11 @@ public class Bug
   public void setSeverity(final Severity severity)
   {
     this.severity = severity;
+  }
+
+  public void setSummary(final String summary)
+  {
+    this.summary = summary;
   }
 
   @Override

@@ -74,25 +74,6 @@ final class BugsDataProvider
     return getBugCount(user);
   }
 
-  private List<Bug> getBugs()
-  {
-    final Collection<Bug> bugs;
-    final EntityManager em = Persistence.getEntityManagerFactory()
-      .createEntityManager();
-    final BugDao bugDao = new BugDao(em);
-    if (user != null)
-    {
-      final SortParam sort = getSort();
-      bugs = bugDao.findAllForOwner(user, sort.getProperty(), sort
-        .isAscending());
-    }
-    else
-    {
-      bugs = bugDao.findAll(Bug.class);
-    }
-    return new ArrayList<Bug>(bugs);
-  }
-
   private int getBugCount(final User user)
   {
     int count = 0;
@@ -104,6 +85,26 @@ final class BugsDataProvider
       count = bugDao.countAllForOwner(user);
     }
     return count;
+  }
+
+  private List<Bug> getBugs()
+  {
+    final boolean hasOwner = user != null && user.getId() > 1;
+    final Collection<Bug> bugs;
+    final EntityManager em = Persistence.getEntityManagerFactory()
+      .createEntityManager();
+    final BugDao bugDao = new BugDao(em);
+    if (hasOwner)
+    {
+      final SortParam sort = getSort();
+      bugs = bugDao.findAllForOwner(user, sort.getProperty(), sort
+        .isAscending());
+    }
+    else
+    {
+      bugs = bugDao.findAll(Bug.class);
+    }
+    return new ArrayList<Bug>(bugs);
   }
 
 }

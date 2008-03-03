@@ -14,7 +14,6 @@ package sf.wicketlearningapplication.persistence;
 import java.util.List;
 
 import javax.persistence.EntityManager;
-import javax.persistence.Query;
 
 import org.apache.commons.lang.StringUtils;
 
@@ -25,6 +24,41 @@ public class BugDao
   extends DataAccessOperator<Bug>
 {
 
+  public static void deleteBug(final Bug bug)
+  {
+    final EntityManager em = Persistence.getEntityManagerFactory()
+      .createEntityManager();
+    final BugDao bugDao = new BugDao(em);
+
+    bugDao.beginTransaction();
+    bugDao.delete(bug);
+    bugDao.commitTransaction();
+
+    em.clear();
+    em.close();
+  }
+
+  public static void saveBug(final Bug event, final boolean create)
+  {
+    final EntityManager em = Persistence.getEntityManagerFactory()
+      .createEntityManager();
+    final BugDao eventDao = new BugDao(em);
+
+    eventDao.beginTransaction();
+    if (create)
+    {
+      eventDao.create(event);
+    }
+    else
+    {
+      eventDao.save(event);
+    }
+    eventDao.commitTransaction();
+
+    em.clear();
+    em.close();
+  }
+
   public BugDao(final EntityManager em)
   {
     super(em);
@@ -32,19 +66,17 @@ public class BugDao
 
   public int countAllForOwner(final User owner)
   {
+    if (owner == null)
+    {
+      throw new IllegalArgumentException("No owner provided");
+    }
+
     beginTransaction();
-    String hql = "select count(*) from Bug b";
-    if (owner != null && owner.getId() > 1)
-    {
-      hql = hql + " where b.owner = :owner";
-    }
-    final Query query = createQuery(hql);
-    if (owner != null && owner.getId() > 1)
-    {
-      query.setParameter("owner", owner);
-    }
-    final int count = ((Number) query.getSingleResult()).intValue();
+    final String hql = "select count(*) from Bug b where b.owner = :owner";
+    final int count = ((Number) createQuery(hql).setParameter("owner", owner)
+      .getSingleResult()).intValue();
     commitTransaction();
+
     return count;
   }
 
@@ -53,24 +85,21 @@ public class BugDao
                                    final String orderBy,
                                    final boolean isAscending)
   {
+    if (owner == null)
+    {
+      throw new IllegalArgumentException("No owner provided");
+    }
+
     beginTransaction();
     List<Bug> bugs = null;
-    String hql = "from Bug b";
-    if (owner != null && owner.getId() > 1)
-    {
-      hql = hql + " where b.owner = :owner";
-    }
+    String hql = "from Bug b where b.owner = :owner";
     if (!StringUtils.isBlank(orderBy))
     {
       hql = hql + " order by " + orderBy + " " + (isAscending? "asc": "desc");
     }
-    final Query query = createQuery(hql);
-    if (owner != null && owner.getId() > 1)
-    {
-      query.setParameter("owner", owner);
-    }
-    bugs = query.getResultList();
+    bugs = createQuery(hql).setParameter("owner", owner).getResultList();
     commitTransaction();
+
     return bugs;
   }
 

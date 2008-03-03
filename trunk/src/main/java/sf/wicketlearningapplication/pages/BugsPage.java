@@ -14,6 +14,8 @@ package sf.wicketlearningapplication.pages;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.markup.html.AjaxLink;
 import org.apache.wicket.authorization.strategies.role.annotations.AuthorizeInstantiation;
+import org.apache.wicket.markup.html.border.Border;
+import org.apache.wicket.markup.html.border.BoxBorder;
 import org.apache.wicket.markup.html.link.PageLink;
 import org.apache.wicket.markup.html.panel.FeedbackPanel;
 import org.apache.wicket.markup.html.panel.Panel;
@@ -55,8 +57,10 @@ public class BugsPage
     };
     add(addBugLink);
 
-    add(new PageLink("home", HomePage.class));
-    add(new LogoutLink("logout"));
+    final Border border = new BoxBorder("border");
+    border.add(new PageLink("home", HomePage.class));
+    border.add(new LogoutLink("logout"));
+    add(border);
   }
 
 }
