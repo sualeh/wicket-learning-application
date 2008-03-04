@@ -21,7 +21,7 @@ public abstract class BaseWebPage
 
   public BaseWebPage()
   {
-    add(new Link("logout")
+    add(new Link("signout")
     {
       private static final long serialVersionUID = 2517827682449605104L;
 
