@@ -14,7 +14,6 @@ package sf.wicketlearningapplication.pages;
 import org.apache.wicket.authorization.strategies.role.Roles;
 import org.apache.wicket.authorization.strategies.role.annotations.AuthorizeInstantiation;
 
-import sf.wicketlearningapplication.BaseWebPage;
 
 @AuthorizeInstantiation(Roles.USER)
 public class HomePage

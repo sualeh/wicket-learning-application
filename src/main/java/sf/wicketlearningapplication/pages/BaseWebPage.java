@@ -8,7 +8,7 @@
  * Creative Commons
  * 171 Second Street, Suite 300, San Francisco, California, 94105, USA.
  */
-package sf.wicketlearningapplication;
+package sf.wicketlearningapplication.pages;
 
 
 import org.apache.wicket.markup.html.WebPage;
