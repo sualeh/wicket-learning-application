@@ -12,8 +12,9 @@ package sf.wicketlearningapplication;
 
 
 import org.apache.wicket.markup.html.WebPage;
+import org.apache.wicket.markup.html.link.Link;
 
-import sf.wicketlearningapplication.pages.LogoutLink;
+import sf.wicketlearningapplication.pages.HomePage;
 
 public abstract class BaseWebPage
   extends WebPage
@@ -21,7 +22,15 @@ public abstract class BaseWebPage
 
   public BaseWebPage()
   {
-    add(new LogoutLink("logout"));
+    add(new Link("logout")
+    {
+      @Override
+      public void onClick()
+      {
+        getSession().invalidate();
+        setResponsePage(HomePage.class);
+      }
+    });
   }
 
 }

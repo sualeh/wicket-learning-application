@@ -8,27 +8,21 @@
  * Creative Commons
  * 171 Second Street, Suite 300, San Francisco, California, 94105, USA.
  */
-package sf.wicketlearningapplication.pages;
+package sf.wicketlearningapplication;
 
 
-import org.apache.wicket.markup.html.link.Link;
+import org.apache.wicket.authentication.panel.SignInPanel;
+import org.apache.wicket.markup.html.WebPage;
 
-public final class LogoutLink
-  extends Link
+public class LoginPage
+  extends WebPage
 {
 
-  private static final long serialVersionUID = 2753920209773575465L;
+  private static final long serialVersionUID = 5785408843233190968L;
 
-  public LogoutLink(final String id)
+  public LoginPage()
   {
-    super(id);
-  }
-
-  @Override
-  public void onClick()
-  {
-    getSession().invalidate();
-    setResponsePage(HomePage.class);
+    add(new SignInPanel("signInPanel"));
   }
 
 }
