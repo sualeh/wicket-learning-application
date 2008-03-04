@@ -32,8 +32,7 @@ final class BugEditDeletePanel
   {
     super(id, model);
 
-    final Bug bug = (Bug) model.getObject();
-    final Panel bugPanel = new BugPanel("bugEdit", bug);
+    final Panel bugPanel = new BugPanel("bugEdit", model);
     bugPanel.setVisible(false);
     bugPanel.setOutputMarkupPlaceholderTag(true);
     add(bugPanel);
@@ -50,8 +49,8 @@ final class BugEditDeletePanel
       }
     };
     final String callConfirmJs = String
-      .format("return getConfirmation('Are you you want to permanently delete \"%s\"?')",
-              bug.getSummary());
+      .format("return confirmDelete('Are you you want to permanently delete \"%s\"?')",
+              ((Bug) getModelObject()).getSummary());
     deleteLink.add(new AttributeModifier("onClick",
                                          true,
                                          new Model(callConfirmJs)));

@@ -20,7 +20,7 @@ import org.apache.wicket.markup.html.form.DropDownChoice;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.RequiredTextField;
 import org.apache.wicket.markup.html.form.TextField;
-import org.apache.wicket.model.CompoundPropertyModel;
+import org.apache.wicket.model.IModel;
 import org.apache.wicket.validation.validator.DateValidator;
 import org.apache.wicket.validation.validator.NumberValidator;
 import org.apache.wicket.validation.validator.StringValidator;
@@ -39,22 +39,11 @@ final class BugForm
 
   private final boolean isInEditMode;
 
-  BugForm(final String id, final Bug bug)
+  BugForm(final String id, IModel model, final boolean isInEditMode)
   {
-    super(id);
+    super(id, model);
 
-    final CompoundPropertyModel model;
-    if (bug == null)
-    {
-      isInEditMode = false;
-      model = new CompoundPropertyModel(new Bug());
-    }
-    else
-    {
-      isInEditMode = true;
-      model = new CompoundPropertyModel(bug);
-    }
-    setModel(model);
+    this.isInEditMode = isInEditMode;
 
     final TextField summary = new RequiredTextField("summary");
     summary.add(StringValidator.maximumLength(256));
