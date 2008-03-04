@@ -16,7 +16,6 @@ import org.apache.wicket.authentication.AuthenticatedWebSession;
 import org.apache.wicket.markup.html.WebPage;
 
 import sf.wicketlearningapplication.pages.HomePage;
-import sf.wicketlearningapplication.pages.LoginPage;
 
 public class WicketLearningApplication
   extends AuthenticatedWebApplication
