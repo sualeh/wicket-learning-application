@@ -23,6 +23,8 @@ public abstract class BaseWebPage
   {
     add(new Link("logout")
     {
+      private static final long serialVersionUID = 2517827682449605104L;
+
       @Override
       public void onClick()
       {
