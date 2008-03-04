@@ -74,8 +74,6 @@ final class BugForm
       .getSignedInUser();
     bug.setOwner(user);
     BugDao.saveBug(bug, !isInEditMode);
-
-    setResponsePage(BugsPage.class);
   }
 
 }
