@@ -18,7 +18,6 @@ import org.apache.wicket.authorization.strategies.role.annotations.AuthorizeInst
 import org.apache.wicket.markup.html.panel.FeedbackPanel;
 import org.apache.wicket.markup.html.panel.Panel;
 
-import sf.wicketlearningapplication.BaseWebPage;
 import sf.wicketlearningapplication.WicketLearningApplicationSession;
 import sf.wicketlearningapplication.domain.User;
 
