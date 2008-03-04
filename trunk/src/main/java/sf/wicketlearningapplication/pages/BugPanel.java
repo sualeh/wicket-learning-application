@@ -11,13 +11,11 @@
 package sf.wicketlearningapplication.pages;
 
 
-import org.apache.wicket.authorization.strategies.role.annotations.AuthorizeInstantiation;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.panel.Panel;
 
 import sf.wicketlearningapplication.domain.Bug;
 
-@AuthorizeInstantiation("USER")
 public class BugPanel
   extends Panel
 {
