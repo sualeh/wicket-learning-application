@@ -13,8 +13,15 @@ package sf.wicketlearningapplication;
 
 import org.apache.wicket.markup.html.WebPage;
 
+import sf.wicketlearningapplication.pages.LogoutLink;
+
 public abstract class BaseWebPage
   extends WebPage
 {
+
+  public BaseWebPage()
+  {
+    add(new LogoutLink("logout"));
+  }
 
 }

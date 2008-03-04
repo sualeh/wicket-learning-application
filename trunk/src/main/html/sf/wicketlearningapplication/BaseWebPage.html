@@ -14,9 +14,18 @@
 <link type="text/css" rel="stylesheet" href="basic_styles.css" />
 </head>
 <body>
-	<wicket:child/>
-	<p>
-		<small>Wicket Learning Application</small>
-	</p>
+<table width="100%" border="0">
+	<tr>
+		<td valign="top" width="20%"><wicket:link>
+			<ul>
+				<li><a a href="HomePage.html">Home Page</a></li>
+				<li><a href="BugsPage.html">Bugs</a></li>
+				<li><a wicket:id="logout">Logout</a></li>
+			</ul>
+		</wicket:link></td>
+		<td valign="top"><wicket:child /></td>
+	</tr>
+</table>
+<p><small>Wicket Learning Application</small></p>
 </body>
 </html>
