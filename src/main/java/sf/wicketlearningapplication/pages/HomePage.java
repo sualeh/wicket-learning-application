@@ -25,7 +25,6 @@ public class HomePage
 
   public HomePage()
   {
-    add(new LogoutLink("logout"));
   }
 
 }

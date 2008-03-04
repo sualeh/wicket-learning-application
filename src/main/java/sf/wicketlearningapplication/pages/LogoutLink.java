@@ -13,13 +13,13 @@ package sf.wicketlearningapplication.pages;
 
 import org.apache.wicket.markup.html.link.Link;
 
-final class LogoutLink
+public final class LogoutLink
   extends Link
 {
 
   private static final long serialVersionUID = 2753920209773575465L;
 
-  LogoutLink(final String id)
+  public LogoutLink(final String id)
   {
     super(id);
   }

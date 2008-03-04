@@ -54,8 +54,6 @@ public class BugsPage
       }
     };
     add(addBugLink);
-
-    add(new LogoutLink("logout"));
   }
 
 }
