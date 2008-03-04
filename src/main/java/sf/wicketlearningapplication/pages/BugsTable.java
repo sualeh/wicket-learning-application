@@ -41,6 +41,7 @@ public class BugsTable
       setSort(new SortParam("severity", true));
     }
 
+    @SuppressWarnings("unused")
     public Iterator<Bug> iterator(final int first, final int count)
     {
       final SortParam sortParam = getSort();
