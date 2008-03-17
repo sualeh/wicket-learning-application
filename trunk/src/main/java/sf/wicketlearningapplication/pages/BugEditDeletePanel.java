@@ -14,6 +14,7 @@ package sf.wicketlearningapplication.pages;
 import org.apache.wicket.AttributeModifier;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.markup.html.AjaxLink;
+import org.apache.wicket.extensions.ajax.markup.html.modal.ModalWindow;
 import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.model.IModel;
@@ -31,11 +32,6 @@ final class BugEditDeletePanel
   BugEditDeletePanel(final String id, final IModel model)
   {
     super(id, model);
-
-    final Panel bugPanel = new BugPanel("bugEdit", model);
-    bugPanel.setVisible(false);
-    bugPanel.setOutputMarkupPlaceholderTag(true);
-    add(bugPanel);
 
     final Link deleteLink = new Link("delete", model)
     {
@@ -56,19 +52,40 @@ final class BugEditDeletePanel
                                          new Model(callConfirmJs)));
     add(deleteLink);
 
-    final AjaxLink editLink = new AjaxLink("edit")
-    {
-      private static final long serialVersionUID = 7695320796784956116L;
+    final ModalWindow bugEditDialog = new ModalWindow("bugEditDialog");
+    add(bugEditDialog);
+    bugEditDialog.setContent(new BugPanel(bugEditDialog.getContentId(), model));
+    bugEditDialog.setTitle("Edit Bug");
+    bugEditDialog.setResizable(true);
+    bugEditDialog.setInitialHeight(300);
+    bugEditDialog.setInitialWidth(300);
+    bugEditDialog.setCookieName("bugEditDialog");
 
-      @Override
-      public void onClick(final AjaxRequestTarget target)
+    bugEditDialog.setCloseButtonCallback(new ModalWindow.CloseButtonCallback()
+    {
+      public boolean onCloseButtonClicked(AjaxRequestTarget target)
       {
-        bugPanel.setVisible(!bugPanel.isVisible());
-        target.addComponent(bugPanel);
+        return true;
       }
-    };
-    add(editLink);
+    });
+
+    bugEditDialog
+      .setWindowClosedCallback(new ModalWindow.WindowClosedCallback()
+      {
+        public void onClose(AjaxRequestTarget target)
+        {
+          setResponsePage(BugsPage.class);
+        }
+      });
+
+    add(new AjaxLink("edit")
+    {
+      @Override
+      public void onClick(AjaxRequestTarget target)
+      {
+        bugEditDialog.show(target);
+      }
+    });
 
   }
-
 }
