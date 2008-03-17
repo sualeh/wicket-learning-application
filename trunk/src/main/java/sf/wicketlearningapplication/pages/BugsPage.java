@@ -16,7 +16,6 @@ import org.apache.wicket.ajax.markup.html.AjaxLink;
 import org.apache.wicket.authorization.strategies.role.Roles;
 import org.apache.wicket.authorization.strategies.role.annotations.AuthorizeInstantiation;
 import org.apache.wicket.markup.html.panel.FeedbackPanel;
-import org.apache.wicket.markup.html.panel.Panel;
 
 import sf.wicketlearningapplication.WicketLearningApplicationSession;
 import sf.wicketlearningapplication.domain.User;
@@ -28,6 +27,8 @@ public class BugsPage
 
   private static final long serialVersionUID = -4454721164415868831L;
 
+  private final BugPanel bugPanel;
+
   public BugsPage()
   {
     add(new FeedbackPanel("errorMessages"));
@@ -36,7 +37,7 @@ public class BugsPage
       .getSignedInUser();
     add(new BugsTable("bugsTable", 5, user));
 
-    final Panel bugPanel = new BugPanel("bugAdd");
+    bugPanel = new BugPanel("bugAdd");
     bugPanel.setVisible(false);
     bugPanel.setOutputMarkupPlaceholderTag(true);
     add(bugPanel);
@@ -55,4 +56,12 @@ public class BugsPage
     add(addBugLink);
   }
 
+  @Override
+  protected void onBeforeRender()
+  {
+    bugPanel.setVisible(false);
+    bugPanel.clearForm();
+
+    super.onBeforeRender();
+  }
 }
