@@ -18,6 +18,8 @@
   <persistence-unit
     name="wicketlearningapplication"
     transaction-type="RESOURCE_LOCAL">
+    <class>sf.wicketlearningapplication.domain.Bug</class>
+    <class>sf.wicketlearningapplication.domain.User</class>
   </persistence-unit>
 
 </persistence>

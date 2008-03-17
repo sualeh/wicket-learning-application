@@ -27,7 +27,9 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.jdbc.core.JdbcTemplate;
 
 import sf.wicketlearningapplication.domain.Bug;
+import sf.wicketlearningapplication.domain.User;
 import sf.wicketlearningapplication.persistence.BugDao;
+import sf.wicketlearningapplication.persistence.UserDao;
 import sf.wicketlearningapplication.server.DatabaseServer;
 import sf.wicketlearningapplication.server.ServersMain;
 
@@ -35,12 +37,13 @@ public class TestSpringJpa
 {
 
   private static final String BUG_COUNT_SQL = "SELECT COUNT(*) FROM Bug";
+  private static final String USER_COUNT_SQL = "SELECT COUNT(*) FROM User";
 
   private ClassPathXmlApplicationContext context;
   private DatabaseServer databaseServer;
 
   @Test
-  public void daoHelper()
+  public void bugs()
   {
 
     final EntityManagerFactory entityManagerFactory = (EntityManagerFactory) context
@@ -48,29 +51,29 @@ public class TestSpringJpa
     final JdbcTemplate jdbcTemplate = (JdbcTemplate) context
       .getBean("jdbcTemplate", JdbcTemplate.class);
 
-    int bugCount;
+    int count;
     Bug bug;
 
     final EntityManager em = entityManagerFactory.createEntityManager();
-    final BugDao bugDao = new BugDao(em);
+    final BugDao dao = new BugDao(em);
     EntityTransaction transaction;
 
     transaction = em.getTransaction();
     transaction.begin();
 
     bug = ServersMain.createNewBugInstance();
-    bugDao.create(bug);
+    dao.create(bug);
     transaction.commit();
 
     bug = null;
 
-    bugCount = jdbcTemplate.queryForInt(BUG_COUNT_SQL);
-    assertEquals("Save test: Number of bugs do not match", 1, bugCount);
+    count = jdbcTemplate.queryForInt(BUG_COUNT_SQL);
+    assertEquals("Save test: Number of bugs do not match", 1, count);
 
     Collection<Bug> bugs;
     transaction = em.getTransaction();
     transaction.begin();
-    bugs = bugDao.findAll(Bug.class);
+    bugs = dao.findAll(Bug.class);
     for (final Iterator<Bug> iter = bugs.iterator(); iter.hasNext();)
     {
       bug = iter.next();
@@ -78,15 +81,15 @@ public class TestSpringJpa
       {
         throw new RuntimeException("Got null entity");
       }
-      bugDao.delete(bug);
+      dao.delete(bug);
       bug = null;
     }
     transaction.commit();
 
     bug = null;
 
-    bugCount = jdbcTemplate.queryForInt(BUG_COUNT_SQL);
-    assertEquals("Delete test: Number of bugs do not match", 0, bugCount);
+    count = jdbcTemplate.queryForInt(BUG_COUNT_SQL);
+    assertEquals("Delete test: Number of bugs do not match", 0, count);
 
   }
 
@@ -107,6 +110,57 @@ public class TestSpringJpa
 
     databaseServer.stop();
     databaseServer = null;
+  }
+
+  @Test
+  public void users()
+  {
+
+    final EntityManagerFactory entityManagerFactory = (EntityManagerFactory) context
+      .getBean("entityManagerFactory", EntityManagerFactory.class);
+    final JdbcTemplate jdbcTemplate = (JdbcTemplate) context
+      .getBean("jdbcTemplate", JdbcTemplate.class);
+
+    int count;
+    User user;
+
+    final EntityManager em = entityManagerFactory.createEntityManager();
+    final UserDao dao = new UserDao(em);
+    EntityTransaction transaction;
+
+    transaction = em.getTransaction();
+    transaction.begin();
+
+    user = ServersMain.createNewUserInstance(1);
+    dao.create(user);
+    transaction.commit();
+
+    user = null;
+
+    count = jdbcTemplate.queryForInt(USER_COUNT_SQL);
+    assertEquals("Save test: Number of users do not match", 1, count);
+
+    Collection<User> users;
+    transaction = em.getTransaction();
+    transaction.begin();
+    users = dao.findAll(User.class);
+    for (final Iterator<User> iter = users.iterator(); iter.hasNext();)
+    {
+      user = iter.next();
+      if (user == null)
+      {
+        throw new RuntimeException("Got null entity");
+      }
+      dao.delete(user);
+      user = null;
+    }
+    transaction.commit();
+
+    user = null;
+
+    count = jdbcTemplate.queryForInt(USER_COUNT_SQL);
+    assertEquals("Delete test: Number of users do not match", 0, count);
+
   }
 
 }
