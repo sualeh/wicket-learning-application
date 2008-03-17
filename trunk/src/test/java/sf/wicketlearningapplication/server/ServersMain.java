@@ -68,10 +68,7 @@ public class ServersMain
     userDao.beginTransaction();
     for (int i = 0; i < USER_COUNT; i++)
     {
-      final User user = new User();
-      user.setName("User #" + i);
-      user.setUsername("user" + i);
-      user.setPassword("user" + i);
+      final User user = createNewUserInstance(i);
       // 
       userDao.create(user);
       users.add(user);
@@ -91,6 +88,15 @@ public class ServersMain
 
     em.clear();
     em.close();
+  }
+
+  public static User createNewUserInstance(int userNumber)
+  {
+    final User user = new User();
+    user.setName("User #" + userNumber);
+    user.setUsername("user" + userNumber);
+    user.setPassword("user" + userNumber);
+    return user;
   }
 
   public static Bug createNewBugInstance()
