@@ -74,6 +74,12 @@ final class BugForm
       .getSignedInUser();
     bug.setOwner(user);
     BugDao.saveBug(bug, !isInEditMode);
+
+    // We do not need to redirect
+    setRedirect(false);
+
+    // Return the the current page
+    setResponsePage(getPage());
   }
 
 }

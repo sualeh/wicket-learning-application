@@ -52,31 +52,8 @@ final class BugEditDeletePanel
                                          new Model(callConfirmJs)));
     add(deleteLink);
 
-    final ModalWindow bugEditDialog = new ModalWindow("bugEditDialog");
+    final ModalWindow bugEditDialog = new BugEditDialog("bugEditDialog", model);
     add(bugEditDialog);
-    bugEditDialog.setContent(new BugPanel(bugEditDialog.getContentId(), model));
-    bugEditDialog.setTitle("Edit Bug");
-    bugEditDialog.setResizable(true);
-    bugEditDialog.setInitialHeight(300);
-    bugEditDialog.setInitialWidth(300);
-    bugEditDialog.setCookieName("bugEditDialog");
-
-    bugEditDialog.setCloseButtonCallback(new ModalWindow.CloseButtonCallback()
-    {
-      public boolean onCloseButtonClicked(AjaxRequestTarget target)
-      {
-        return true;
-      }
-    });
-
-    bugEditDialog
-      .setWindowClosedCallback(new ModalWindow.WindowClosedCallback()
-      {
-        public void onClose(AjaxRequestTarget target)
-        {
-          setResponsePage(BugsPage.class);
-        }
-      });
 
     add(new AjaxLink("edit")
     {
