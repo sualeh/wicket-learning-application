@@ -27,8 +27,6 @@ public class BugsPage
 
   private static final long serialVersionUID = -4454721164415868831L;
 
-  private final BugPanel bugPanel;
-
   public BugsPage()
   {
     add(new FeedbackPanel("errorMessages"));
@@ -37,7 +35,7 @@ public class BugsPage
       .getSignedInUser();
     add(new BugsTable("bugsTable", 10, user));
 
-    bugPanel = new BugPanel("bugAdd");
+    final BugPanel bugPanel = new BugPanel("bugAdd", null);
     bugPanel.setVisible(false);
     bugPanel.setOutputMarkupPlaceholderTag(true);
     add(bugPanel);

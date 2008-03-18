@@ -16,7 +16,7 @@ public class BugEditDialog
     super(id);
     setContent(new BugPanel(getContentId(), model));
     setTitle("Edit Bug");
-    setInitialHeight(250);
+    setInitialHeight(200);
     setInitialWidth(350);
 
     setWindowClosedCallback(new ModalWindow.WindowClosedCallback()
