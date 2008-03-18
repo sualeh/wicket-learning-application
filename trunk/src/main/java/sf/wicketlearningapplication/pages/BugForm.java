@@ -14,8 +14,12 @@ package sf.wicketlearningapplication.pages;
 import java.util.Arrays;
 import java.util.Date;
 
+import org.apache.wicket.ajax.AjaxRequestTarget;
+import org.apache.wicket.extensions.ajax.markup.html.IndicatingAjaxButton;
+import org.apache.wicket.extensions.ajax.markup.html.modal.ModalWindow;
 import org.apache.wicket.extensions.markup.html.form.DateTextField;
 import org.apache.wicket.extensions.yui.calendar.DatePicker;
+import org.apache.wicket.markup.html.form.Button;
 import org.apache.wicket.markup.html.form.DropDownChoice;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.RequiredTextField;
@@ -64,22 +68,25 @@ final class BugForm
     estimatedHours.setRequired(true);
     estimatedHours.add(NumberValidator.POSITIVE);
     add(estimatedHours);
-  }
 
-  @Override
-  protected void onSubmit()
-  {
-    final Bug bug = (Bug) getModelObject();
-    final User user = ((WicketLearningApplicationSession) getSession())
-      .getSignedInUser();
-    bug.setOwner(user);
-    BugDao.saveBug(bug, !isInEditMode);
+    final Button saveButton = new IndicatingAjaxButton("save", this)
+    {
+      private static final long serialVersionUID = 7949306415616423528L;
 
-    // We do not need to redirect
-    setRedirect(false);
+      @Override
+      protected void onSubmit(AjaxRequestTarget target, Form form)
+      {
+        ModalWindow.closeCurrent(target);
 
-    // Return the the current page
-    setResponsePage(getPage());
+        final Bug bug = (Bug) getForm().getModelObject();
+        final User user = ((WicketLearningApplicationSession) getSession())
+          .getSignedInUser();
+        bug.setOwner(user);
+        BugDao.saveBug(bug, !isInEditMode);
+      }
+
+    };
+    add(saveButton);
   }
 
 }
