@@ -12,7 +12,6 @@ package sf.wicketlearningapplication.pages;
 
 
 import org.apache.wicket.markup.html.basic.Label;
-import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.model.CompoundPropertyModel;
 import org.apache.wicket.model.IModel;
@@ -25,32 +24,23 @@ public class BugPanel
 
   private static final long serialVersionUID = 8546164546033425516L;
 
-  private final Form bugForm;
-
   public BugPanel(final String id)
   {
     super(id);
-    bugForm = addForm(new CompoundPropertyModel(new Bug()), false);
+    addForm(new CompoundPropertyModel(new Bug()), false);
   }
 
   public BugPanel(final String id, final IModel model)
   {
     super(id, model);
-    bugForm = addForm(model, true);
+    addForm(model, true);
   }
 
-  public void clearForm()
-  {
-    bugForm.setModel(new CompoundPropertyModel(new Bug()));
-  }
-
-  private Form addForm(final IModel model, final boolean isInEditMode)
+  private void addForm(final IModel model, final boolean isInEditMode)
   {
     add(new Label("header", (isInEditMode? "Edit Bug": "Add New Bug")));
 
-    final BugForm bugForm = new BugForm("bugAddForm", model, isInEditMode);
-    add(bugForm);
-    return bugForm;
+    add(new BugForm("bugAddForm", model, isInEditMode));
   }
 
 }

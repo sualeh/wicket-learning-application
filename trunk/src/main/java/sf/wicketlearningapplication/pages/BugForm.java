@@ -23,6 +23,7 @@ import org.apache.wicket.markup.html.form.DropDownChoice;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.RequiredTextField;
 import org.apache.wicket.markup.html.form.TextField;
+import org.apache.wicket.model.CompoundPropertyModel;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.validation.validator.DateValidator;
 import org.apache.wicket.validation.validator.NumberValidator;
@@ -63,6 +64,8 @@ final class BugForm
         .getSignedInUser();
       bug.setOwner(user);
       BugDao.saveBug(bug, !isInEditMode);
+
+      form.setModel(new CompoundPropertyModel(new Bug()));
 
       if (!isInEditMode)
       {
