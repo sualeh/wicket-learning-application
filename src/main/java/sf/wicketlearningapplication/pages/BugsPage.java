@@ -56,12 +56,4 @@ public class BugsPage
     add(addBugLink);
   }
 
-  @Override
-  protected void onBeforeRender()
-  {
-    bugPanel.setVisible(false);
-    bugPanel.clearForm();
-
-    super.onBeforeRender();
-  }
 }
