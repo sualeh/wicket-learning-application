@@ -24,15 +24,6 @@ public class WicketLearningApplication
 {
 
   @Override
-  protected void init()
-  {
-    super.init();
-    mount("/wicketlearningapplication", PackageName.forClass(HomePage.class));
-    mountBookmarkablePage("/wicketlearningapplication/SignInPage",
-                          SignInPage.class);
-  }
-
-  @Override
   public Class<? extends WebPage> getHomePage()
   {
     return HomePage.class;
@@ -48,6 +39,15 @@ public class WicketLearningApplication
   protected Class<? extends AuthenticatedWebSession> getWebSessionClass()
   {
     return WicketLearningApplicationSession.class;
+  }
+
+  @Override
+  protected void init()
+  {
+    super.init();
+    mount("/wicketlearningapplication", PackageName.forClass(HomePage.class));
+    mountBookmarkablePage("/wicketlearningapplication/SignInPage",
+                          SignInPage.class);
   }
 
 }

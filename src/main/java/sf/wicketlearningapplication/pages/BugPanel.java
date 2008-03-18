@@ -39,18 +39,18 @@ public class BugPanel
     bugForm = addForm(model, true);
   }
 
-  private Form addForm(final IModel model, boolean isInEditMode)
+  public void clearForm()
+  {
+    bugForm.setModel(new CompoundPropertyModel(new Bug()));
+  }
+
+  private Form addForm(final IModel model, final boolean isInEditMode)
   {
     add(new Label("header", (isInEditMode? "Edit Bug": "Add New Bug")));
 
     final BugForm bugForm = new BugForm("bugAddForm", model, isInEditMode);
     add(bugForm);
     return bugForm;
-  }
-
-  public void clearForm()
-  {
-    bugForm.setModel(new CompoundPropertyModel(new Bug()));
   }
 
 }

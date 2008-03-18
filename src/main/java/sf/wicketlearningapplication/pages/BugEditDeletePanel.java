@@ -14,7 +14,6 @@ package sf.wicketlearningapplication.pages;
 import org.apache.wicket.AttributeModifier;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.markup.html.AjaxLink;
-import org.apache.wicket.extensions.ajax.markup.html.modal.ModalWindow;
 import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.model.IModel;
@@ -27,38 +26,48 @@ final class BugEditDeletePanel
   extends Panel
 {
 
+  private final class BugDeleteLink
+    extends Link
+  {
+
+    private static final long serialVersionUID = 8375528747622018389L;
+
+    private BugDeleteLink(final String id, final IModel model)
+    {
+      super(id, model);
+
+      final String callConfirmJs = String
+        .format("return confirmDelete('Are you you want to permanently delete \"%s\"?')",
+                ((Bug) getModelObject()).getSummary());
+      add(new AttributeModifier("onClick", true, new Model(callConfirmJs)));
+    }
+
+    @Override
+    public void onClick()
+    {
+      BugDao.deleteBug((Bug) getModelObject());
+      setResponsePage(getPage());
+    }
+  }
+
   private static final long serialVersionUID = 2753920209773575465L;
 
   BugEditDeletePanel(final String id, final IModel model)
   {
     super(id, model);
 
-    final Link deleteLink = new Link("delete", model)
-    {
-      private static final long serialVersionUID = 8375528747622018389L;
+    add(new BugDeleteLink("delete", model));
 
-      @Override
-      public void onClick()
-      {
-        BugDao.deleteBug((Bug) getModelObject());
-        setResponsePage(BugsPage.class);
-      }
-    };
-    final String callConfirmJs = String
-      .format("return confirmDelete('Are you you want to permanently delete \"%s\"?')",
-              ((Bug) getModelObject()).getSummary());
-    deleteLink.add(new AttributeModifier("onClick",
-                                         true,
-                                         new Model(callConfirmJs)));
-    add(deleteLink);
-
-    final ModalWindow bugEditDialog = new BugEditDialog("bugEditDialog", model);
+    final BugEditDialog bugEditDialog = new BugEditDialog("bugEditDialog",
+                                                          model);
     add(bugEditDialog);
 
     add(new AjaxLink("edit")
     {
+      private static final long serialVersionUID = -7501809051827115404L;
+
       @Override
-      public void onClick(AjaxRequestTarget target)
+      public void onClick(final AjaxRequestTarget target)
       {
         bugEditDialog.show(target);
       }

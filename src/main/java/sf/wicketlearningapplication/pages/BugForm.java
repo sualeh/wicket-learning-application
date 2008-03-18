@@ -19,7 +19,6 @@ import org.apache.wicket.extensions.ajax.markup.html.IndicatingAjaxButton;
 import org.apache.wicket.extensions.ajax.markup.html.modal.ModalWindow;
 import org.apache.wicket.extensions.markup.html.form.DateTextField;
 import org.apache.wicket.extensions.yui.calendar.DatePicker;
-import org.apache.wicket.markup.html.form.Button;
 import org.apache.wicket.markup.html.form.DropDownChoice;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.RequiredTextField;
@@ -39,15 +38,44 @@ final class BugForm
   extends Form
 {
 
+  final class BugSaveButton
+    extends IndicatingAjaxButton
+  {
+
+    private static final long serialVersionUID = 7949306415616423528L;
+
+    private final boolean isInEditMode;
+
+    BugSaveButton(final String id, final Form form, final boolean isInEditMode)
+    {
+      super(id, form);
+      this.isInEditMode = isInEditMode;
+    }
+
+    @Override
+    @SuppressWarnings("unused")
+    protected void onSubmit(final AjaxRequestTarget target, final Form form)
+    {
+      ModalWindow.closeCurrent(target);
+
+      final Bug bug = (Bug) getForm().getModelObject();
+      final User user = ((WicketLearningApplicationSession) getSession())
+        .getSignedInUser();
+      bug.setOwner(user);
+      BugDao.saveBug(bug, !isInEditMode);
+
+      if (!isInEditMode)
+      {
+        setResponsePage(getPage());
+      }
+    }
+  }
+
   private static final long serialVersionUID = 2682300618749680498L;
 
-  private final boolean isInEditMode;
-
-  BugForm(final String id, IModel model, final boolean isInEditMode)
+  BugForm(final String id, final IModel model, final boolean isInEditMode)
   {
     super(id, model);
-
-    this.isInEditMode = isInEditMode;
 
     final TextField summary = new RequiredTextField("summary");
     summary.add(StringValidator.maximumLength(256));
@@ -69,30 +97,7 @@ final class BugForm
     estimatedHours.add(NumberValidator.POSITIVE);
     add(estimatedHours);
 
-    final Button saveButton = new IndicatingAjaxButton("save", this)
-    {
-      private static final long serialVersionUID = 7949306415616423528L;
-
-      @Override
-      protected void onSubmit(AjaxRequestTarget target, Form form)
-      {
-        ModalWindow.closeCurrent(target);
-
-        final Bug bug = (Bug) getForm().getModelObject();
-        final User user = ((WicketLearningApplicationSession) getSession())
-          .getSignedInUser();
-        bug.setOwner(user);
-        BugDao.saveBug(bug, !isInEditMode);
-
-        if (!isInEditMode)
-        {
-          setRedirect(false);
-          setResponsePage(getPage());
-        }
-      }
-
-    };
-    add(saveButton);
+    add(new BugSaveButton("save", this, isInEditMode));
   }
 
 }
