@@ -83,6 +83,12 @@ final class BugForm
           .getSignedInUser();
         bug.setOwner(user);
         BugDao.saveBug(bug, !isInEditMode);
+
+        if (!isInEditMode)
+        {
+          setRedirect(false);
+          setResponsePage(getPage());
+        }
       }
 
     };
