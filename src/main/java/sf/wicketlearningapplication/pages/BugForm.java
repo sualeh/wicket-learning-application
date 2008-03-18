@@ -76,9 +76,13 @@ final class BugForm
 
   private static final long serialVersionUID = 2682300618749680498L;
 
-  BugForm(final String id, final IModel model, final boolean isInEditMode)
+  BugForm(final String id, final IModel model)
   {
     super(id, model);
+    if (model == null)
+    {
+      setModel(new CompoundPropertyModel(new Bug()));
+    }
 
     final TextField summary = new RequiredTextField("summary");
     summary.add(StringValidator.maximumLength(256));
@@ -100,6 +104,7 @@ final class BugForm
     estimatedHours.add(NumberValidator.POSITIVE);
     add(estimatedHours);
 
+    final boolean isInEditMode = model != null;
     add(new BugSaveButton("save", this, isInEditMode));
   }
 
