@@ -11,7 +11,7 @@ public class BugEditDialog
 
   private static final long serialVersionUID = 5522553988105296877L;
 
-  public BugEditDialog(String id, IModel model)
+  public BugEditDialog(final String id, final IModel model)
   {
     super(id);
     setContent(new BugPanel(getContentId(), model));
@@ -23,9 +23,9 @@ public class BugEditDialog
     {
       private static final long serialVersionUID = 2578038324045130551L;
 
-      public void onClose(AjaxRequestTarget target)
+      @SuppressWarnings("unused")
+      public void onClose(final AjaxRequestTarget target)
       {
-        setRedirect(false);
         setResponsePage(getPage());
       }
     });

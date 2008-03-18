@@ -11,9 +11,9 @@
 package sf.wicketlearningapplication.pages;
 
 
+import org.apache.wicket.Application;
 import org.apache.wicket.markup.html.WebPage;
 import org.apache.wicket.markup.html.link.Link;
-import org.apache.wicket.protocol.http.WebApplication;
 
 public abstract class BaseWebPage
   extends WebPage
@@ -29,7 +29,7 @@ public abstract class BaseWebPage
       public void onClick()
       {
         getSession().invalidate();
-        setResponsePage(WebApplication.get().getHomePage());
+        setResponsePage(Application.get().getHomePage());
       }
     });
   }
