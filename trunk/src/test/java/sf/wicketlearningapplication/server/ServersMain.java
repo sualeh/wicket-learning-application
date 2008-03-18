@@ -101,7 +101,7 @@ public class ServersMain
 
   public static Bug createNewBugInstance()
   {
-    final int estimatedHours = (int) (Math.random() * 8);
+    final int estimatedHours = (int) (Math.random() * 8) + 1;
     final Severity severity = Severity.values()[(int) (Math.random() * Severity
       .values().length)];
     final Calendar calendar = Calendar.getInstance();

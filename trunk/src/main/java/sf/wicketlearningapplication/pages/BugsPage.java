@@ -35,7 +35,7 @@ public class BugsPage
 
     final User user = ((WicketLearningApplicationSession) getSession())
       .getSignedInUser();
-    add(new BugsTable("bugsTable", 5, user));
+    add(new BugsTable("bugsTable", 10, user));
 
     bugPanel = new BugPanel("bugAdd");
     bugPanel.setVisible(false);
