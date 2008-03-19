@@ -15,6 +15,7 @@ import java.util.Arrays;
 import java.util.Date;
 
 import org.apache.wicket.ajax.AjaxRequestTarget;
+import org.apache.wicket.ajax.form.AjaxFormValidatingBehavior;
 import org.apache.wicket.extensions.ajax.markup.html.IndicatingAjaxButton;
 import org.apache.wicket.extensions.ajax.markup.html.modal.ModalWindow;
 import org.apache.wicket.extensions.markup.html.form.DateTextField;
@@ -64,6 +65,7 @@ final class BugForm
         .getSignedInUser();
       bug.setOwner(user);
       BugDao.saveBug(bug, !isInEditMode);
+      info("Saved bug #" + bug.getId());
 
       form.setModel(new CompoundPropertyModel(new Bug()));
 
@@ -106,6 +108,8 @@ final class BugForm
 
     final boolean isInEditMode = model != null;
     add(new BugSaveButton("save", this, isInEditMode));
+
+    AjaxFormValidatingBehavior.addToAllFormComponents(this, "onblur");
   }
 
 }

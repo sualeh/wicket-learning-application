@@ -11,6 +11,7 @@
 package sf.wicketlearningapplication.pages;
 
 
+import org.apache.wicket.markup.html.panel.FeedbackPanel;
 import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.model.IModel;
 
@@ -23,6 +24,11 @@ public class BugPanel
   public BugPanel(final String id, final IModel model)
   {
     super(id, model);
+
+    FeedbackPanel feedbackPanel = new FeedbackPanel("errorMessages");
+    feedbackPanel.setOutputMarkupId(true);
+    add(feedbackPanel);
+
     add(new BugForm("bugAddForm", model));
   }
 
