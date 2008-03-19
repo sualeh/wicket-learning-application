@@ -80,7 +80,7 @@ public class BugsTable
         cellItem.add(new BugEditDeletePanel(componentId, rowModel));
       }
     });
-    columns.add(new PropertyColumn(new Model("Id"), "id", "id"));
+    columns.add(new PropertyColumn(new Model("Number"), "id", "id"));
     columns.add(new PropertyColumn(new Model("Summary"), "summary", "summary"));
     columns.add(new PropertyColumn(new Model("Severity"),
                                    "severity",
