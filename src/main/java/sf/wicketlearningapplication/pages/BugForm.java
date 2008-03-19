@@ -55,7 +55,6 @@ final class BugForm
     }
 
     @Override
-    @SuppressWarnings("unused")
     protected void onSubmit(final AjaxRequestTarget target, final Form form)
     {
       ModalWindow.closeCurrent(target);
