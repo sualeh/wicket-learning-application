@@ -65,7 +65,6 @@ final class BugForm
         .getSignedInUser();
       bug.setOwner(user);
       BugDao.saveBug(bug, !isInEditMode);
-      info("Saved bug #" + bug.getId());
 
       form.setModel(new CompoundPropertyModel(new Bug()));
 
