@@ -17,6 +17,9 @@ import java.util.List;
 
 import javax.persistence.EntityManager;
 
+import org.apache.commons.lang.RandomStringUtils;
+import org.apache.commons.lang.StringUtils;
+
 import sf.wicketlearningapplication.domain.Bug;
 import sf.wicketlearningapplication.domain.Severity;
 import sf.wicketlearningapplication.domain.User;
@@ -108,11 +111,23 @@ public class ServersMain
     calendar.add(Calendar.DAY_OF_MONTH, (int) (Math.random() * 30));
     //
     final Bug bug = new Bug();
-    bug.setSummary("This is a " + severity + " severity bug");
+    bug.setSummary(text());
     bug.setSeverity(severity);
     bug.setEstimatedHours(estimatedHours);
     bug.setDueByDate(calendar.getTime());
     return bug;
+  }
+
+  private static String text()
+  {
+    StringBuffer buffer = new StringBuffer();
+    final int words = (int) (Math.random() * 5) + 1;
+    for (int i = 0; i < words; i++)
+    {
+      buffer.append(RandomStringUtils
+        .randomAlphabetic((int) (Math.random() * 5) + 1)).append(" ");
+    }
+    return StringUtils.capitalize(buffer.toString().toLowerCase());
   }
 
 }

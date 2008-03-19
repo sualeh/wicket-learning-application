@@ -5,6 +5,8 @@ import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.extensions.ajax.markup.html.modal.ModalWindow;
 import org.apache.wicket.model.IModel;
 
+import sf.wicketlearningapplication.domain.Bug;
+
 public class BugEditDialog
   extends ModalWindow
 {
@@ -15,7 +17,7 @@ public class BugEditDialog
   {
     super(id);
     setContent(new BugPanel(getContentId(), model));
-    setTitle("Edit Bug");
+    setTitle("Edit Bug #" + ((Bug) model.getObject()).getId());
     setInitialHeight(200);
     setInitialWidth(350);
 
