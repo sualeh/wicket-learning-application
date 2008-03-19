@@ -15,7 +15,6 @@ import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.markup.html.AjaxLink;
 import org.apache.wicket.authorization.strategies.role.Roles;
 import org.apache.wicket.authorization.strategies.role.annotations.AuthorizeInstantiation;
-import org.apache.wicket.markup.html.panel.FeedbackPanel;
 
 import sf.wicketlearningapplication.WicketLearningApplicationSession;
 import sf.wicketlearningapplication.domain.User;
@@ -29,8 +28,6 @@ public class BugsPage
 
   public BugsPage()
   {
-    add(new FeedbackPanel("errorMessages"));
-
     final User user = ((WicketLearningApplicationSession) getSession())
       .getSignedInUser();
     add(new BugsTable("bugsTable", 10, user));
