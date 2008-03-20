@@ -19,9 +19,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
-import org.apache.commons.lang.builder.ReflectionToStringBuilder;
-import org.apache.commons.lang.builder.ToStringStyle;
-
 @Entity
 public class User
   implements Serializable
@@ -80,8 +77,7 @@ public class User
   @Override
   public String toString()
   {
-    return ReflectionToStringBuilder.toString(this,
-                                              ToStringStyle.MULTI_LINE_STYLE);
+    return getName();
   }
 
 }
