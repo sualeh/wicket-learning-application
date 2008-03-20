@@ -11,6 +11,7 @@
 package sf.wicketlearningapplication.pages;
 
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 
@@ -35,6 +36,7 @@ import sf.wicketlearningapplication.domain.Bug;
 import sf.wicketlearningapplication.domain.Severity;
 import sf.wicketlearningapplication.domain.User;
 import sf.wicketlearningapplication.persistence.BugDao;
+import sf.wicketlearningapplication.persistence.UserDao;
 
 final class BugForm
   extends Form
@@ -60,9 +62,6 @@ final class BugForm
       ModalWindow.closeCurrent(target);
 
       final Bug bug = (Bug) getForm().getModelObject();
-      final User user = ((WicketLearningApplicationSession) getSession())
-        .getSignedInUser();
-      bug.setOwner(user);
       BugDao.saveBug(bug, !isInEditMode);
 
       form.setModel(new CompoundPropertyModel(new Bug()));
@@ -79,10 +78,16 @@ final class BugForm
   BugForm(final String id, final IModel model)
   {
     super(id, model);
-    if (model == null)
+
+    final boolean isInEditMode = model != null;
+    if (!isInEditMode)
     {
       setModel(new CompoundPropertyModel(new Bug()));
     }
+
+    final User user = ((WicketLearningApplicationSession) getSession())
+      .getSignedInUser();
+    boolean isAdmin = UserDao.isAdmin(user);
 
     final TextField summary = new RequiredTextField("summary");
     summary.add(StringValidator.maximumLength(256));
@@ -104,7 +109,12 @@ final class BugForm
     estimatedHours.add(NumberValidator.POSITIVE);
     add(estimatedHours);
 
-    final boolean isInEditMode = model != null;
+    final DropDownChoice owner = new DropDownChoice("owner",
+                                                    new ArrayList<User>(UserDao
+                                                      .findAllUsers()));
+    owner.setRequired(true);
+    add(owner);
+
     add(new BugSaveButton("save", this, isInEditMode));
 
     AjaxFormValidatingBehavior.addToAllFormComponents(this, "onblur");

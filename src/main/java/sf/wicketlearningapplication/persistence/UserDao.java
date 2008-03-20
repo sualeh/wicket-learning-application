@@ -11,6 +11,8 @@
 package sf.wicketlearningapplication.persistence;
 
 
+import java.util.Collection;
+
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 
@@ -28,6 +30,21 @@ public class UserDao
         .createEntityManager();
       final UserDao userDao = new UserDao(em);
       return userDao.find(username, password);
+    }
+    catch (final NoResultException e)
+    {
+      return null;
+    }
+  }
+
+  public static Collection<User> findAllUsers()
+  {
+    try
+    {
+      final EntityManager em = Persistence.getEntityManagerFactory()
+        .createEntityManager();
+      final UserDao userDao = new UserDao(em);
+      return userDao.findAll(User.class);
     }
     catch (final NoResultException e)
     {
