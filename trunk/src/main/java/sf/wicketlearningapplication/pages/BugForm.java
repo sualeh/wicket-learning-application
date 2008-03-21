@@ -32,7 +32,6 @@ import org.apache.wicket.validation.validator.DateValidator;
 import org.apache.wicket.validation.validator.NumberValidator;
 import org.apache.wicket.validation.validator.StringValidator;
 
-import sf.wicketlearningapplication.WicketLearningApplicationSession;
 import sf.wicketlearningapplication.domain.Bug;
 import sf.wicketlearningapplication.domain.Severity;
 import sf.wicketlearningapplication.domain.User;
@@ -85,10 +84,6 @@ final class BugForm
     {
       setModel(new CompoundPropertyModel(new Bug()));
     }
-
-    final User user = ((WicketLearningApplicationSession) getSession())
-      .getSignedInUser();
-    final boolean isAdmin = UserDao.isAdmin(user);
 
     final TextField summary = new RequiredTextField("summary");
     summary.add(StringValidator.maximumLength(256));
