@@ -22,21 +22,6 @@ public class UserDao
   extends Dao<User>
 {
 
-  public static User findUser(final String username, final String password)
-  {
-    try
-    {
-      final EntityManager em = Persistence.getEntityManagerFactory()
-        .createEntityManager();
-      final UserDao userDao = new UserDao(em);
-      return userDao.find(username, password);
-    }
-    catch (final NoResultException e)
-    {
-      return null;
-    }
-  }
-
   public static Collection<User> findAllUsers()
   {
     try
@@ -45,6 +30,21 @@ public class UserDao
         .createEntityManager();
       final UserDao userDao = new UserDao(em);
       return userDao.findAll(User.class);
+    }
+    catch (final NoResultException e)
+    {
+      return null;
+    }
+  }
+
+  public static User findUser(final String username, final String password)
+  {
+    try
+    {
+      final EntityManager em = Persistence.getEntityManagerFactory()
+        .createEntityManager();
+      final UserDao userDao = new UserDao(em);
+      return userDao.find(username, password);
     }
     catch (final NoResultException e)
     {
