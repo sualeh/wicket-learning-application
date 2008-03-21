@@ -17,7 +17,7 @@ public class BugEditDialog
   {
     super(id);
     setContent(new BugPanel(getContentId(), model));
-    setTitle("Edit Bug #" + ((Bug) model.getObject()).getId());
+    setTitle(String.format("Edit bug #%d", ((Bug) model.getObject()).getId()));
     setInitialHeight(200);
     setInitialWidth(350);
 
