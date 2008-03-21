@@ -101,13 +101,12 @@ final class BugForm
 
     final TextField dueByDate = new DateTextField("dueByDate");
     dueByDate.add(new DatePicker());
+    dueByDate.setRequired(false);
     dueByDate.add(DateValidator.minimum(new Date()));
-    dueByDate.setRequired(true);
     add(dueByDate);
 
-    final TextField estimatedHours = new RequiredTextField("estimatedHours",
-                                                           Integer.class);
-    estimatedHours.setRequired(true);
+    final TextField estimatedHours = new TextField("estimatedHours",
+                                                   Integer.class);
     estimatedHours.add(NumberValidator.POSITIVE);
     add(estimatedHours);
 
@@ -116,7 +115,7 @@ final class BugForm
                                                       .findAllUsers()),
                                                     new ChoiceRenderer("name",
                                                                        "id"));
-    owner.setRequired(true);
+    owner.setRequired(false);
     add(owner);
 
     add(new BugSaveButton("save", this, isInEditMode));
