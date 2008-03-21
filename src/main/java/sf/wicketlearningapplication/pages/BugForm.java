@@ -116,7 +116,7 @@ final class BugForm
                                                       .findAllUsers()),
                                                     new ChoiceRenderer("name",
                                                                        "id"));
-    owner.setRequired(false);
+    owner.setRequired(true);
     add(owner);
 
     add(new BugSaveButton("save", this, isInEditMode));
