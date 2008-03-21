@@ -21,6 +21,7 @@ import org.apache.wicket.extensions.ajax.markup.html.IndicatingAjaxButton;
 import org.apache.wicket.extensions.ajax.markup.html.modal.ModalWindow;
 import org.apache.wicket.extensions.markup.html.form.DateTextField;
 import org.apache.wicket.extensions.yui.calendar.DatePicker;
+import org.apache.wicket.markup.html.form.ChoiceRenderer;
 import org.apache.wicket.markup.html.form.DropDownChoice;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.RequiredTextField;
@@ -101,6 +102,7 @@ final class BugForm
     final TextField dueByDate = new DateTextField("dueByDate");
     dueByDate.add(new DatePicker());
     dueByDate.add(DateValidator.minimum(new Date()));
+    dueByDate.setRequired(true);
     add(dueByDate);
 
     final TextField estimatedHours = new RequiredTextField("estimatedHours",
@@ -111,8 +113,10 @@ final class BugForm
 
     final DropDownChoice owner = new DropDownChoice("owner",
                                                     new ArrayList<User>(UserDao
-                                                      .findAllUsers()));
-    owner.setRequired(true);
+                                                      .findAllUsers()),
+                                                    new ChoiceRenderer("name",
+                                                                       "id"));
+    owner.setRequired(false);
     add(owner);
 
     add(new BugSaveButton("save", this, isInEditMode));
