@@ -30,7 +30,7 @@
 
   <filter-mapping>
     <filter-name>wicket.wicketlearningapplication</filter-name>
-    <url-pattern>/*</url-pattern>
+    <url-pattern>/app/*</url-pattern>
   </filter-mapping>
 
 </web-app>
