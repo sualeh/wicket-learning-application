@@ -28,7 +28,7 @@ import org.apache.commons.lang.builder.ToStringStyle;
 
 @Entity
 public class Bug
-  implements Serializable, Comparable<Bug>
+  implements Serializable
 {
 
   private static final long serialVersionUID = 67206557276146560L;
@@ -39,89 +39,6 @@ public class Bug
   private Integer estimatedHours;
   private Severity severity;
   private User owner;
-
-  public int compareTo(final Bug o)
-  {
-    return (int) (id - o.id);
-  }
-
-  @Override
-  public boolean equals(final Object obj)
-  {
-    if (this == obj)
-    {
-      return true;
-    }
-    if (obj == null)
-    {
-      return false;
-    }
-    if (getClass() != obj.getClass())
-    {
-      return false;
-    }
-    final Bug other = (Bug) obj;
-    if (dueByDate == null)
-    {
-      if (other.dueByDate != null)
-      {
-        return false;
-      }
-    }
-    else if (!dueByDate.equals(other.dueByDate))
-    {
-      return false;
-    }
-    if (estimatedHours != other.estimatedHours)
-    {
-      return false;
-    }
-    if (id == null)
-    {
-      if (other.id != null)
-      {
-        return false;
-      }
-    }
-    else if (!id.equals(other.id))
-    {
-      return false;
-    }
-    if (owner == null)
-    {
-      if (other.owner != null)
-      {
-        return false;
-      }
-    }
-    else if (!owner.equals(other.owner))
-    {
-      return false;
-    }
-    if (severity == null)
-    {
-      if (other.severity != null)
-      {
-        return false;
-      }
-    }
-    else if (!severity.equals(other.severity))
-    {
-      return false;
-    }
-    if (summary == null)
-    {
-      if (other.summary != null)
-      {
-        return false;
-      }
-    }
-    else if (!summary.equals(other.summary))
-    {
-      return false;
-    }
-    return true;
-  }
 
   @Temporal(TemporalType.TIMESTAMP)
   public Date getDueByDate()
@@ -163,20 +80,6 @@ public class Bug
   public String getSummary()
   {
     return summary;
-  }
-
-  @Override
-  public int hashCode()
-  {
-    final int prime = 31;
-    int result = 1;
-    result = prime * result + (dueByDate == null? 0: dueByDate.hashCode());
-    result = prime * result + estimatedHours;
-    result = prime * result + (id == null? 0: id.hashCode());
-    result = prime * result + (owner == null? 0: owner.hashCode());
-    result = prime * result + (severity == null? 0: severity.hashCode());
-    result = prime * result + (summary == null? 0: summary.hashCode());
-    return result;
   }
 
   public void setDueByDate(final Date dueByDate)
