@@ -26,7 +26,7 @@ final class BugEditDeletePanel
   extends Panel
 {
 
-  private final class BugDeleteLink
+  private final static class BugDeleteLink
     extends Link
   {
 

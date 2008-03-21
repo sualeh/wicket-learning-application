@@ -42,7 +42,7 @@ final class BugForm
   extends Form
 {
 
-  final class BugSaveButton
+  final static class BugSaveButton
     extends IndicatingAjaxButton
   {
 

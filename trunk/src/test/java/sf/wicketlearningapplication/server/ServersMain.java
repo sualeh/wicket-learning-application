@@ -14,6 +14,7 @@ package sf.wicketlearningapplication.server;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+import java.util.Random;
 
 import javax.persistence.EntityManager;
 
@@ -29,6 +30,8 @@ import sf.wicketlearningapplication.persistence.UserDao;
 
 public class ServersMain
 {
+
+  private static final Random random = new Random();
 
   public static void main(final String[] args)
   {
@@ -104,11 +107,11 @@ public class ServersMain
 
   public static Bug createNewBugInstance()
   {
-    final int estimatedHours = (int) (Math.random() * 8) + 1;
+    final int estimatedHours = random.nextInt(8) + 1;
     final Severity severity = Severity.values()[(int) (Math.random() * Severity
       .values().length)];
     final Calendar calendar = Calendar.getInstance();
-    calendar.add(Calendar.DAY_OF_MONTH, (int) (Math.random() * 30));
+    calendar.add(Calendar.DAY_OF_MONTH, random.nextInt(30));
     //
     final Bug bug = new Bug();
     bug.setSummary(text());
@@ -121,11 +124,11 @@ public class ServersMain
   private static String text()
   {
     StringBuffer buffer = new StringBuffer();
-    final int words = (int) (Math.random() * 5) + 1;
+    final int words = random.nextInt(6) + 1;
     for (int i = 0; i < words; i++)
     {
-      buffer.append(RandomStringUtils
-        .randomAlphabetic((int) (Math.random() * 5) + 1)).append(" ");
+      buffer.append(RandomStringUtils.randomAlphabetic(random.nextInt(5) + 1))
+        .append(" ");
     }
     return StringUtils.capitalize(buffer.toString().toLowerCase());
   }
