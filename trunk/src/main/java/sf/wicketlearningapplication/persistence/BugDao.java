@@ -16,6 +16,7 @@ import java.util.Collection;
 import java.util.List;
 
 import javax.persistence.EntityManager;
+import javax.persistence.Query;
 
 import org.apache.commons.lang.StringUtils;
 
@@ -67,11 +68,11 @@ public class BugDao
     final BugDao bugDao = new BugDao(em);
     if (UserDao.isAdmin(owner))
     {
-      bugs = bugDao.findAll(Bug.class);
+      bugs = bugDao.findAll(null, orderBy, isAscending);
     }
     else
     {
-      bugs = bugDao.findAllForOwner(owner, orderBy, isAscending);
+      bugs = bugDao.findAll(owner, orderBy, isAscending);
     }
     return new ArrayList<Bug>(bugs);
   }
@@ -129,23 +130,27 @@ public class BugDao
   }
 
   @SuppressWarnings("unchecked")
-  public List<Bug> findAllForOwner(final User owner,
-                                   final String orderBy,
-                                   final boolean isAscending)
+  public List<Bug> findAll(final User owner,
+                           final String orderBy,
+                           final boolean isAscending)
   {
-    if (owner == null)
-    {
-      throw new IllegalArgumentException("No owner provided");
-    }
-
     beginTransaction();
     List<Bug> bugs = null;
-    String hql = "from Bug b where b.owner = :owner";
+    String hql = "from Bug b";
+    if (owner != null)
+    {
+      hql = hql + " where b.owner = :owner";
+    }
     if (!StringUtils.isBlank(orderBy))
     {
       hql = hql + " order by " + orderBy + " " + (isAscending? "asc": "desc");
     }
-    bugs = createQuery(hql).setParameter("owner", owner).getResultList();
+    final Query query = createQuery(hql);
+    if (owner != null)
+    {
+      query.setParameter("owner", owner);
+    }
+    bugs = query.getResultList();
     commitTransaction();
 
     return bugs;
