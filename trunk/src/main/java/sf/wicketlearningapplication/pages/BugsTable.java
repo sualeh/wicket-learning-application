@@ -97,7 +97,12 @@ public class BugsTable
                                final IModel rowModel)
       {
         final Bug bug = (Bug) rowModel.getObject();
-        final Model model = new Model(DATE_FORMAT.format(bug.getDueByDate()));
+        String dueByDateString = "";
+        if (bug.getDueByDate() != null)
+        {
+          dueByDateString = DATE_FORMAT.format(bug.getDueByDate());
+        }
+        final Model model = new Model(dueByDateString);
         cellItem.add(new Label(componentId, model));
       }
     });

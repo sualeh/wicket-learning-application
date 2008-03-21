@@ -36,7 +36,7 @@ public class Bug
   private Long id;
   private String summary;
   private Date dueByDate;
-  private int estimatedHours;
+  private Integer estimatedHours;
   private Severity severity;
   private User owner;
 
@@ -136,7 +136,7 @@ public class Bug
     }
   }
 
-  public int getEstimatedHours()
+  public Integer getEstimatedHours()
   {
     return estimatedHours;
   }
@@ -187,7 +187,7 @@ public class Bug
     }
   }
 
-  public void setEstimatedHours(final int estimatedHours)
+  public void setEstimatedHours(final Integer estimatedHours)
   {
     this.estimatedHours = estimatedHours;
   }
