@@ -25,7 +25,7 @@ public class BugPanel
   {
     super(id, model);
 
-    FeedbackPanel feedbackPanel = new FeedbackPanel("errorMessages");
+    final FeedbackPanel feedbackPanel = new FeedbackPanel("errorMessages");
     feedbackPanel.setOutputMarkupId(true);
     add(feedbackPanel);
 

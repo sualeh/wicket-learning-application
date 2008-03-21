@@ -88,7 +88,7 @@ final class BugForm
 
     final User user = ((WicketLearningApplicationSession) getSession())
       .getSignedInUser();
-    boolean isAdmin = UserDao.isAdmin(user);
+    final boolean isAdmin = UserDao.isAdmin(user);
 
     final TextField summary = new RequiredTextField("summary");
     summary.add(StringValidator.maximumLength(256));
