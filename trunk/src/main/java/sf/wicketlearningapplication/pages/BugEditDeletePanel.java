@@ -37,8 +37,8 @@ final class BugEditDeletePanel
       super(id, model);
 
       final String callConfirmJs = String
-        .format("return confirmDelete('Are you you want to permanently delete \"%s\"?')",
-                ((Bug) getModelObject()).getSummary());
+        .format("return confirmDelete('Are you you want to permanently delete bug #%d?')",
+                ((Bug) getModelObject()).getId());
       add(new AttributeModifier("onClick", true, new Model(callConfirmJs)));
     }
 
