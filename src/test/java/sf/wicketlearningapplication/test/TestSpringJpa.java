@@ -31,7 +31,7 @@ import sf.wicketlearningapplication.domain.User;
 import sf.wicketlearningapplication.persistence.BugDao;
 import sf.wicketlearningapplication.persistence.UserDao;
 import sf.wicketlearningapplication.server.DatabaseServer;
-import sf.wicketlearningapplication.server.ServersMain;
+import sf.wicketlearningapplication.server.TestUtility;
 
 public class TestSpringJpa
 {
@@ -61,7 +61,7 @@ public class TestSpringJpa
     transaction = em.getTransaction();
     transaction.begin();
 
-    bug = ServersMain.createNewBugInstance();
+    bug = TestUtility.createNewBugInstance();
     dao.create(bug);
     transaction.commit();
 
@@ -131,7 +131,7 @@ public class TestSpringJpa
     transaction = em.getTransaction();
     transaction.begin();
 
-    user = ServersMain.createNewUserInstance(1);
+    user = TestUtility.createNewUserInstance(1);
     dao.create(user);
     transaction.commit();
 

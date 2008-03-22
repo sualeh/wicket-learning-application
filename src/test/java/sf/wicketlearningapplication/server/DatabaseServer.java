@@ -41,6 +41,27 @@ public class DatabaseServer
     }
   }
 
+  public static void main(final String[] args)
+  {
+    try
+    {
+      final DatabaseServer databaseServer = new DatabaseServer();
+      databaseServer.start();
+      TestUtility.createData();
+
+      while (System.in.available() == 0)
+      {
+        Thread.sleep(5000);
+      }
+      databaseServer.stop();
+    }
+    catch (final Exception e)
+    {
+      e.printStackTrace();
+      System.exit(100);
+    }
+  }
+
   private final File workingDirectory;
 
   public DatabaseServer()
