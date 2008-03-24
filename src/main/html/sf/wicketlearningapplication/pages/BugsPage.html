@@ -10,8 +10,8 @@
 -->
 <wicket:head>
 	<script type="text/javascript">
-		function confirmDelete(msg) {
-			return confirm(msg);
+		function confirmDelete(bugNumber) {
+			return confirm('Are you you want to permanently delete bug #' + bugNumber + '?');
 		}
 	</script>
 </wicket:head>
