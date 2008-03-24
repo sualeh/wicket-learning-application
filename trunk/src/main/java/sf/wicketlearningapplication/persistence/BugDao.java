@@ -65,25 +65,21 @@ public class BugDao
                                           int maxResult)
   {
     final Collection<Bug> bugs;
+
+    User findByOwner = null;
+    if (!UserDao.isAdmin(owner))
+    {
+      findByOwner = owner;
+    }
+
     final EntityManager em = Persistence.getEntityManagerFactory()
       .createEntityManager();
     final BugDao bugDao = new BugDao(em);
-    if (UserDao.isAdmin(owner))
-    {
-      bugs = bugDao.findAll(null,
-                            orderBy,
-                            isAscending,
-                            startPosition,
-                            maxResult);
-    }
-    else
-    {
-      bugs = bugDao.findAll(owner,
-                            orderBy,
-                            isAscending,
-                            startPosition,
-                            maxResult);
-    }
+    bugs = bugDao.findAll(findByOwner,
+                          orderBy,
+                          isAscending,
+                          startPosition,
+                          maxResult);
     return new ArrayList<Bug>(bugs);
   }
 
