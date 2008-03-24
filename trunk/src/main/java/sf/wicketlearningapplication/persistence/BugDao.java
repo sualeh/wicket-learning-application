@@ -60,7 +60,9 @@ public class BugDao
 
   public static List<Bug> listBugsByOwner(final User owner,
                                           final String orderBy,
-                                          final boolean isAscending)
+                                          final boolean isAscending,
+                                          int startPosition,
+                                          int maxResult)
   {
     final Collection<Bug> bugs;
     final EntityManager em = Persistence.getEntityManagerFactory()
@@ -68,11 +70,19 @@ public class BugDao
     final BugDao bugDao = new BugDao(em);
     if (UserDao.isAdmin(owner))
     {
-      bugs = bugDao.findAll(null, orderBy, isAscending);
+      bugs = bugDao.findAll(null,
+                            orderBy,
+                            isAscending,
+                            startPosition,
+                            maxResult);
     }
     else
     {
-      bugs = bugDao.findAll(owner, orderBy, isAscending);
+      bugs = bugDao.findAll(owner,
+                            orderBy,
+                            isAscending,
+                            startPosition,
+                            maxResult);
     }
     return new ArrayList<Bug>(bugs);
   }
@@ -132,7 +142,9 @@ public class BugDao
   @SuppressWarnings("unchecked")
   public List<Bug> findAll(final User owner,
                            final String orderBy,
-                           final boolean isAscending)
+                           final boolean isAscending,
+                           int startPosition,
+                           int maxResult)
   {
     beginTransaction();
     List<Bug> bugs = null;
@@ -150,6 +162,8 @@ public class BugDao
     {
       query.setParameter("owner", owner);
     }
+    query.setFirstResult(startPosition);
+    query.setMaxResults(maxResult);
     bugs = query.getResultList();
     commitTransaction();
 

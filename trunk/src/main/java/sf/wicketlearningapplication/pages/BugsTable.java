@@ -46,8 +46,8 @@ public class BugsTable
     {
       final SortParam sortParam = getSort();
       final List<Bug> bugsList = BugDao.listBugsByOwner(user, sortParam
-        .getProperty(), sortParam.isAscending());
-      return bugsList.listIterator(first);
+        .getProperty(), sortParam.isAscending(), first, count);
+      return bugsList.listIterator();
     }
 
     public IModel model(final Object object)
