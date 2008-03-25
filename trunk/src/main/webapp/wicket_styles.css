@@ -1,0 +1,20 @@
+tr.odd {
+	background-color: White;
+}
+
+tr.even {
+	background-color: #EEEEEE;
+}
+
+tr.navigation {
+	background-color: White;
+}
+
+tr.headers {
+	font-weight: bold;
+}
+
+li.feedbackPanelERROR {
+	color: red;
+	font-size: 7pt;
+}
