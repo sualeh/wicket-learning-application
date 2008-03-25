@@ -79,5 +79,6 @@ tr.headers {
 }
 
 li.feedbackPanelERROR {
-	color: red
+	color: red;
+	font-size: 7pt;
 }
