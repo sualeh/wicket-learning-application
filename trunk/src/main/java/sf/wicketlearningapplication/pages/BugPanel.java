@@ -29,7 +29,7 @@ public class BugPanel
     feedbackPanel.setOutputMarkupId(true);
     add(feedbackPanel);
 
-    add(new BugForm("bugAddForm", model));
+    add(new BugForm("bugForm", model));
   }
 
 }
