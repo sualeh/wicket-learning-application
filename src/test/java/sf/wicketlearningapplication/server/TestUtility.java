@@ -85,7 +85,7 @@ public class TestUtility
   private static String text()
   {
     final StringBuffer buffer = new StringBuffer();
-    final int words = random.nextInt(6) + 1;
+    final int words = random.nextInt(3) + 3;
     for (int i = 0; i < words; i++)
     {
       buffer.append(RandomStringUtils.randomAlphabetic(random.nextInt(5) + 1))
