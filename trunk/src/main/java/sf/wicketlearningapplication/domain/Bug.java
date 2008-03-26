@@ -14,7 +14,7 @@ package sf.wicketlearningapplication.domain;
 import java.io.Serializable;
 import java.util.Date;
 
-import javax.persistence.Basic;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -40,7 +40,7 @@ public class Bug
   private Severity severity;
   private User owner;
 
-  @Temporal(TemporalType.TIMESTAMP)
+  @Temporal(TemporalType.DATE)
   public Date getDueByDate()
   {
     if (dueByDate != null)
@@ -71,12 +71,13 @@ public class Bug
     return owner;
   }
 
+  @Column(nullable = false)
   public Severity getSeverity()
   {
     return severity;
   }
 
-  @Basic
+  @Column(nullable = false)
   public String getSummary()
   {
     return summary;
