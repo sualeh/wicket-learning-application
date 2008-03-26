@@ -11,13 +11,12 @@
 package sf.wicketlearningapplication.pages;
 
 
-import org.apache.wicket.AttributeModifier;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.markup.html.AjaxLink;
+import org.apache.wicket.behavior.SimpleAttributeModifier;
 import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.model.IModel;
-import org.apache.wicket.model.Model;
 
 import sf.wicketlearningapplication.domain.Bug;
 import sf.wicketlearningapplication.persistence.BugDao;
@@ -37,9 +36,8 @@ final class BugEditDeletePanel
       super(id, model);
 
       Long bugNumber = ((Bug) getModelObject()).getId();
-      final String callConfirmJs = String.format("return confirmDelete(%d)",
-                                                 bugNumber);
-      add(new AttributeModifier("onClick", true, new Model(callConfirmJs)));
+      add(new SimpleAttributeModifier("onClick", String.format("return confirmDelete(%d)",
+                                                 bugNumber)));
     }
 
     @Override
