@@ -45,6 +45,7 @@ final class BugEditDeletePanel
     {
       BugDao.deleteBug((Bug) getModelObject());
     }
+
   }
 
   private static final long serialVersionUID = 2753920209773575465L;
