@@ -44,7 +44,7 @@ final class BugForm
   extends Form
 {
 
-  final class BugSaveEditsButton
+  private final class BugSaveEditsButton
     extends IndicatingAjaxButton
   {
 
@@ -66,7 +66,7 @@ final class BugForm
 
   }
 
-  final class BugSaveNewButton
+  private final class BugSaveNewButton
     extends Button
   {
 

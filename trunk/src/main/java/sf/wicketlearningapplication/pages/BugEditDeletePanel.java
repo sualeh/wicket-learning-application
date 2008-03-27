@@ -25,7 +25,7 @@ final class BugEditDeletePanel
   extends Panel
 {
 
-  private static final class BugDeleteLink
+  private final class BugDeleteLink
     extends Link
   {
 
@@ -60,7 +60,7 @@ final class BugEditDeletePanel
                                                           model);
     add(bugEditDialog);
 
-    add(new AjaxLink("edit")
+    AjaxLink bugEditLink = new AjaxLink("edit")
     {
       private static final long serialVersionUID = -7501809051827115404L;
 
@@ -69,7 +69,8 @@ final class BugEditDeletePanel
       {
         bugEditDialog.show(target);
       }
-    });
+    };
+    add(bugEditLink);
 
   }
 }

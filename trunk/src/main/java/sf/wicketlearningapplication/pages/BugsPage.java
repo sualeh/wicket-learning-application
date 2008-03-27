@@ -11,10 +11,9 @@
 package sf.wicketlearningapplication.pages;
 
 
-import org.apache.wicket.ajax.AjaxRequestTarget;
-import org.apache.wicket.ajax.markup.html.AjaxLink;
 import org.apache.wicket.authorization.strategies.role.Roles;
 import org.apache.wicket.authorization.strategies.role.annotations.AuthorizeInstantiation;
+import org.apache.wicket.markup.html.link.Link;
 
 import sf.wicketlearningapplication.WicketLearningApplicationSession;
 import sf.wicketlearningapplication.domain.User;
@@ -34,18 +33,16 @@ public class BugsPage
 
     final BugPanel bugPanel = new BugPanel("bugAdd", null);
     bugPanel.setVisible(false);
-    bugPanel.setOutputMarkupPlaceholderTag(true);
     add(bugPanel);
 
-    final AjaxLink addBugLink = new AjaxLink("add")
+    final Link addBugLink = new Link("add")
     {
       private static final long serialVersionUID = -846141758899328311L;
 
       @Override
-      public void onClick(final AjaxRequestTarget target)
+      public void onClick()
       {
         bugPanel.setVisible(!bugPanel.isVisible());
-        target.addComponent(bugPanel);
       }
     };
     add(addBugLink);
