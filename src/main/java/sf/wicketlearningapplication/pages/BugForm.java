@@ -113,7 +113,6 @@ final class BugForm
 
     final TextField dueByDate = new DateTextField("dueByDate");
     dueByDate.add(new DatePicker());
-    dueByDate.setRequired(false);
     dueByDate.add(DateValidator.minimum(new Date()));
     add(dueByDate);
 
