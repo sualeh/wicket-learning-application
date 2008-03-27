@@ -84,8 +84,6 @@ final class BugForm
       BugDao.saveBug(bug, true);
 
       BugForm.this.setModel(new CompoundPropertyModel(new Bug()));
-
-      setResponsePage(getPage());
     }
 
   }
