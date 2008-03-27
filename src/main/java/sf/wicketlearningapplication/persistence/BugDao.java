@@ -61,8 +61,8 @@ public class BugDao
   public static List<Bug> listBugsByOwner(final User owner,
                                           final String orderBy,
                                           final boolean isAscending,
-                                          int startPosition,
-                                          int maxResult)
+                                          final int startPosition,
+                                          final int maxResult)
   {
     final Collection<Bug> bugs;
 
@@ -139,8 +139,8 @@ public class BugDao
   public List<Bug> findAll(final User owner,
                            final String orderBy,
                            final boolean isAscending,
-                           int startPosition,
-                           int maxResult)
+                           final int startPosition,
+                           final int maxResult)
   {
     beginTransaction();
     List<Bug> bugs = null;
