@@ -50,9 +50,9 @@ final class BugForm
 
     private static final long serialVersionUID = 7949306415616423528L;
 
-    BugSaveEditsButton(final String id, final Form form)
+    BugSaveEditsButton(final String id)
     {
-      super(id, form);
+      super(id, BugForm.this);
     }
 
     @Override
@@ -63,6 +63,7 @@ final class BugForm
       final Bug bug = (Bug) getForm().getModelObject();
       BugDao.saveBug(bug, false);
     }
+
   }
 
   final class BugSaveNewButton
@@ -86,6 +87,7 @@ final class BugForm
 
       setResponsePage(getPage());
     }
+
   }
 
   private static final long serialVersionUID = 2682300618749680498L;
@@ -131,7 +133,7 @@ final class BugForm
     if (isInEditMode)
     {
       AjaxFormValidatingBehavior.addToAllFormComponents(this, "onblur");
-      add(new BugSaveEditsButton("save", this));
+      add(new BugSaveEditsButton("save"));
     }
     else
     {
