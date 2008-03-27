@@ -21,6 +21,7 @@ import org.apache.wicket.extensions.ajax.markup.html.IndicatingAjaxButton;
 import org.apache.wicket.extensions.ajax.markup.html.modal.ModalWindow;
 import org.apache.wicket.extensions.markup.html.form.DateTextField;
 import org.apache.wicket.extensions.yui.calendar.DatePicker;
+import org.apache.wicket.markup.html.form.Button;
 import org.apache.wicket.markup.html.form.ChoiceRenderer;
 import org.apache.wicket.markup.html.form.DropDownChoice;
 import org.apache.wicket.markup.html.form.Form;
@@ -28,6 +29,7 @@ import org.apache.wicket.markup.html.form.RequiredTextField;
 import org.apache.wicket.markup.html.form.TextField;
 import org.apache.wicket.model.CompoundPropertyModel;
 import org.apache.wicket.model.IModel;
+import org.apache.wicket.model.Model;
 import org.apache.wicket.validation.validator.DateValidator;
 import org.apache.wicket.validation.validator.NumberValidator;
 import org.apache.wicket.validation.validator.StringValidator;
@@ -42,18 +44,15 @@ final class BugForm
   extends Form
 {
 
-  static final class BugSaveButton
+  final class BugSaveEditsButton
     extends IndicatingAjaxButton
   {
 
     private static final long serialVersionUID = 7949306415616423528L;
 
-    private final boolean isInEditMode;
-
-    BugSaveButton(final String id, final Form form, final boolean isInEditMode)
+    BugSaveEditsButton(final String id, final Form form)
     {
       super(id, form);
-      this.isInEditMode = isInEditMode;
     }
 
     @Override
@@ -62,14 +61,30 @@ final class BugForm
       ModalWindow.closeCurrent(target);
 
       final Bug bug = (Bug) getForm().getModelObject();
-      BugDao.saveBug(bug, !isInEditMode);
+      BugDao.saveBug(bug, false);
+    }
+  }
 
-      form.setModel(new CompoundPropertyModel(new Bug()));
+  final class BugSaveNewButton
+    extends Button
+  {
 
-      if (!isInEditMode)
-      {
-        setResponsePage(getPage());
-      }
+    private static final long serialVersionUID = 7949306415616423528L;
+
+    BugSaveNewButton(final String id, final String label)
+    {
+      super(id, new Model(label));
+    }
+
+    @Override
+    public void onSubmit()
+    {
+      final Bug bug = (Bug) getForm().getModelObject();
+      BugDao.saveBug(bug, true);
+
+      BugForm.this.setModel(new CompoundPropertyModel(new Bug()));
+
+      setResponsePage(getPage());
     }
   }
 
@@ -113,9 +128,16 @@ final class BugForm
     owner.setRequired(false);
     add(owner);
 
-    add(new BugSaveButton("save", this, isInEditMode));
+    if (isInEditMode)
+    {
+      AjaxFormValidatingBehavior.addToAllFormComponents(this, "onblur");
+      add(new BugSaveEditsButton("save", this));
+    }
+    else
+    {
+      add(new BugSaveNewButton("save", "Create"));
+    }
 
-    AjaxFormValidatingBehavior.addToAllFormComponents(this, "onblur");
   }
 
 }
