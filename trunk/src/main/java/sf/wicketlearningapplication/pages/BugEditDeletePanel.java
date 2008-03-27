@@ -44,7 +44,6 @@ final class BugEditDeletePanel
     public void onClick()
     {
       BugDao.deleteBug((Bug) getModelObject());
-      setResponsePage(getPage());
     }
   }
 
