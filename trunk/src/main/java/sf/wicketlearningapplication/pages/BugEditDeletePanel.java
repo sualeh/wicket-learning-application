@@ -35,9 +35,9 @@ final class BugEditDeletePanel
     {
       super(id, model);
 
-      Long bugNumber = ((Bug) getModelObject()).getId();
-      add(new SimpleAttributeModifier("onClick", String.format("return confirmDelete(%d)",
-                                                 bugNumber)));
+      final Long bugNumber = ((Bug) getModelObject()).getId();
+      add(new SimpleAttributeModifier("onClick", String
+        .format("return confirmDelete(%d)", bugNumber)));
     }
 
     @Override

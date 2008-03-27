@@ -43,6 +43,11 @@ class Dao<T>
     em.persist(entity);
   }
 
+  protected Query createQuery(final String query)
+  {
+    return em.createQuery(query);
+  }
+
   public void delete(final T entity)
   {
     em.remove(em.merge(entity));
@@ -87,11 +92,6 @@ class Dao<T>
   public void update(final T entity)
   {
     em.merge(entity);
-  }
-
-  protected Query createQuery(final String query)
-  {
-    return em.createQuery(query);
   }
 
 }
