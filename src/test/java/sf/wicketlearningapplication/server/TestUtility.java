@@ -82,7 +82,7 @@ public class TestUtility
     for (int i = 0; i < BUG_COUNT; i++)
     {
       final Bug bug = createNewBugInstance();
-      bug.setOwner(users.get((int) (Math.random() * 100 % USER_COUNT)));
+      bug.setOwner(users.get(random.nextInt(USER_COUNT - 1) + 1));
       // 
       bugDao.create(bug);
     }
