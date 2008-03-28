@@ -1,23 +1,22 @@
 package sf.wicketlearningapplication.pages;
 
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import org.apache.wicket.datetime.markup.html.basic.DateLabel;
 import org.apache.wicket.extensions.markup.html.repeater.data.table.AbstractColumn;
 import org.apache.wicket.extensions.markup.html.repeater.data.table.DefaultDataTable;
 import org.apache.wicket.extensions.markup.html.repeater.data.table.IColumn;
 import org.apache.wicket.extensions.markup.html.repeater.data.table.PropertyColumn;
 import org.apache.wicket.extensions.markup.html.repeater.util.SortParam;
 import org.apache.wicket.extensions.markup.html.repeater.util.SortableDataProvider;
-import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.repeater.Item;
 import org.apache.wicket.model.CompoundPropertyModel;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.Model;
+import org.apache.wicket.model.PropertyModel;
 
 import sf.wicketlearningapplication.domain.Bug;
 import sf.wicketlearningapplication.domain.User;
@@ -64,8 +63,6 @@ public class BugsTable
 
   private static final long serialVersionUID = 8016043970738990340L;
 
-  private static final DateFormat DATE_FORMAT = new SimpleDateFormat("MM/dd/yyyy");
-
   private static IColumn[] getColumns(final User user)
   {
     final List<IColumn> columns = new ArrayList<IColumn>();
@@ -96,14 +93,10 @@ public class BugsTable
                                final String componentId,
                                final IModel rowModel)
       {
-        final Bug bug = (Bug) rowModel.getObject();
-        String dueByDateString = "";
-        if (bug.getDueByDate() != null)
-        {
-          dueByDateString = DATE_FORMAT.format(bug.getDueByDate());
-        }
-        final Model model = new Model(dueByDateString);
-        cellItem.add(new Label(componentId, model));
+        cellItem.add(DateLabel.forDateStyle(componentId,
+                                            new PropertyModel(rowModel
+                                              .getObject(), "dueByDate"),
+                                            "L-"));
       }
     });
     columns.add(new PropertyColumn(new Model("Estimated Hours"),

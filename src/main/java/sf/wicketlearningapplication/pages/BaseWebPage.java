@@ -21,7 +21,7 @@ public abstract class BaseWebPage
 
   public BaseWebPage()
   {
-    add(new Link("signout")
+    Link signoutLink = new Link("signout")
     {
       private static final long serialVersionUID = 2517827682449605104L;
 
@@ -31,7 +31,8 @@ public abstract class BaseWebPage
         getSession().invalidate();
         setResponsePage(Application.get().getHomePage());
       }
-    });
+    };
+    add(signoutLink);
   }
 
 }
