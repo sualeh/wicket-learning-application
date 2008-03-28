@@ -31,7 +31,7 @@ public class BugsPage
       .getSignedInUser();
     add(new BugsTable("bugsTable", 10, user));
 
-    final BugPanel bugPanel = new BugPanel("bugAdd", null);
+    final BugFormPanel bugPanel = new BugFormPanel("bugAdd", null);
     bugPanel.setVisible(false);
     add(bugPanel);
 
