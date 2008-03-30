@@ -31,9 +31,9 @@ public class BugsPage
       .getSignedInUser();
     add(new BugsTable("bugsTable", 10, user));
 
-    final BugFormPanel bugPanel = new BugFormPanel("bugAdd", null);
-    bugPanel.setVisible(false);
-    add(bugPanel);
+    final BugFormPanel bugFormPanel = new BugFormPanel("bugAdd", null);
+    bugFormPanel.setVisible(false);
+    add(bugFormPanel);
 
     final Link addBugLink = new Link("add")
     {
@@ -42,7 +42,7 @@ public class BugsPage
       @Override
       public void onClick()
       {
-        bugPanel.setVisible(!bugPanel.isVisible());
+        bugFormPanel.setVisible(!bugFormPanel.isVisible());
       }
     };
     add(addBugLink);
