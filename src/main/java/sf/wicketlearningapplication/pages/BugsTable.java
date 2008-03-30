@@ -31,6 +31,7 @@ import org.apache.wicket.model.PropertyModel;
 import sf.wicketlearningapplication.domain.Bug;
 import sf.wicketlearningapplication.domain.User;
 import sf.wicketlearningapplication.persistence.BugDao;
+import sf.wicketlearningapplication.persistence.UserDao;
 
 public class BugsTable
   extends DefaultDataTable
@@ -112,7 +113,7 @@ public class BugsTable
     columns.add(new PropertyColumn(new Model("Estimated Hours"),
                                    "estimatedHours",
                                    "estimatedHours"));
-    if (user == null || user.getId() <= 1)
+    if (UserDao.isAdmin(user))
     {
       columns.add(new PropertyColumn(new Model("Owner"),
                                      "owner.name",
