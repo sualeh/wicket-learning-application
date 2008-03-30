@@ -60,8 +60,7 @@ final class BugForm
     {
       ModalWindow.closeCurrent(target);
 
-      final Bug bug = (Bug) form.getModelObject();
-      BugDao.saveBug(bug, false);
+      BugDao.saveBug((Bug) form.getModelObject(), false);
     }
 
   }
