@@ -60,7 +60,7 @@ final class BugEditDeletePanel
                                                           model);
     add(bugEditDialog);
 
-    AjaxLink bugEditLink = new AjaxLink("edit")
+    final AjaxLink bugEditLink = new AjaxLink("edit")
     {
       private static final long serialVersionUID = -7501809051827115404L;
 
