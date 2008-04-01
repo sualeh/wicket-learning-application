@@ -59,8 +59,7 @@ final class BugForm
     protected void onSubmit(final AjaxRequestTarget target, final Form form)
     {
       ModalWindow.closeCurrent(target);
-
-      BugDao.saveBug((Bug) form.getModelObject(), false);
+      BugDao.saveBug((Bug) form.getModelObject());
     }
 
   }
@@ -79,9 +78,7 @@ final class BugForm
     @Override
     public void onSubmit()
     {
-      final Bug bug = (Bug) getForm().getModelObject();
-      BugDao.saveBug(bug, true);
-
+      BugDao.createBug((Bug) getForm().getModelObject());
       BugForm.this.setModel(new CompoundPropertyModel(new Bug()));
     }
 
@@ -123,7 +120,6 @@ final class BugForm
                                                       .findAllUsers()),
                                                     new ChoiceRenderer("name",
                                                                        "id"));
-    owner.setRequired(false);
     add(owner);
 
     if (isInEditMode)

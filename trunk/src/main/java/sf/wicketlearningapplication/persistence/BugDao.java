@@ -44,6 +44,20 @@ public class BugDao
     return count;
   }
 
+  public static void createBug(final Bug bug)
+  {
+    final EntityManager em = Persistence.getEntityManagerFactory()
+      .createEntityManager();
+    final BugDao bugDao = new BugDao(em);
+
+    bugDao.beginTransaction();
+    bugDao.create(bug);
+    bugDao.commitTransaction();
+
+    em.clear();
+    em.close();
+  }
+
   public static void deleteBug(final Bug bug)
   {
     final EntityManager em = Persistence.getEntityManagerFactory()
@@ -83,21 +97,14 @@ public class BugDao
     return new ArrayList<Bug>(bugs);
   }
 
-  public static void saveBug(final Bug bug, final boolean create)
+  public static void saveBug(final Bug bug)
   {
     final EntityManager em = Persistence.getEntityManagerFactory()
       .createEntityManager();
     final BugDao bugDao = new BugDao(em);
 
     bugDao.beginTransaction();
-    if (create)
-    {
-      bugDao.create(bug);
-    }
-    else
-    {
-      bugDao.save(bug);
-    }
+    bugDao.save(bug);
     bugDao.commitTransaction();
 
     em.clear();
