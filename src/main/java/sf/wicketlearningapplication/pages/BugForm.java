@@ -44,46 +44,6 @@ final class BugForm
   extends Form
 {
 
-  private final class BugSaveEditsButton
-    extends IndicatingAjaxButton
-  {
-
-    private static final long serialVersionUID = 7949306415616423528L;
-
-    BugSaveEditsButton(final String id)
-    {
-      super(id, BugForm.this);
-    }
-
-    @Override
-    protected void onSubmit(final AjaxRequestTarget target, final Form form)
-    {
-      ModalWindow.closeCurrent(target);
-      BugDao.saveBug((Bug) form.getModelObject());
-    }
-
-  }
-
-  private final class BugSaveNewButton
-    extends Button
-  {
-
-    private static final long serialVersionUID = 7949306415616423528L;
-
-    BugSaveNewButton(final String id, final String label)
-    {
-      super(id, new Model(label));
-    }
-
-    @Override
-    public void onSubmit()
-    {
-      BugDao.createBug((Bug) getForm().getModelObject());
-      BugForm.this.setModel(new CompoundPropertyModel(new Bug()));
-    }
-
-  }
-
   private static final long serialVersionUID = 2682300618749680498L;
 
   BugForm(final String id, final IModel model)
@@ -125,11 +85,39 @@ final class BugForm
     if (isInEditMode)
     {
       AjaxFormValidatingBehavior.addToAllFormComponents(this, "onblur");
-      add(new BugSaveEditsButton("save"));
+
+      final IndicatingAjaxButton saveButton = new IndicatingAjaxButton("save",
+        BugForm.this)
+      {
+
+        private static final long serialVersionUID = 7949306415616423528L;
+
+        @Override
+        protected void onSubmit(final AjaxRequestTarget target, final Form form)
+        {
+          ModalWindow.closeCurrent(target);
+          BugDao.saveBug((Bug) form.getModelObject());
+        }
+
+      };
+      add(saveButton);
     }
     else
     {
-      add(new BugSaveNewButton("save", "Create"));
+      final Button createButton = new Button("save", new Model("Create"))
+      {
+
+        private static final long serialVersionUID = 7949306415616423528L;
+
+        @Override
+        public void onSubmit()
+        {
+          BugDao.createBug((Bug) getForm().getModelObject());
+          BugForm.this.setModel(new CompoundPropertyModel(new Bug()));
+        }
+
+      };
+      add(createButton);
     }
 
   }
