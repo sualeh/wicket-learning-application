@@ -26,13 +26,14 @@ public class BugEditDialog
   public BugEditDialog(final String id, final IModel model)
   {
     super(id);
+
     final Long bugNumber = ((Bug) model.getObject()).getId();
     setContent(new BugFormPanel(getContentId(), model));
     setTitle(String.format("Edit bug #%d", bugNumber));
     setInitialHeight(200);
     setInitialWidth(350);
 
-    setWindowClosedCallback(new ModalWindow.WindowClosedCallback()
+    final ModalWindow.WindowClosedCallback modalWindowClosedCallback = new ModalWindow.WindowClosedCallback()
     {
       private static final long serialVersionUID = 2578038324045130551L;
 
@@ -41,7 +42,8 @@ public class BugEditDialog
       {
         setResponsePage(getPage());
       }
-    });
+    };
+    setWindowClosedCallback(modalWindowClosedCallback);
   }
 
 }
