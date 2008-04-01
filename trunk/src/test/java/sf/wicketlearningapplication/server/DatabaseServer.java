@@ -37,29 +37,22 @@ public class DatabaseServer
     catch (final ClassNotFoundException e)
     {
       e.printStackTrace();
-      System.exit(1);
+      throw new RuntimeException("Cannot load database driver", e);
     }
   }
 
   public static void main(final String[] args)
+    throws Exception
   {
-    try
-    {
-      final DatabaseServer databaseServer = new DatabaseServer();
-      databaseServer.start();
-      TestUtility.createData();
+    final DatabaseServer databaseServer = new DatabaseServer();
+    databaseServer.start();
+    TestUtility.createData();
 
-      while (System.in.available() == 0)
-      {
-        Thread.sleep(5000);
-      }
-      databaseServer.stop();
-    }
-    catch (final Exception e)
+    while (System.in.available() == 0)
     {
-      e.printStackTrace();
-      System.exit(100);
+      Thread.sleep(5000);
     }
+    databaseServer.stop();
   }
 
   private final File workingDirectory;
@@ -123,6 +116,17 @@ public class DatabaseServer
     }
     finally
     {
+      try
+      {
+        if (statement != null)
+        {
+          statement.close();
+        }
+      }
+      catch (final SQLException e)
+      {
+        LOGGER.log(Level.WARNING, "", e);
+      }
       try
       {
         if (connection != null)

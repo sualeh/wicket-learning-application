@@ -122,9 +122,9 @@ public class BugsTable
     return columns.toArray(new IColumn[columns.size()]);
   }
 
-  BugsTable(final String id, final int itemsPerPage, final User user)
+  BugsTable(final String id, final User user)
   {
-    super(id, getColumns(user), new BugsDataProvider(user), itemsPerPage);
+    super(id, getColumns(user), new BugsDataProvider(user), 10);
   }
 
 }

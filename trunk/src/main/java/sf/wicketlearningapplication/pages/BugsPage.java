@@ -29,7 +29,7 @@ public class BugsPage
   {
     final User user = ((WicketLearningApplicationSession) getSession())
       .getSignedInUser();
-    add(new BugsTable("bugsTable", 10, user));
+    add(new BugsTable("bugsTable", user));
 
     final BugFormPanel bugFormPanel = new BugFormPanel("bugAdd", null);
     bugFormPanel.setVisible(false);
