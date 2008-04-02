@@ -15,7 +15,7 @@ import org.apache.wicket.authorization.strategies.role.Roles;
 import org.apache.wicket.authorization.strategies.role.annotations.AuthorizeInstantiation;
 
 @AuthorizeInstantiation(Roles.USER)
-public class HomePage
+public final class HomePage
   extends BaseWebPage
 {
 

@@ -15,11 +15,11 @@ import org.apache.wicket.Application;
 import org.apache.wicket.markup.html.WebPage;
 import org.apache.wicket.markup.html.link.Link;
 
-public abstract class BaseWebPage
+abstract class BaseWebPage
   extends WebPage
 {
 
-  public BaseWebPage()
+  BaseWebPage()
   {
     final Link signoutLink = new Link("signout")
     {
