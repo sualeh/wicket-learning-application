@@ -33,7 +33,7 @@ public class BugDao
     final EntityManager em = Persistence.getEntityManagerFactory()
       .createEntityManager();
     final BugDao bugDao = new BugDao(em);
-    if (UserDao.isAdmin(owner))
+    if (owner.isAdmin())
     {
       count = bugDao.countAll();
     }
@@ -81,7 +81,7 @@ public class BugDao
     final Collection<Bug> bugs;
 
     User findByOwner = null;
-    if (!UserDao.isAdmin(owner))
+    if (!owner.isAdmin())
     {
       findByOwner = owner;
     }

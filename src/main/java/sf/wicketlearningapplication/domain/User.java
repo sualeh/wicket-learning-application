@@ -30,6 +30,7 @@ public class User
   private String name;
   private String username;
   private String password;
+  private boolean isAdmin;
 
   @Id
   @GeneratedValue(strategy = GenerationType.AUTO)
@@ -54,6 +55,16 @@ public class User
   public String getUsername()
   {
     return username;
+  }
+
+  public boolean isAdmin()
+  {
+    return isAdmin;
+  }
+
+  public void setAdmin(final boolean isAdmin)
+  {
+    this.isAdmin = isAdmin;
   }
 
   public void setId(final Long id)

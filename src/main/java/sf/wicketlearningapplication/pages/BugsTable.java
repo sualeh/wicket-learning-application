@@ -117,7 +117,7 @@ public class BugsTable
     columns.add(new PropertyColumn(new Model("Estimated Hours"),
                                    "estimatedHours",
                                    "estimatedHours"));
-    if (UserDao.isAdmin(user))
+    if (user.isAdmin())
     {
       columns.add(new PropertyColumn(new Model("Owner"),
         "owner.name",

@@ -71,6 +71,10 @@ public class TestUtility
     for (int i = 0; i < USER_COUNT; i++)
     {
       final User user = createNewUserInstance(i);
+      if (i == 0)
+      {
+        user.setAdmin(true);
+      }
       // 
       userDao.create(user);
       users.add(user);
