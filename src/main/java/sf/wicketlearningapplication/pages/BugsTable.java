@@ -81,7 +81,7 @@ public class BugsTable
   private static IColumn[] getColumns(final User user)
   {
     final List<IColumn> columns = new ArrayList<IColumn>();
-    columns.add(new AbstractColumn(new Model("Edit/ Delete"))
+    columns.add(new AbstractColumn(new Model(""))
     {
       private static final long serialVersionUID = 6566804574749277918L;
 
