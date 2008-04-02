@@ -15,13 +15,17 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.datetime.markup.html.basic.DateLabel;
+import org.apache.wicket.extensions.ajax.markup.html.AjaxEditableChoiceLabel;
 import org.apache.wicket.extensions.markup.html.repeater.data.table.AbstractColumn;
 import org.apache.wicket.extensions.markup.html.repeater.data.table.DefaultDataTable;
 import org.apache.wicket.extensions.markup.html.repeater.data.table.IColumn;
 import org.apache.wicket.extensions.markup.html.repeater.data.table.PropertyColumn;
 import org.apache.wicket.extensions.markup.html.repeater.util.SortParam;
 import org.apache.wicket.extensions.markup.html.repeater.util.SortableDataProvider;
+import org.apache.wicket.markup.html.form.ChoiceRenderer;
+import org.apache.wicket.markup.html.form.IChoiceRenderer;
 import org.apache.wicket.markup.repeater.Item;
 import org.apache.wicket.model.CompoundPropertyModel;
 import org.apache.wicket.model.IModel;
@@ -116,8 +120,51 @@ public class BugsTable
     if (UserDao.isAdmin(user))
     {
       columns.add(new PropertyColumn(new Model("Owner"),
-                                     "owner.name",
-                                     "owner.name"));
+        "owner.name",
+        "owner.name")
+      {
+        private static final long serialVersionUID = 3017864173690322164L;
+
+        @Override
+        public void populateItem(final Item cellItem,
+                                 final String componentId,
+                                 final IModel rowModel)
+        {
+          class EditableOwnerChoice
+            extends AjaxEditableChoiceLabel
+          {
+            private static final long serialVersionUID = -6892026330177948403L;
+
+            private final Bug bug;
+
+            private EditableOwnerChoice(String id,
+                                        IModel model,
+                                        List<User> users,
+                                        IChoiceRenderer renderer)
+            {
+              super(id,
+                    new PropertyModel(model.getObject(), "owner"),
+                    users,
+                    renderer);
+              bug = (Bug) model.getObject();
+            }
+
+            @Override
+            protected void onSubmit(AjaxRequestTarget target)
+            {
+              super.onSubmit(target);
+              bug.setOwner((User) getModelObject());
+              BugDao.saveBug(bug);
+            }
+          }
+          cellItem
+            .add(new EditableOwnerChoice(componentId,
+                                         rowModel,
+                                         new ArrayList<User>(UserDao
+                                           .findAllUsers()),
+                                         new ChoiceRenderer("name", "id")));
+        }
+      });
     }
     return columns.toArray(new IColumn[columns.size()]);
   }
