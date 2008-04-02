@@ -33,7 +33,7 @@ import sf.wicketlearningapplication.domain.User;
 import sf.wicketlearningapplication.persistence.BugDao;
 import sf.wicketlearningapplication.persistence.UserDao;
 
-public class BugsTable
+final class BugsTable
   extends DefaultDataTable
 {
 

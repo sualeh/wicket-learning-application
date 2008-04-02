@@ -19,7 +19,7 @@ import sf.wicketlearningapplication.WicketLearningApplicationSession;
 import sf.wicketlearningapplication.domain.User;
 
 @AuthorizeInstantiation(Roles.USER)
-public class BugsPage
+public final class BugsPage
   extends BaseWebPage
 {
 
