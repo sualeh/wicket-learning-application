@@ -20,6 +20,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
@@ -27,6 +29,9 @@ import org.apache.commons.lang.builder.ReflectionToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
 
 @Entity
+@NamedQueries( {
+  @NamedQuery(name = "count", query = "select count(b.id) from Bug b, User u where (u = :owner and u.admin = true) or (b.owner = :owner and b.owner = u)"),
+})
 public class Bug
   implements Serializable
 {
