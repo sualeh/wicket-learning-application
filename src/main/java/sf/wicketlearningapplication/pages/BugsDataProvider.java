@@ -10,6 +10,7 @@
  */
 package sf.wicketlearningapplication.pages;
 
+
 import java.util.Iterator;
 import java.util.List;
 
@@ -36,7 +37,6 @@ final class BugsDataProvider
     setSort(new SortParam("severity", true));
   }
 
-  @SuppressWarnings("unused")
   public Iterator<Bug> iterator(final int first, final int count)
   {
     final SortParam sortParam = getSort();
