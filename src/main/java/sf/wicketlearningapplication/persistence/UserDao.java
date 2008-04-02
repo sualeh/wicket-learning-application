@@ -15,6 +15,7 @@ import java.util.Collection;
 
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
+import javax.persistence.Query;
 
 import sf.wicketlearningapplication.domain.User;
 
@@ -60,10 +61,9 @@ public class UserDao
   public User find(final String username, final String password)
   {
     beginTransaction();
-    User user = null;
-    final String query = "from User u where u.username = :username and u.password = :password";
-    user = (User) createQuery(query).setParameter("username", username)
-      .setParameter("password", password).getSingleResult();
+    final Query query = createNamedQuery("authentication");
+    query.setParameter("username", username).setParameter("password", password);
+    User user = (User) query.getSingleResult();
     commitTransaction();
     return user;
   }

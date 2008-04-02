@@ -94,4 +94,9 @@ class Dao<T>
     return em.createQuery(query);
   }
 
+  protected Query createNamedQuery(final String namedQuery)
+  {
+    return em.createNamedQuery(namedQuery);
+  }
+
 }
