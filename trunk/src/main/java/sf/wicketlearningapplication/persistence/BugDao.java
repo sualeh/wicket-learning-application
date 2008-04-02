@@ -29,19 +29,10 @@ public class BugDao
 
   public static int countBugsByOwner(final User owner)
   {
-    int count = 0;
     final EntityManager em = Persistence.getEntityManagerFactory()
       .createEntityManager();
     final BugDao bugDao = new BugDao(em);
-    if (owner.isAdmin())
-    {
-      count = bugDao.countAll();
-    }
-    else
-    {
-      count = bugDao.countAllForOwner(owner);
-    }
-    return count;
+    return bugDao.count(owner);
   }
 
   public static void createBug(final Bug bug)
@@ -116,27 +107,12 @@ public class BugDao
     super(em);
   }
 
-  public int countAll()
+  public int count(final User owner)
   {
     beginTransaction();
-    final String hql = "select count(*) from Bug b";
-    final int count = ((Number) createQuery(hql).getSingleResult()).intValue();
-    commitTransaction();
-
-    return count;
-  }
-
-  public int countAllForOwner(final User owner)
-  {
-    if (owner == null)
-    {
-      throw new IllegalArgumentException("No owner provided");
-    }
-
-    beginTransaction();
-    final String hql = "select count(*) from Bug b where b.owner = :owner";
-    final int count = ((Number) createQuery(hql).setParameter("owner", owner)
-      .getSingleResult()).intValue();
+    final Query query = createNamedQuery("count");
+    query.setParameter("owner", owner);
+    final int count = ((Number) query.getSingleResult()).intValue();
     commitTransaction();
 
     return count;
