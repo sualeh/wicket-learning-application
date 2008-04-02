@@ -36,7 +36,6 @@ public class DatabaseServer
     }
     catch (final ClassNotFoundException e)
     {
-      e.printStackTrace();
       throw new RuntimeException("Cannot load database driver", e);
     }
   }

@@ -47,7 +47,7 @@ public class WicketLearningApplicationSession
     if (isSignedIn())
     {
       roles.add(Roles.USER);
-      if (UserDao.isAdmin(signedInUser))
+      if (signedInUser.isAdmin())
       {
         roles.add(Roles.ADMIN);
       }

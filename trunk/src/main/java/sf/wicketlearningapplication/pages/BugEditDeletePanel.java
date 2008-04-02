@@ -18,7 +18,9 @@ import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.model.IModel;
 
+import sf.wicketlearningapplication.WicketLearningApplicationSession;
 import sf.wicketlearningapplication.domain.Bug;
+import sf.wicketlearningapplication.domain.User;
 import sf.wicketlearningapplication.persistence.BugDao;
 
 final class BugEditDeletePanel
@@ -54,7 +56,15 @@ final class BugEditDeletePanel
   {
     super(id, model);
 
-    add(new BugDeleteLink("delete", model));
+    final User user = ((WicketLearningApplicationSession) getSession())
+      .getSignedInUser();
+
+    final BugDeleteLink bugDeleteLink = new BugDeleteLink("delete", model);
+    if (!user.isAdmin())
+    {
+      bugDeleteLink.setVisible(false);
+    }
+    add(bugDeleteLink);
 
     final BugEditDialog bugEditDialog = new BugEditDialog("bugEditDialog",
                                                           model);
