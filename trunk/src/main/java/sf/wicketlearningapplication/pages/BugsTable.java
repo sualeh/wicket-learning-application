@@ -27,6 +27,7 @@ import org.apache.wicket.markup.repeater.Item;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.Model;
 import org.apache.wicket.model.PropertyModel;
+import org.apache.wicket.model.ResourceModel;
 
 import sf.wicketlearningapplication.domain.Bug;
 import sf.wicketlearningapplication.domain.User;
@@ -53,12 +54,16 @@ final class BugsTable
         cellItem.add(new BugEditDeletePanel(componentId, rowModel));
       }
     });
-    columns.add(new PropertyColumn(new Model("Number"), "id", "id"));
-    columns.add(new PropertyColumn(new Model("Summary"), "summary", "summary"));
-    columns.add(new PropertyColumn(new Model("Severity"),
+    columns.add(new PropertyColumn(new ResourceModel("bugForm.number"),
+                                   "id",
+                                   "id"));
+    columns.add(new PropertyColumn(new ResourceModel("bugForm.summary"),
+                                   "summary",
+                                   "summary"));
+    columns.add(new PropertyColumn(new ResourceModel("bugForm.severity"),
                                    "severity",
                                    "severity"));
-    columns.add(new PropertyColumn(new Model("Due By Date"),
+    columns.add(new PropertyColumn(new ResourceModel("bugForm.dueByDate"),
       "dueByDate",
       "dueByDate")
     {
@@ -75,12 +80,12 @@ final class BugsTable
                                             "L-"));
       }
     });
-    columns.add(new PropertyColumn(new Model("Estimated Hours"),
+    columns.add(new PropertyColumn(new ResourceModel("bugForm.estimatedHours"),
                                    "estimatedHours",
                                    "estimatedHours"));
     if (user.isAdmin())
     {
-      columns.add(new PropertyColumn(new Model("Owner"),
+      columns.add(new PropertyColumn(new ResourceModel("bugForm.owner"),
         "owner.name",
         "owner.name")
       {
