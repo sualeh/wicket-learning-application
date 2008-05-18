@@ -15,13 +15,15 @@ import org.apache.wicket.markup.html.panel.FeedbackPanel;
 import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.model.IModel;
 
+import sf.wicketlearningapplication.domain.Bug;
+
 final class BugFormPanel
-  extends Panel
+  extends Panel<Bug>
 {
 
   private static final long serialVersionUID = 8546164546033425516L;
 
-  BugFormPanel(final String id, final IModel model)
+  BugFormPanel(final String id, final IModel<Bug> model)
   {
     super(id, model);
 

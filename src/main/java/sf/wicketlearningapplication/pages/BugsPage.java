@@ -35,7 +35,7 @@ public final class BugsPage
     bugFormPanel.setVisible(false);
     add(bugFormPanel);
 
-    final Link addBugLink = new Link("add")
+    final Link<Void> addBugLink = new Link<Void>("add")
     {
       private static final long serialVersionUID = -846141758899328311L;
 

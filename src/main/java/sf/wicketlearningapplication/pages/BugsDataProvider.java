@@ -24,7 +24,7 @@ import sf.wicketlearningapplication.domain.User;
 import sf.wicketlearningapplication.persistence.BugDao;
 
 final class BugsDataProvider
-  extends SortableDataProvider
+  extends SortableDataProvider<Bug>
 {
 
   private static final long serialVersionUID = -7664388454797401713L;
@@ -45,9 +45,9 @@ final class BugsDataProvider
     return bugsList.listIterator();
   }
 
-  public IModel model(final Object object)
+  public IModel<Bug> model(final Bug bug)
   {
-    return new CompoundPropertyModel(object);
+    return new CompoundPropertyModel<Bug>(bug);
   }
 
   public int size()

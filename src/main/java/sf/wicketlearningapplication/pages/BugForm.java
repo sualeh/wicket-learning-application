@@ -14,12 +14,12 @@ package sf.wicketlearningapplication.pages;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.List;
 
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.form.AjaxFormValidatingBehavior;
 import org.apache.wicket.extensions.ajax.markup.html.IndicatingAjaxButton;
 import org.apache.wicket.extensions.ajax.markup.html.modal.ModalWindow;
-import org.apache.wicket.extensions.markup.html.form.DateTextField;
 import org.apache.wicket.extensions.yui.calendar.DatePicker;
 import org.apache.wicket.markup.html.form.Button;
 import org.apache.wicket.markup.html.form.ChoiceRenderer;
@@ -41,59 +41,61 @@ import sf.wicketlearningapplication.persistence.BugDao;
 import sf.wicketlearningapplication.persistence.UserDao;
 
 final class BugForm
-  extends Form
+  extends Form<Bug>
 {
 
   private static final long serialVersionUID = 2682300618749680498L;
 
-  BugForm(final String id, final IModel model)
+  BugForm(final String id, final IModel<Bug> model)
   {
     super(id, model);
 
     final boolean isInEditMode = model != null;
     if (!isInEditMode)
     {
-      setModel(new CompoundPropertyModel(new Bug()));
+      setModel(new CompoundPropertyModel<Bug>(new Bug()));
     }
 
-    final TextField summary = new RequiredTextField("summary");
+    final TextField<String> summary = new RequiredTextField<String>("summary");
     summary.add(StringValidator.maximumLength(256));
     add(summary);
 
-    final DropDownChoice severity = new DropDownChoice("severity", Arrays
-      .asList(Severity.values()));
+    final List<Severity> severities = Arrays.asList(Severity.values());
+    final DropDownChoice<Severity> severity = new DropDownChoice<Severity>("severity",
+                                                                           severities);
     severity.setRequired(true);
     add(severity);
 
-    final TextField dueByDate = new DateTextField("dueByDate");
+    final TextField<Date> dueByDate = new TextField<Date>("dueByDate");
     dueByDate.add(new DatePicker());
     dueByDate.add(DateValidator.minimum(new Date()));
     add(dueByDate);
 
-    final TextField estimatedHours = new TextField("estimatedHours",
-                                                   Integer.class);
+    final TextField<Integer> estimatedHours = new TextField<Integer>("estimatedHours",
+                                                                     Integer.class);
     estimatedHours.add(NumberValidator.POSITIVE);
     add(estimatedHours);
 
-    final DropDownChoice owner = new DropDownChoice("owner",
-                                                    new ArrayList<User>(UserDao
-                                                      .findAllUsers()),
-                                                    new ChoiceRenderer("name",
-                                                                       "id"));
+    final List<User> users = new ArrayList<User>(UserDao.findAllUsers());
+    final DropDownChoice<User> owner = new DropDownChoice<User>("owner",
+                                                                users,
+                                                                new ChoiceRenderer<User>("name",
+                                                                                         "id"));
     add(owner);
 
     if (isInEditMode)
     {
       AjaxFormValidatingBehavior.addToAllFormComponents(this, "onblur");
 
-      final IndicatingAjaxButton saveButton = new IndicatingAjaxButton("save",
+      final IndicatingAjaxButton<Void> saveButton = new IndicatingAjaxButton<Void>("save",
         BugForm.this)
       {
 
         private static final long serialVersionUID = 7949306415616423528L;
 
         @Override
-        protected void onSubmit(final AjaxRequestTarget target, final Form form)
+        protected void onSubmit(final AjaxRequestTarget target,
+                                final Form<?> form)
         {
           ModalWindow.closeCurrent(target);
           BugDao.saveBug((Bug) form.getModelObject());
@@ -104,7 +106,8 @@ final class BugForm
     }
     else
     {
-      final Button createButton = new Button("save", new Model("Create"))
+      final Button<String> createButton = new Button<String>("save",
+        new Model<String>("Create"))
       {
 
         private static final long serialVersionUID = 7949306415616423528L;
@@ -113,7 +116,7 @@ final class BugForm
         public void onSubmit()
         {
           BugDao.createBug((Bug) getForm().getModelObject());
-          BugForm.this.setModel(new CompoundPropertyModel(new Bug()));
+          BugForm.this.setModel(new CompoundPropertyModel<Bug>(new Bug()));
         }
 
       };

@@ -12,7 +12,6 @@ package sf.wicketlearningapplication;
 
 
 import org.apache.wicket.Request;
-import org.apache.wicket.authentication.AuthenticatedWebApplication;
 import org.apache.wicket.authentication.AuthenticatedWebSession;
 import org.apache.wicket.authorization.strategies.role.Roles;
 
@@ -27,10 +26,9 @@ public class WicketLearningApplicationSession
 
   private User signedInUser;
 
-  public WicketLearningApplicationSession(final AuthenticatedWebApplication application,
-                                          final Request request)
+  public WicketLearningApplicationSession(final Request request)
   {
-    super(application, request);
+    super(request);
   }
 
   @Override

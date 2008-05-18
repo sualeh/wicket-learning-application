@@ -24,35 +24,34 @@ import sf.wicketlearningapplication.domain.User;
 import sf.wicketlearningapplication.persistence.BugDao;
 
 final class BugEditDeletePanel
-  extends Panel
+  extends Panel<Bug>
 {
 
   private static final class BugDeleteLink
-    extends Link
+    extends Link<Bug>
   {
 
     private static final long serialVersionUID = 8375528747622018389L;
 
-    private BugDeleteLink(final String id, final IModel model)
+    private BugDeleteLink(final String id, final IModel<Bug> model)
     {
       super(id, model);
 
-      final Long bugNumber = ((Bug) getModelObject()).getId();
       add(new SimpleAttributeModifier("onClick", String
-        .format("return confirmDelete(%d)", bugNumber)));
+        .format("return confirmDelete(%d)", getModelObject().getId())));
     }
 
     @Override
     public void onClick()
     {
-      BugDao.deleteBug((Bug) getModelObject());
+      BugDao.deleteBug(getModelObject());
     }
 
   }
 
   private static final long serialVersionUID = 2753920209773575465L;
 
-  BugEditDeletePanel(final String id, final IModel model)
+  BugEditDeletePanel(final String id, final IModel<Bug> model)
   {
     super(id, model);
 
@@ -70,7 +69,7 @@ final class BugEditDeletePanel
                                                           model);
     add(bugEditDialog);
 
-    final AjaxLink bugEditLink = new AjaxLink("edit")
+    final AjaxLink<Void> bugEditLink = new AjaxLink<Void>("edit")
     {
       private static final long serialVersionUID = -7501809051827115404L;
 
