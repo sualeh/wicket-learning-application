@@ -16,12 +16,12 @@ import org.apache.wicket.markup.html.WebPage;
 import org.apache.wicket.markup.html.link.Link;
 
 abstract class BaseWebPage
-  extends WebPage
+  extends WebPage<Void>
 {
 
   BaseWebPage()
   {
-    final Link signoutLink = new Link("signout")
+    final Link<Void> signoutLink = new Link<Void>("signout")
     {
       private static final long serialVersionUID = 2517827682449605104L;
 

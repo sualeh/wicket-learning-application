@@ -11,6 +11,7 @@
 package sf.wicketlearningapplication;
 
 
+import org.apache.wicket.Page;
 import org.apache.wicket.authentication.AuthenticatedWebApplication;
 import org.apache.wicket.authentication.AuthenticatedWebSession;
 import org.apache.wicket.authentication.pages.SignInPage;
@@ -24,13 +25,13 @@ public class WicketLearningApplication
 {
 
   @Override
-  public Class<? extends WebPage> getHomePage()
+  public Class<? extends Page<?>> getHomePage()
   {
     return HomePage.class;
   }
 
   @Override
-  protected Class<? extends WebPage> getSignInPageClass()
+  protected Class<? extends WebPage<?>> getSignInPageClass()
   {
     return SignInPage.class;
   }

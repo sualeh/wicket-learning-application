@@ -23,13 +23,12 @@ final class BugEditDialog
 
   private static final long serialVersionUID = 5522553988105296877L;
 
-  BugEditDialog(final String id, final IModel model)
+  BugEditDialog(final String id, final IModel<Bug> model)
   {
     super(id);
 
-    final Long bugNumber = ((Bug) model.getObject()).getId();
     setContent(new BugFormPanel(getContentId(), model));
-    setTitle(String.format("Edit bug #%d", bugNumber));
+    setTitle(String.format("Edit bug #%d", model.getObject().getId()));
     setInitialHeight(200);
     setInitialWidth(350);
 
