@@ -20,8 +20,8 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
 
-import org.junit.After;
-import org.junit.Before;
+import org.junit.AfterClass;
+import org.junit.BeforeClass;
 import org.junit.Test;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -39,8 +39,27 @@ public class TestSpringJpa
   private static final String BUG_COUNT_SQL = "SELECT COUNT(*) FROM Bug";
   private static final String USER_COUNT_SQL = "SELECT COUNT(*) FROM User";
 
-  private ClassPathXmlApplicationContext context;
-  private DatabaseServer databaseServer;
+  private static ClassPathXmlApplicationContext context;
+  private static DatabaseServer databaseServer;
+
+  @BeforeClass
+  public static void start()
+  {
+    databaseServer = new DatabaseServer();
+    databaseServer.start();
+
+    context = new ClassPathXmlApplicationContext("WEB-INF/applicationContext.xml");
+  }
+
+  @AfterClass
+  public static void tearDown()
+  {
+    context.close();
+    context = null;
+
+    databaseServer.stop();
+    databaseServer = null;
+  }
 
   @Test
   public void bugs()
@@ -91,25 +110,6 @@ public class TestSpringJpa
     count = jdbcTemplate.queryForInt(BUG_COUNT_SQL);
     assertEquals("Delete test: Number of bugs do not match", 0, count);
 
-  }
-
-  @Before
-  public void setUp()
-  {
-    databaseServer = new DatabaseServer();
-    databaseServer.start();
-
-    context = new ClassPathXmlApplicationContext("context.xml");
-  }
-
-  @After
-  public void tearDown()
-  {
-    context.close();
-    context = null;
-
-    databaseServer.stop();
-    databaseServer = null;
   }
 
   @Test

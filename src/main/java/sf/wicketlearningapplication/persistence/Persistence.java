@@ -24,7 +24,7 @@ public final class Persistence
   {
     if (context == null)
     {
-      context = new ClassPathXmlApplicationContext("context.xml");
+      context = new ClassPathXmlApplicationContext("WEB-INF/applicationContext.xml");
     }
     return (EntityManagerFactory) context.getBean("entityManagerFactory",
                                                   EntityManagerFactory.class);

@@ -27,14 +27,6 @@ public class BugDao
   extends Dao<Bug>
 {
 
-  public static int countBugsByOwner(final User owner)
-  {
-    final EntityManager em = Persistence.getEntityManagerFactory()
-      .createEntityManager();
-    final BugDao bugDao = new BugDao(em);
-    return bugDao.count(owner);
-  }
-
   public static void createBug(final Bug bug)
   {
     final EntityManager em = Persistence.getEntityManagerFactory()

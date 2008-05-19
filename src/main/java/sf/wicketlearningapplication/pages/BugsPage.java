@@ -11,9 +11,12 @@
 package sf.wicketlearningapplication.pages;
 
 
+import javax.persistence.EntityManagerFactory;
+
 import org.apache.wicket.authorization.strategies.role.Roles;
 import org.apache.wicket.authorization.strategies.role.annotations.AuthorizeInstantiation;
 import org.apache.wicket.markup.html.link.Link;
+import org.apache.wicket.spring.injection.annot.SpringBean;
 
 import sf.wicketlearningapplication.WicketLearningApplicationSession;
 import sf.wicketlearningapplication.domain.User;
@@ -25,11 +28,14 @@ public final class BugsPage
 
   private static final long serialVersionUID = -4454721164415868831L;
 
+  @SpringBean
+  private EntityManagerFactory entityManagerFactory;
+
   public BugsPage()
   {
     final User user = ((WicketLearningApplicationSession) getSession())
       .getSignedInUser();
-    add(new BugsTable("bugsTable", user));
+    add(new BugsTable("bugsTable", entityManagerFactory, user));
 
     final BugFormPanel bugFormPanel = new BugFormPanel("bugAdd", null);
     bugFormPanel.setVisible(false);

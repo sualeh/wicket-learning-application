@@ -16,6 +16,7 @@ import org.apache.wicket.authentication.AuthenticatedWebApplication;
 import org.apache.wicket.authentication.AuthenticatedWebSession;
 import org.apache.wicket.authentication.pages.SignInPage;
 import org.apache.wicket.markup.html.WebPage;
+import org.apache.wicket.spring.injection.annot.SpringComponentInjector;
 import org.apache.wicket.util.lang.PackageName;
 
 import sf.wicketlearningapplication.pages.HomePage;
@@ -46,6 +47,9 @@ public class WicketLearningApplication
   protected void init()
   {
     super.init();
+
+    addComponentInstantiationListener(new SpringComponentInjector(this));
+
     mount("/wicketlearningapplication", PackageName.forClass(HomePage.class));
     mountBookmarkablePage("/wicketlearningapplication/SignInPage",
                           SignInPage.class);
