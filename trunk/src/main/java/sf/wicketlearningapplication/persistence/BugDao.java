@@ -32,32 +32,13 @@ public final class BugDao
 
   public int count(final User owner)
   {
-    beginTransaction();
-    final Query query = createNamedQuery("count");
+    em.getTransaction().begin();
+    final Query query = em.createNamedQuery("count");
     query.setParameter("owner", owner);
     final int count = ((Number) query.getSingleResult()).intValue();
-    commitTransaction();
+    em.getTransaction().commit();
 
     return count;
-  }
-
-  @Override
-  public void create(final Bug bug)
-  {
-    beginTransaction();
-    super.create(bug);
-    flush();
-    commitTransaction();
-  }
-
-  @Override
-  public void delete(final Bug bug)
-  {
-
-    beginTransaction();
-    super.delete(bug);
-    flush();
-    commitTransaction();
   }
 
   @SuppressWarnings("unchecked")
@@ -67,10 +48,10 @@ public final class BugDao
                            final int startPosition,
                            final int maxResult)
   {
-    beginTransaction();
+    final boolean filterByOwner = owner != null && !owner.isAdmin();
+    em.getTransaction().begin();
     List<Bug> bugs = null;
     String hql = "from Bug b";
-    final boolean filterByOwner = owner != null && !owner.isAdmin();
     if (filterByOwner)
     {
       hql = hql + " where b.owner = :owner";
@@ -79,7 +60,7 @@ public final class BugDao
     {
       hql = hql + " order by " + orderBy + " " + (isAscending? "asc": "desc");
     }
-    final Query query = createQuery(hql);
+    final Query query = em.createQuery(hql);
     if (filterByOwner)
     {
       query.setParameter("owner", owner);
@@ -87,18 +68,9 @@ public final class BugDao
     query.setFirstResult(startPosition);
     query.setMaxResults(maxResult);
     bugs = query.getResultList();
-    commitTransaction();
+    em.getTransaction().commit();
 
     return bugs;
-  }
-
-  @Override
-  public void save(final Bug bug)
-  {
-    beginTransaction();
-    super.save(bug);
-    flush();
-    commitTransaction();
   }
 
 }

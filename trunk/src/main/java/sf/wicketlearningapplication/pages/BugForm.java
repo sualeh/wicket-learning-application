@@ -123,7 +123,7 @@ final class BugForm
         {
           final Bug bug = (Bug) getForm().getModelObject();
           final BugDao bugDao = new BugDao(entityManagerFactory);
-          bugDao.create(bug);
+          bugDao.save(bug);
           BugForm.this.setModel(new CompoundPropertyModel<Bug>(new Bug()));
         }
 

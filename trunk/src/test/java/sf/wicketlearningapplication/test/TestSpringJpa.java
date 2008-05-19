@@ -73,12 +73,12 @@ public class TestSpringJpa
 
     final BugDao dao = new BugDao(entityManagerFactory);
     bug = TestUtility.createNewBugInstance();
-    dao.create(bug);
+    dao.save(bug);
 
     count = jdbcTemplate.queryForInt(BUG_COUNT_SQL);
     assertEquals("Save test: Number of bugs do not match", 1, count);
 
-    Collection<Bug> bugs = dao.findAll(bug.getOwner(), null, true, 0, 10);
+    final Collection<Bug> bugs = dao.findAll(bug.getOwner(), null, true, 0, 10);
     bug = null;
     for (final Iterator<Bug> iter = bugs.iterator(); iter.hasNext();)
     {
@@ -110,7 +110,7 @@ public class TestSpringJpa
 
     final UserDao dao = new UserDao(entityManagerFactory);
     user = TestUtility.createNewUserInstance(1);
-    dao.create(user);
+    dao.save(user);
 
     user = null;
 
