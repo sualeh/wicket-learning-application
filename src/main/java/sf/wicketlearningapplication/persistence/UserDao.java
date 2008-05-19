@@ -30,32 +30,13 @@ public final class UserDao
     super(entityManagerFactory);
   }
 
-  @Override
-  public void create(final User user)
-  {
-    beginTransaction();
-    super.create(user);
-    flush();
-    commitTransaction();
-  }
-
-  @Override
-  public void delete(final User user)
-  {
-
-    beginTransaction();
-    super.delete(user);
-    flush();
-    commitTransaction();
-  }
-
   public User find(final String username, final String password)
   {
-    beginTransaction();
-    final Query query = createNamedQuery("authentication");
+    em.getTransaction().begin();
+    final Query query = em.createNamedQuery("authentication");
     query.setParameter("username", username).setParameter("password", password);
     final User user = (User) query.getSingleResult();
-    commitTransaction();
+    em.getTransaction().commit();
     return user;
   }
 
@@ -63,9 +44,10 @@ public final class UserDao
   {
     try
     {
-      beginTransaction();
-      final List<User> allUsers = new ArrayList<User>(findAll(User.class));
-      commitTransaction();
+      em.getTransaction().begin();
+      final List<User> allUsers = em
+        .createQuery("from " + User.class.getName()).getResultList();
+      em.getTransaction().commit();
       Collections.sort(allUsers);
       return allUsers;
     }
@@ -74,5 +56,4 @@ public final class UserDao
       return new ArrayList<User>();
     }
   }
-
 }

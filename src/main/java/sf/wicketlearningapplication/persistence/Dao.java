@@ -11,18 +11,15 @@
 package sf.wicketlearningapplication.persistence;
 
 
-import java.util.Collection;
-
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.PersistenceContext;
-import javax.persistence.Query;
 
 abstract class Dao<T>
 {
 
   @PersistenceContext
-  private final EntityManager em;
+  protected final EntityManager em;
 
   public Dao(final EntityManagerFactory entityManagerFactory)
   {
@@ -33,75 +30,29 @@ abstract class Dao<T>
     this.em = entityManagerFactory.createEntityManager();
   }
 
-  protected void beginTransaction()
+  public void delete(final T object)
   {
     em.getTransaction().begin();
-  }
-
-  protected void commitTransaction()
-  {
+    em.remove(em.merge(object));
+    em.flush();
     em.getTransaction().commit();
   }
 
-  protected void create(final T entity)
+  public void save(final T object)
   {
-    em.persist(entity);
-  }
-
-  protected Query createNamedQuery(final String namedQuery)
-  {
-    return em.createNamedQuery(namedQuery);
-  }
-
-  protected Query createQuery(final String query)
-  {
-    return em.createQuery(query);
-  }
-
-  protected void delete(final T entity)
-  {
-    em.remove(em.merge(entity));
-  }
-
-  protected T find(final Class<T> clazz, final long id)
-  {
-    return em.find(clazz, id);
-  }
-
-  @SuppressWarnings("unchecked")
-  protected Collection<T> findAll(final Class<T> clazz)
-  {
-    final Query query = em.createQuery("from " + clazz.getName());
-    return query.getResultList();
-  }
-
-  protected void flush()
-  {
-    em.flush();
-  }
-
-  protected void rollbackTransaction()
-  {
-    em.getTransaction().rollback();
-  }
-
-  protected void save(final T entity)
-  {
+    em.getTransaction().begin();
     T mergedEntity;
     try
     {
-      mergedEntity = em.merge(entity);
+      mergedEntity = em.merge(object);
     }
     catch (final RuntimeException e)
     {
-      mergedEntity = entity;
+      mergedEntity = object;
     }
     em.persist(mergedEntity);
-  }
-
-  protected void update(final T entity)
-  {
-    em.merge(entity);
+    em.flush();
+    em.getTransaction().commit();
   }
 
 }

@@ -49,7 +49,7 @@ public class TestUtility
         user.setAdmin(true);
       }
       // 
-      userDao.create(user);
+      userDao.save(user);
     }
     final List<User> users = userDao.findAll();
 
@@ -59,7 +59,7 @@ public class TestUtility
       final Bug bug = createNewBugInstance();
       bug.setOwner(users.get(random.nextInt(USER_COUNT - 1) + 1));
       // 
-      bugDao.create(bug);
+      bugDao.save(bug);
     }
   }
 
