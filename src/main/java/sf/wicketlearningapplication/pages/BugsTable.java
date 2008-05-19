@@ -62,6 +62,8 @@ final class BugsTable
     }
   }
 
+  private static EntityManagerFactory entityManagerFactory;
+
   private static final long serialVersionUID = 8016043970738990340L;
 
   private static IColumn<?>[] getColumns(final User user)
@@ -144,14 +146,15 @@ final class BugsTable
               {
                 super.onSubmit(target);
                 bug.setOwner(getModelObject());
-                BugDao.saveBug(bug);
+                final BugDao bugDao = new BugDao(entityManagerFactory);
+                bugDao.save(bug);
               }
             }
             cellItem
               .add(new EditableOwnerChoice(componentId,
                                            rowModel,
-                                           new ArrayList<User>(UserDao
-                                             .findAllUsers()),
+                                           new UserDao(entityManagerFactory)
+                                             .findAll(),
                                            new ChoiceRenderer<User>("name",
                                                                     "id")));
           }
@@ -169,6 +172,7 @@ final class BugsTable
           getColumns(user),
           new BugsDataProvider(entityManagerFactory, user),
           10);
+    this.entityManagerFactory = entityManagerFactory;
   }
 
 }

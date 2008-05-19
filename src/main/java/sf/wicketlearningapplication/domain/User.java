@@ -20,10 +20,12 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQuery;
 
+import org.apache.commons.lang.builder.CompareToBuilder;
+
 @Entity
 @NamedQuery(name = "authentication", query = "select u from User u where u.username = :username and u.password = :password")
 public class User
-  implements Serializable
+  implements Serializable, Comparable<User>
 {
 
   private static final long serialVersionUID = -2683387699863424341L;
@@ -33,6 +35,11 @@ public class User
   private String username;
   private String password;
   private boolean isAdmin;
+
+  public int compareTo(final User o)
+  {
+    return (new CompareToBuilder()).append(name, o.name).toComparison();
+  }
 
   @Id
   @GeneratedValue(strategy = GenerationType.AUTO)

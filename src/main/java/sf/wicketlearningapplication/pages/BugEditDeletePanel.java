@@ -11,12 +11,15 @@
 package sf.wicketlearningapplication.pages;
 
 
+import javax.persistence.EntityManagerFactory;
+
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.markup.html.AjaxLink;
 import org.apache.wicket.behavior.SimpleAttributeModifier;
 import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.model.IModel;
+import org.apache.wicket.spring.injection.annot.SpringBean;
 
 import sf.wicketlearningapplication.WicketLearningApplicationSession;
 import sf.wicketlearningapplication.domain.Bug;
@@ -27,7 +30,7 @@ final class BugEditDeletePanel
   extends Panel<Bug>
 {
 
-  private static final class BugDeleteLink
+  private final class BugDeleteLink
     extends Link<Bug>
   {
 
@@ -44,12 +47,16 @@ final class BugEditDeletePanel
     @Override
     public void onClick()
     {
-      BugDao.deleteBug(getModelObject());
+      final BugDao bugDao = new BugDao(entityManagerFactory);
+      bugDao.delete(getModelObject());
     }
 
   }
 
   private static final long serialVersionUID = 2753920209773575465L;
+
+  @SpringBean
+  private EntityManagerFactory entityManagerFactory;
 
   BugEditDeletePanel(final String id, final IModel<Bug> model)
   {

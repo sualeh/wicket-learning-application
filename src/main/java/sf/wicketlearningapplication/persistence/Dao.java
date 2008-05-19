@@ -14,63 +14,78 @@ package sf.wicketlearningapplication.persistence;
 import java.util.Collection;
 
 import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
-class Dao<T>
+abstract class Dao<T>
 {
 
   @PersistenceContext
   private final EntityManager em;
 
-  public Dao(final EntityManager em)
+  public Dao(final EntityManagerFactory entityManagerFactory)
   {
-    this.em = em;
+    if (entityManagerFactory == null)
+    {
+      throw new IllegalArgumentException("No EntityManagerFactory provided");
+    }
+    this.em = entityManagerFactory.createEntityManager();
   }
 
-  public void beginTransaction()
+  protected void beginTransaction()
   {
     em.getTransaction().begin();
   }
 
-  public void commitTransaction()
+  protected void commitTransaction()
   {
     em.getTransaction().commit();
   }
 
-  public void create(final T entity)
+  protected void create(final T entity)
   {
     em.persist(entity);
   }
 
-  public void delete(final T entity)
+  protected Query createNamedQuery(final String namedQuery)
+  {
+    return em.createNamedQuery(namedQuery);
+  }
+
+  protected Query createQuery(final String query)
+  {
+    return em.createQuery(query);
+  }
+
+  protected void delete(final T entity)
   {
     em.remove(em.merge(entity));
   }
 
-  public T find(final Class<T> clazz, final long id)
+  protected T find(final Class<T> clazz, final long id)
   {
     return em.find(clazz, id);
   }
 
   @SuppressWarnings("unchecked")
-  public Collection<T> findAll(final Class<T> clazz)
+  protected Collection<T> findAll(final Class<T> clazz)
   {
     final Query query = em.createQuery("from " + clazz.getName());
     return query.getResultList();
   }
 
-  public void flush()
+  protected void flush()
   {
     em.flush();
   }
 
-  public void rollbackTransaction()
+  protected void rollbackTransaction()
   {
     em.getTransaction().rollback();
   }
 
-  public void save(final T entity)
+  protected void save(final T entity)
   {
     T mergedEntity;
     try
@@ -84,19 +99,9 @@ class Dao<T>
     em.persist(mergedEntity);
   }
 
-  public void update(final T entity)
+  protected void update(final T entity)
   {
     em.merge(entity);
-  }
-
-  protected Query createQuery(final String query)
-  {
-    return em.createQuery(query);
-  }
-
-  protected Query createNamedQuery(final String namedQuery)
-  {
-    return em.createNamedQuery(namedQuery);
   }
 
 }

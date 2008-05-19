@@ -16,9 +16,7 @@ import static org.junit.Assert.assertEquals;
 import java.util.Collection;
 import java.util.Iterator;
 
-import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
-import javax.persistence.EntityTransaction;
 
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
@@ -73,26 +71,15 @@ public class TestSpringJpa
     int count;
     Bug bug;
 
-    final EntityManager em = entityManagerFactory.createEntityManager();
-    final BugDao dao = new BugDao(em);
-    EntityTransaction transaction;
-
-    transaction = em.getTransaction();
-    transaction.begin();
-
+    final BugDao dao = new BugDao(entityManagerFactory);
     bug = TestUtility.createNewBugInstance();
     dao.create(bug);
-    transaction.commit();
-
-    bug = null;
 
     count = jdbcTemplate.queryForInt(BUG_COUNT_SQL);
     assertEquals("Save test: Number of bugs do not match", 1, count);
 
-    Collection<Bug> bugs;
-    transaction = em.getTransaction();
-    transaction.begin();
-    bugs = dao.findAll(Bug.class);
+    Collection<Bug> bugs = dao.findAll(bug.getOwner(), null, true, 0, 10);
+    bug = null;
     for (final Iterator<Bug> iter = bugs.iterator(); iter.hasNext();)
     {
       bug = iter.next();
@@ -103,9 +90,6 @@ public class TestSpringJpa
       dao.delete(bug);
       bug = null;
     }
-    transaction.commit();
-
-    bug = null;
 
     count = jdbcTemplate.queryForInt(BUG_COUNT_SQL);
     assertEquals("Delete test: Number of bugs do not match", 0, count);
@@ -124,16 +108,9 @@ public class TestSpringJpa
     int count;
     User user;
 
-    final EntityManager em = entityManagerFactory.createEntityManager();
-    final UserDao dao = new UserDao(em);
-    EntityTransaction transaction;
-
-    transaction = em.getTransaction();
-    transaction.begin();
-
+    final UserDao dao = new UserDao(entityManagerFactory);
     user = TestUtility.createNewUserInstance(1);
     dao.create(user);
-    transaction.commit();
 
     user = null;
 
@@ -141,9 +118,7 @@ public class TestSpringJpa
     assertEquals("Save test: Number of users do not match", 1, count);
 
     Collection<User> users;
-    transaction = em.getTransaction();
-    transaction.begin();
-    users = dao.findAll(User.class);
+    users = dao.findAll();
     for (final Iterator<User> iter = users.iterator(); iter.hasNext();)
     {
       user = iter.next();
@@ -154,9 +129,6 @@ public class TestSpringJpa
       dao.delete(user);
       user = null;
     }
-    transaction.commit();
-
-    user = null;
 
     count = jdbcTemplate.queryForInt(USER_COUNT_SQL);
     assertEquals("Delete test: Number of users do not match", 0, count);

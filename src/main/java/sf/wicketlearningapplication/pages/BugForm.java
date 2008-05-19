@@ -11,10 +11,11 @@
 package sf.wicketlearningapplication.pages;
 
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
+
+import javax.persistence.EntityManagerFactory;
 
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.form.AjaxFormValidatingBehavior;
@@ -30,6 +31,7 @@ import org.apache.wicket.markup.html.form.TextField;
 import org.apache.wicket.model.CompoundPropertyModel;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.Model;
+import org.apache.wicket.spring.injection.annot.SpringBean;
 import org.apache.wicket.validation.validator.DateValidator;
 import org.apache.wicket.validation.validator.NumberValidator;
 import org.apache.wicket.validation.validator.StringValidator;
@@ -45,6 +47,9 @@ final class BugForm
 {
 
   private static final long serialVersionUID = 2682300618749680498L;
+
+  @SpringBean
+  private EntityManagerFactory entityManagerFactory;
 
   BugForm(final String id, final IModel<Bug> model)
   {
@@ -76,7 +81,7 @@ final class BugForm
     estimatedHours.add(NumberValidator.POSITIVE);
     add(estimatedHours);
 
-    final List<User> users = new ArrayList<User>(UserDao.findAllUsers());
+    final List<User> users = new UserDao(entityManagerFactory).findAll();
     final DropDownChoice<User> owner = new DropDownChoice<User>("owner",
                                                                 users,
                                                                 new ChoiceRenderer<User>("name",
@@ -98,7 +103,8 @@ final class BugForm
                                 final Form<?> form)
         {
           ModalWindow.closeCurrent(target);
-          BugDao.saveBug((Bug) form.getModelObject());
+          final BugDao bugDao = new BugDao(entityManagerFactory);
+          bugDao.save((Bug) form.getModelObject());
         }
 
       };
@@ -115,7 +121,9 @@ final class BugForm
         @Override
         public void onSubmit()
         {
-          BugDao.createBug((Bug) getForm().getModelObject());
+          final Bug bug = (Bug) getForm().getModelObject();
+          final BugDao bugDao = new BugDao(entityManagerFactory);
+          bugDao.create(bug);
           BugForm.this.setModel(new CompoundPropertyModel<Bug>(new Bug()));
         }
 

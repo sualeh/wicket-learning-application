@@ -11,12 +11,11 @@
 package sf.wicketlearningapplication.server;
 
 
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Random;
 
-import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
 
 import org.apache.commons.lang.RandomStringUtils;
 import org.apache.commons.lang.StringUtils;
@@ -62,12 +61,10 @@ public class TestUtility
     final int USER_COUNT = 3;
     final int BUG_COUNT = 45;
 
-    final EntityManager em = Persistence.getEntityManagerFactory()
-      .createEntityManager();
+    EntityManagerFactory entityManagerFactory = Persistence
+      .getEntityManagerFactory();
 
-    final List<User> users = new ArrayList<User>();
-    final UserDao userDao = new UserDao(em);
-    userDao.beginTransaction();
+    final UserDao userDao = new UserDao(entityManagerFactory);
     for (int i = 0; i < USER_COUNT; i++)
     {
       final User user = createNewUserInstance(i);
@@ -77,12 +74,10 @@ public class TestUtility
       }
       // 
       userDao.create(user);
-      users.add(user);
     }
-    userDao.commitTransaction();
+    final List<User> users = userDao.findAll();
 
-    final BugDao bugDao = new BugDao(em);
-    bugDao.beginTransaction();
+    final BugDao bugDao = new BugDao(entityManagerFactory);
     for (int i = 0; i < BUG_COUNT; i++)
     {
       final Bug bug = createNewBugInstance();
@@ -90,10 +85,6 @@ public class TestUtility
       // 
       bugDao.create(bug);
     }
-    bugDao.commitTransaction();
-
-    em.clear();
-    em.close();
   }
 
   private static String text()
