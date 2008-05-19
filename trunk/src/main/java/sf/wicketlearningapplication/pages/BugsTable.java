@@ -14,6 +14,8 @@ package sf.wicketlearningapplication.pages;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.EntityManagerFactory;
+
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.datetime.markup.html.basic.DateLabel;
 import org.apache.wicket.extensions.ajax.markup.html.AjaxEditableChoiceLabel;
@@ -159,9 +161,14 @@ final class BugsTable
     return columns.toArray(new IColumn[columns.size()]);
   }
 
-  BugsTable(final String id, final User user)
+  BugsTable(final String id,
+            final EntityManagerFactory entityManagerFactory,
+            final User user)
   {
-    super(id, getColumns(user), new BugsDataProvider(user), 10);
+    super(id,
+          getColumns(user),
+          new BugsDataProvider(entityManagerFactory, user),
+          10);
   }
 
 }
