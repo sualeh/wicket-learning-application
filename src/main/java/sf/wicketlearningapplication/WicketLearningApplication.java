@@ -18,12 +18,20 @@ import org.apache.wicket.authentication.pages.SignInPage;
 import org.apache.wicket.markup.html.WebPage;
 import org.apache.wicket.spring.injection.annot.SpringComponentInjector;
 import org.apache.wicket.util.lang.PackageName;
+import org.springframework.context.ApplicationContext;
+import org.springframework.web.context.support.WebApplicationContextUtils;
 
 import sf.wicketlearningapplication.pages.HomePage;
 
 public class WicketLearningApplication
   extends AuthenticatedWebApplication
 {
+
+  public ApplicationContext getApplicationContext()
+  {
+    return WebApplicationContextUtils
+      .getRequiredWebApplicationContext(getServletContext());
+  }
 
   @Override
   public Class<? extends Page<?>> getHomePage()
