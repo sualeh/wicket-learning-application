@@ -1,4 +1,4 @@
-#Fri Mar 21 09:31:31 EDT 2008
+#Mon May 19 13:37:02 EDT 2008
 cleanup.add_default_serial_version_id=false
 cleanup.add_generated_serial_version_id=true
 cleanup.add_missing_annotations=true
@@ -45,7 +45,7 @@ cleanup.use_this_for_non_static_field_access=true
 cleanup.use_this_for_non_static_field_access_only_if_necessary=true
 cleanup.use_this_for_non_static_method_access=true
 cleanup.use_this_for_non_static_method_access_only_if_necessary=true
-cleanup_profile=_SchemaCrawler - Code Clean Up
+cleanup_profile=_Wicket Learning Application - Code Clean Up
 cleanup_settings_version=2
 eclipse.preferences.version=1
 editor_save_participant_org.eclipse.jdt.ui.postsavelistener.cleanup=true

@@ -11,11 +11,9 @@
 package sf.wicketlearningapplication.persistence;
 
 
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
-import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
 import javax.persistence.Query;
 
 import org.apache.commons.lang.StringUtils;
@@ -23,80 +21,13 @@ import org.apache.commons.lang.StringUtils;
 import sf.wicketlearningapplication.domain.Bug;
 import sf.wicketlearningapplication.domain.User;
 
-public class BugDao
+public final class BugDao
   extends Dao<Bug>
 {
 
-  public static void createBug(final Bug bug)
+  public BugDao(final EntityManagerFactory entityManagerFactory)
   {
-    final EntityManager em = Persistence.getEntityManagerFactory()
-      .createEntityManager();
-    final BugDao bugDao = new BugDao(em);
-
-    bugDao.beginTransaction();
-    bugDao.create(bug);
-    bugDao.commitTransaction();
-
-    em.clear();
-    em.close();
-  }
-
-  public static void deleteBug(final Bug bug)
-  {
-    final EntityManager em = Persistence.getEntityManagerFactory()
-      .createEntityManager();
-    final BugDao bugDao = new BugDao(em);
-
-    bugDao.beginTransaction();
-    bugDao.delete(bug);
-    bugDao.commitTransaction();
-
-    em.clear();
-    em.close();
-  }
-
-  public static List<Bug> listBugsByOwner(final User owner,
-                                          final String orderBy,
-                                          final boolean isAscending,
-                                          final int startPosition,
-                                          final int maxResult)
-  {
-    final Collection<Bug> bugs;
-
-    User findByOwner = null;
-    if (!owner.isAdmin())
-    {
-      findByOwner = owner;
-    }
-
-    final EntityManager em = Persistence.getEntityManagerFactory()
-      .createEntityManager();
-    final BugDao bugDao = new BugDao(em);
-    bugs = bugDao.findAll(findByOwner,
-                          orderBy,
-                          isAscending,
-                          startPosition,
-                          maxResult);
-    return new ArrayList<Bug>(bugs);
-  }
-
-  public static void saveBug(final Bug bug)
-  {
-    final EntityManager em = Persistence.getEntityManagerFactory()
-      .createEntityManager();
-    final BugDao bugDao = new BugDao(em);
-
-    bugDao.beginTransaction();
-    bugDao.save(bug);
-    bugDao.commitTransaction();
-
-    em.clear();
-    em.close();
-  }
-
-  public BugDao(final EntityManager em)
-  {
-    super(em);
+    super(entityManagerFactory);
   }
 
   public int count(final User owner)
@@ -110,6 +41,25 @@ public class BugDao
     return count;
   }
 
+  @Override
+  public void create(final Bug bug)
+  {
+    beginTransaction();
+    super.create(bug);
+    flush();
+    commitTransaction();
+  }
+
+  @Override
+  public void delete(final Bug bug)
+  {
+
+    beginTransaction();
+    super.delete(bug);
+    flush();
+    commitTransaction();
+  }
+
   @SuppressWarnings("unchecked")
   public List<Bug> findAll(final User owner,
                            final String orderBy,
@@ -120,7 +70,8 @@ public class BugDao
     beginTransaction();
     List<Bug> bugs = null;
     String hql = "from Bug b";
-    if (owner != null)
+    boolean filterByOwner = owner != null && !owner.isAdmin();
+    if (filterByOwner)
     {
       hql = hql + " where b.owner = :owner";
     }
@@ -129,7 +80,7 @@ public class BugDao
       hql = hql + " order by " + orderBy + " " + (isAscending? "asc": "desc");
     }
     final Query query = createQuery(hql);
-    if (owner != null)
+    if (filterByOwner)
     {
       query.setParameter("owner", owner);
     }
@@ -139,6 +90,15 @@ public class BugDao
     commitTransaction();
 
     return bugs;
+  }
+
+  @Override
+  public void save(final Bug bug)
+  {
+    beginTransaction();
+    super.save(bug);
+    flush();
+    commitTransaction();
   }
 
 }

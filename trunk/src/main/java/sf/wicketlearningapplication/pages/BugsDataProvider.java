@@ -14,7 +14,6 @@ package sf.wicketlearningapplication.pages;
 import java.util.Iterator;
 import java.util.List;
 
-import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 
 import org.apache.wicket.extensions.markup.html.repeater.util.SortParam;
@@ -47,8 +46,12 @@ final class BugsDataProvider
   public Iterator<Bug> iterator(final int first, final int count)
   {
     final SortParam sortParam = getSort();
-    final List<Bug> bugsList = BugDao.listBugsByOwner(user, sortParam
-      .getProperty(), sortParam.isAscending(), first, count);
+    final List<Bug> bugsList = new BugDao(entityManagerFactory)
+      .findAll(user,
+               sortParam.getProperty(),
+               sortParam.isAscending(),
+               first,
+               count);
     return bugsList.listIterator();
   }
 
@@ -59,8 +62,7 @@ final class BugsDataProvider
 
   public int size()
   {
-    final EntityManager em = entityManagerFactory.createEntityManager();
-    final BugDao bugDao = new BugDao(em);
+    final BugDao bugDao = new BugDao(entityManagerFactory);
     return bugDao.count(user);
   }
 

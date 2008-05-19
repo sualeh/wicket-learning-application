@@ -16,6 +16,7 @@ import org.apache.wicket.authentication.AuthenticatedWebSession;
 import org.apache.wicket.authorization.strategies.role.Roles;
 
 import sf.wicketlearningapplication.domain.User;
+import sf.wicketlearningapplication.persistence.Persistence;
 import sf.wicketlearningapplication.persistence.UserDao;
 
 public class WicketLearningApplicationSession
@@ -34,7 +35,8 @@ public class WicketLearningApplicationSession
   @Override
   public boolean authenticate(final String username, final String password)
   {
-    signedInUser = UserDao.findUser(username, password);
+    signedInUser = new UserDao(Persistence.getEntityManagerFactory())
+      .find(username, password);
     return signedInUser != null;
   }
 

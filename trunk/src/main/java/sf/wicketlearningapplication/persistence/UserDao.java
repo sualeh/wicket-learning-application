@@ -11,51 +11,42 @@
 package sf.wicketlearningapplication.persistence;
 
 
-import java.util.Collection;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
-import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
 import javax.persistence.NoResultException;
 import javax.persistence.Query;
 
 import sf.wicketlearningapplication.domain.User;
 
-public class UserDao
+public final class UserDao
   extends Dao<User>
 {
 
-  public static Collection<User> findAllUsers()
+  public UserDao(final EntityManagerFactory entityManagerFactory)
   {
-    try
-    {
-      final EntityManager em = Persistence.getEntityManagerFactory()
-        .createEntityManager();
-      final UserDao userDao = new UserDao(em);
-      return userDao.findAll(User.class);
-    }
-    catch (final NoResultException e)
-    {
-      return null;
-    }
+    super(entityManagerFactory);
   }
 
-  public static User findUser(final String username, final String password)
+  @Override
+  public void create(final User user)
   {
-    try
-    {
-      final EntityManager em = Persistence.getEntityManagerFactory()
-        .createEntityManager();
-      final UserDao userDao = new UserDao(em);
-      return userDao.find(username, password);
-    }
-    catch (final NoResultException e)
-    {
-      return null;
-    }
+    beginTransaction();
+    super.create(user);
+    flush();
+    commitTransaction();
   }
 
-  public UserDao(final EntityManager em)
+  @Override
+  public void delete(final User user)
   {
-    super(em);
+
+    beginTransaction();
+    super.delete(user);
+    flush();
+    commitTransaction();
   }
 
   public User find(final String username, final String password)
@@ -63,9 +54,25 @@ public class UserDao
     beginTransaction();
     final Query query = createNamedQuery("authentication");
     query.setParameter("username", username).setParameter("password", password);
-    User user = (User) query.getSingleResult();
+    final User user = (User) query.getSingleResult();
     commitTransaction();
     return user;
+  }
+
+  public List<User> findAll()
+  {
+    try
+    {
+      beginTransaction();
+      final List<User> allUsers = new ArrayList<User>(findAll(User.class));
+      commitTransaction();
+      Collections.sort(allUsers);
+      return allUsers;
+    }
+    catch (final NoResultException e)
+    {
+      return new ArrayList<User>();
+    }
   }
 
 }
