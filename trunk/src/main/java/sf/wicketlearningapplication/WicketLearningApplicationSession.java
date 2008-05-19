@@ -11,12 +11,15 @@
 package sf.wicketlearningapplication;
 
 
+import javax.persistence.EntityManagerFactory;
+
+import org.apache.wicket.Application;
 import org.apache.wicket.Request;
 import org.apache.wicket.authentication.AuthenticatedWebSession;
 import org.apache.wicket.authorization.strategies.role.Roles;
+import org.springframework.context.ApplicationContext;
 
 import sf.wicketlearningapplication.domain.User;
-import sf.wicketlearningapplication.persistence.Persistence;
 import sf.wicketlearningapplication.persistence.UserDao;
 
 public class WicketLearningApplicationSession
@@ -35,8 +38,10 @@ public class WicketLearningApplicationSession
   @Override
   public boolean authenticate(final String username, final String password)
   {
-    signedInUser = new UserDao(Persistence.getEntityManagerFactory())
-      .find(username, password);
+    final ApplicationContext applicationContext = ((WicketLearningApplication) Application
+      .get()).getApplicationContext();
+    signedInUser = new UserDao((EntityManagerFactory) applicationContext
+      .getBean("entityManagerFactory")).find(username, password);
     return signedInUser != null;
   }
 

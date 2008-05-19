@@ -70,7 +70,7 @@ public final class BugDao
     beginTransaction();
     List<Bug> bugs = null;
     String hql = "from Bug b";
-    boolean filterByOwner = owner != null && !owner.isAdmin();
+    final boolean filterByOwner = owner != null && !owner.isAdmin();
     if (filterByOwner)
     {
       hql = hql + " where b.owner = :owner";
