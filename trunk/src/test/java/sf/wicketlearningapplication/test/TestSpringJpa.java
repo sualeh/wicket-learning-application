@@ -46,7 +46,7 @@ public class TestSpringJpa
     databaseServer = new DatabaseServer();
     databaseServer.start();
 
-    context = new ClassPathXmlApplicationContext("WEB-INF/applicationContext.xml");
+    context = new ClassPathXmlApplicationContext("context.xml");
   }
 
   @AfterClass
