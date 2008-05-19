@@ -19,17 +19,49 @@ import javax.persistence.EntityManagerFactory;
 
 import org.apache.commons.lang.RandomStringUtils;
 import org.apache.commons.lang.StringUtils;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import sf.wicketlearningapplication.domain.Bug;
 import sf.wicketlearningapplication.domain.Severity;
 import sf.wicketlearningapplication.domain.User;
 import sf.wicketlearningapplication.persistence.BugDao;
-import sf.wicketlearningapplication.persistence.Persistence;
 import sf.wicketlearningapplication.persistence.UserDao;
 
 public class TestUtility
 {
   private static final Random random = new Random();
+
+  private static ClassPathXmlApplicationContext context;
+
+  static void createData()
+  {
+    final int USER_COUNT = 3;
+    final int BUG_COUNT = 45;
+
+    final EntityManagerFactory entityManagerFactory = getEntityManagerFactory();
+
+    final UserDao userDao = new UserDao(entityManagerFactory);
+    for (int i = 0; i < USER_COUNT; i++)
+    {
+      final User user = createNewUserInstance(i);
+      if (i == 0)
+      {
+        user.setAdmin(true);
+      }
+      // 
+      userDao.create(user);
+    }
+    final List<User> users = userDao.findAll();
+
+    final BugDao bugDao = new BugDao(entityManagerFactory);
+    for (int i = 0; i < BUG_COUNT; i++)
+    {
+      final Bug bug = createNewBugInstance();
+      bug.setOwner(users.get(random.nextInt(USER_COUNT - 1) + 1));
+      // 
+      bugDao.create(bug);
+    }
+  }
 
   public static Bug createNewBugInstance()
   {
@@ -56,35 +88,14 @@ public class TestUtility
     return user;
   }
 
-  static void createData()
+  public static synchronized EntityManagerFactory getEntityManagerFactory()
   {
-    final int USER_COUNT = 3;
-    final int BUG_COUNT = 45;
-
-    EntityManagerFactory entityManagerFactory = Persistence
-      .getEntityManagerFactory();
-
-    final UserDao userDao = new UserDao(entityManagerFactory);
-    for (int i = 0; i < USER_COUNT; i++)
+    if (context == null)
     {
-      final User user = createNewUserInstance(i);
-      if (i == 0)
-      {
-        user.setAdmin(true);
-      }
-      // 
-      userDao.create(user);
+      context = new ClassPathXmlApplicationContext("WEB-INF/applicationContext.xml");
     }
-    final List<User> users = userDao.findAll();
-
-    final BugDao bugDao = new BugDao(entityManagerFactory);
-    for (int i = 0; i < BUG_COUNT; i++)
-    {
-      final Bug bug = createNewBugInstance();
-      bug.setOwner(users.get(random.nextInt(USER_COUNT - 1) + 1));
-      // 
-      bugDao.create(bug);
-    }
+    return (EntityManagerFactory) context.getBean("entityManagerFactory",
+                                                  EntityManagerFactory.class);
   }
 
   private static String text()
