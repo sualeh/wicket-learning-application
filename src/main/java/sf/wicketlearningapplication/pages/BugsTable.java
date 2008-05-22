@@ -38,7 +38,7 @@ import sf.wicketlearningapplication.persistence.BugDao;
 import sf.wicketlearningapplication.persistence.UserDao;
 
 final class BugsTable
-  extends DefaultDataTable
+  extends DefaultDataTable<Bug>
 {
 
   private static class ModelPropertyColumn<T>
@@ -64,8 +64,8 @@ final class BugsTable
 
   private static final long serialVersionUID = 8016043970738990340L;
 
-  private static IColumn<?>[] getColumns(final EntityManagerFactory entityManagerFactory,
-                                         final User user)
+  private static IColumn<Bug>[] getColumns(final EntityManagerFactory entityManagerFactory,
+                                           final User user)
   {
     final List<IColumn<Bug>> columns = new ArrayList<IColumn<Bug>>();
     columns.add(new AbstractColumn<Bug>(new Model<String>(""))
