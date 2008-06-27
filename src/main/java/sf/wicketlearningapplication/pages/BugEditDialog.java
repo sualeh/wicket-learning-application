@@ -18,7 +18,7 @@ import org.apache.wicket.model.IModel;
 import sf.wicketlearningapplication.domain.Bug;
 
 final class BugEditDialog
-  extends ModalWindow
+  extends ModalWindow<Bug>
 {
 
   private static final long serialVersionUID = 5522553988105296877L;
@@ -36,7 +36,6 @@ final class BugEditDialog
     {
       private static final long serialVersionUID = 2578038324045130551L;
 
-      @SuppressWarnings("unused")
       public void onClose(final AjaxRequestTarget target)
       {
         setResponsePage(getPage());
