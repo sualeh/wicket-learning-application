@@ -92,7 +92,7 @@ final class BugForm
     {
       AjaxFormValidatingBehavior.addToAllFormComponents(this, "onblur");
 
-      final IndicatingAjaxButton<Void> saveButton = new IndicatingAjaxButton<Void>("save",
+      final IndicatingAjaxButton saveButton = new IndicatingAjaxButton("save",
         BugForm.this)
       {
 
@@ -112,7 +112,7 @@ final class BugForm
     }
     else
     {
-      final Button<String> createButton = new Button<String>("save",
+      final Button createButton = new Button("save",
         new Model<String>("Create"))
       {
 

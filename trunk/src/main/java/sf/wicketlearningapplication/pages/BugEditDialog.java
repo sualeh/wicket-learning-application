@@ -18,7 +18,7 @@ import org.apache.wicket.model.IModel;
 import sf.wicketlearningapplication.domain.Bug;
 
 final class BugEditDialog
-  extends ModalWindow<Bug>
+  extends ModalWindow
 {
 
   private static final long serialVersionUID = 5522553988105296877L;

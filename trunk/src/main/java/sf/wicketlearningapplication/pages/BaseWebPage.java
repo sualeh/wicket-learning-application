@@ -16,7 +16,7 @@ import org.apache.wicket.markup.html.WebPage;
 import org.apache.wicket.markup.html.link.Link;
 
 abstract class BaseWebPage
-  extends WebPage<Void>
+  extends WebPage
 {
 
   BaseWebPage()
