@@ -34,13 +34,13 @@ public class WicketLearningApplication
   }
 
   @Override
-  public Class<? extends Page<?>> getHomePage()
+  public Class<? extends Page> getHomePage()
   {
     return HomePage.class;
   }
 
   @Override
-  protected Class<? extends WebPage<?>> getSignInPageClass()
+  protected Class<? extends WebPage> getSignInPageClass()
   {
     return SignInPage.class;
   }

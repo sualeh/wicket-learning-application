@@ -27,7 +27,7 @@ import sf.wicketlearningapplication.domain.User;
 import sf.wicketlearningapplication.persistence.BugDao;
 
 final class BugEditDeletePanel
-  extends Panel<Bug>
+  extends Panel
 {
 
   private final class BugDeleteLink
