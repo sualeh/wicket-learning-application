@@ -22,12 +22,11 @@ import org.apache.wicket.extensions.markup.html.repeater.data.grid.ICellPopulato
 import org.apache.wicket.extensions.markup.html.repeater.data.table.AbstractColumn;
 import org.apache.wicket.extensions.markup.html.repeater.data.table.DefaultDataTable;
 import org.apache.wicket.extensions.markup.html.repeater.data.table.IColumn;
-import org.apache.wicket.markup.html.basic.Label;
+import org.apache.wicket.extensions.markup.html.repeater.data.table.PropertyColumn;
 import org.apache.wicket.markup.repeater.Item;
 import org.apache.wicket.model.AbstractReadOnlyModel;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.Model;
-import org.apache.wicket.model.PropertyModel;
 import org.apache.wicket.model.ResourceModel;
 
 import sf.wicketlearningapplication.domain.Bug;
@@ -36,27 +35,6 @@ import sf.wicketlearningapplication.domain.User;
 final class BugsTable
   extends DefaultDataTable<Bug>
 {
-
-  private static class ModelPropertyColumn<T>
-    extends AbstractColumn<T>
-  {
-    private static final long serialVersionUID = 5407215338461041724L;
-
-    private ModelPropertyColumn(final IModel<String> displayModel,
-                                final String sortProperty)
-    {
-      super(displayModel, sortProperty);
-    }
-
-    public void populateItem(final Item<ICellPopulator<T>> cellItem,
-                             final String componentId,
-                             final IModel<T> rowModel)
-    {
-      cellItem
-        .add(new Label(componentId, new PropertyModel<T>(rowModel,
-                                                         getSortProperty())));
-    }
-  }
 
   private static final long serialVersionUID = 8016043970738990340L;
 
@@ -75,49 +53,44 @@ final class BugsTable
         cellItem.add(new BugEditDeletePanel(componentId, rowModel));
       }
     });
-    columns
-      .add(new ModelPropertyColumn<Bug>(new ResourceModel("bugForm.number"),
+    columns.add(new PropertyColumn<Bug>(new ResourceModel("bugForm.number"),
                                         "id"));
-    columns
-      .add(new ModelPropertyColumn<Bug>(new ResourceModel("bugForm.summary"),
+    columns.add(new PropertyColumn<Bug>(new ResourceModel("bugForm.summary"),
                                         "summary"));
-    columns
-      .add(new ModelPropertyColumn<Bug>(new ResourceModel("bugForm.severity"),
+    columns.add(new PropertyColumn<Bug>(new ResourceModel("bugForm.severity"),
                                         "severity"));
-    columns
-      .add(new ModelPropertyColumn<Bug>(new ResourceModel("bugForm.dueByDate"),
-        "dueByDate")
+    columns.add(new PropertyColumn<Bug>(new ResourceModel("bugForm.dueByDate"),
+      "dueByDate")
+    {
+      private static final long serialVersionUID = 6019283751055902836L;
+
+      @Override
+      public void populateItem(final Item<ICellPopulator<Bug>> cellItem,
+                               final String componentId,
+                               final IModel<Bug> rowModel)
       {
-        private static final long serialVersionUID = 6019283751055902836L;
+        cellItem.add(DateLabel.forDateStyle(componentId,
+                                            new AbstractReadOnlyModel<Date>()
+                                            {
 
-        @Override
-        public void populateItem(final Item<ICellPopulator<Bug>> cellItem,
-                                 final String componentId,
-                                 final IModel<Bug> rowModel)
-        {
-          cellItem.add(DateLabel.forDateStyle(componentId,
-                                              new AbstractReadOnlyModel<Date>()
+                                              private static final long serialVersionUID = 1L;
+
+                                              @Override
+                                              public Date getObject()
                                               {
-
-                                                private static final long serialVersionUID = 1L;
-
-                                                @Override
-                                                public Date getObject()
-                                                {
-                                                  return rowModel.getObject()
-                                                    .getDueByDate();
-                                                }
-                                              },
-                                              "L-"));
-        }
-      });
+                                                return rowModel.getObject()
+                                                  .getDueByDate();
+                                              }
+                                            },
+                                            "L-"));
+      }
+    });
     columns
-      .add(new ModelPropertyColumn<Bug>(new ResourceModel("bugForm.estimatedHours"),
-                                        "estimatedHours"));
+      .add(new PropertyColumn<Bug>(new ResourceModel("bugForm.estimatedHours"),
+                                   "estimatedHours"));
     if (user.isAdmin())
     {
-      columns
-        .add(new ModelPropertyColumn<Bug>(new ResourceModel("bugForm.owner"),
+      columns.add(new PropertyColumn<Bug>(new ResourceModel("bugForm.owner"),
                                           "owner.name"));
     }
 
