@@ -12,6 +12,7 @@ package sf.wicketlearningapplication.pages;
 
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
@@ -35,6 +36,7 @@ import org.apache.wicket.model.PropertyModel;
 import org.apache.wicket.model.ResourceModel;
 
 import sf.wicketlearningapplication.domain.Bug;
+import sf.wicketlearningapplication.domain.Severity;
 import sf.wicketlearningapplication.domain.User;
 import sf.wicketlearningapplication.persistence.BugDao;
 import sf.wicketlearningapplication.persistence.UserDao;
@@ -44,6 +46,38 @@ final class BugsTable
 {
 
   private static final long serialVersionUID = 8016043970738990340L;
+
+  private static class BugEditableChoiceField<T>
+    extends AjaxEditableChoiceLabel<T>
+  {
+    private static final long serialVersionUID = -6892026330177948403L;
+
+    private final EntityManagerFactory entityManagerFactory;
+    private final Bug bug;
+
+    private BugEditableChoiceField(final String id,
+                                   final IModel<Bug> model,
+                                   String modelObjectField,
+                                   final List<T> users,
+                                   final IChoiceRenderer<T> renderer,
+                                   final EntityManagerFactory entityManagerFactory)
+    {
+      super(id,
+            new PropertyModel<T>(model.getObject(), modelObjectField),
+            users,
+            renderer);
+      bug = model.getObject();
+      this.entityManagerFactory = entityManagerFactory;
+    }
+
+    @Override
+    protected void onSubmit(final AjaxRequestTarget target)
+    {
+      super.onSubmit(target);
+      final BugDao bugDao = new BugDao(entityManagerFactory);
+      bugDao.save(bug);
+    }
+  }
 
   private static IColumn<Bug>[] getColumns(final EntityManagerFactory entityManagerFactory,
                                            final User user)
@@ -65,7 +99,26 @@ final class BugsTable
     columns.add(new PropertyColumn<Bug>(new ResourceModel("bugForm.summary"),
                                         "summary"));
     columns.add(new PropertyColumn<Bug>(new ResourceModel("bugForm.severity"),
-                                        "severity"));
+      "severity")
+    {
+      private static final long serialVersionUID = 3017864173690322164L;
+
+      @Override
+      public void populateItem(final Item<ICellPopulator<Bug>> cellItem,
+                               final String componentId,
+                               final IModel<Bug> rowModel)
+      {
+        cellItem
+          .add(new BugEditableChoiceField<Severity>(componentId,
+                                                    rowModel,
+                                                    "severity",
+                                                    Arrays.asList(Severity
+                                                      .values()),
+                                                    new ChoiceRenderer<Severity>("name",
+                                                                                 "id"),
+                                                    entityManagerFactory));
+      }
+    });
     columns.add(new PropertyColumn<Bug>(new ResourceModel("bugForm.dueByDate"),
       "dueByDate")
     {
@@ -107,39 +160,15 @@ final class BugsTable
                                  final String componentId,
                                  final IModel<Bug> rowModel)
         {
-          class EditableOwnerChoice
-            extends AjaxEditableChoiceLabel<User>
-          {
-            private static final long serialVersionUID = -6892026330177948403L;
-
-            private final Bug bug;
-
-            private EditableOwnerChoice(final String id,
-                                        final IModel<Bug> model,
-                                        final List<User> users,
-                                        final IChoiceRenderer<User> renderer)
-            {
-              super(id,
-                    new PropertyModel<User>(model.getObject(), "owner"),
-                    users,
-                    renderer);
-              bug = model.getObject();
-            }
-
-            @Override
-            protected void onSubmit(final AjaxRequestTarget target)
-            {
-              super.onSubmit(target);
-              final BugDao bugDao = new BugDao(entityManagerFactory);
-              bugDao.save(bug);
-            }
-          }
           cellItem
-            .add(new EditableOwnerChoice(componentId,
-                                         rowModel,
-                                         new UserDao(entityManagerFactory)
-                                           .findAll(),
-                                         new ChoiceRenderer<User>("name", "id")));
+            .add(new BugEditableChoiceField<User>(componentId,
+                                                  rowModel,
+                                                  "owner",
+                                                  new UserDao(entityManagerFactory)
+                                                    .findAll(),
+                                                  new ChoiceRenderer<User>("name",
+                                                                           "id"),
+                                                  entityManagerFactory));
         }
       });
     }

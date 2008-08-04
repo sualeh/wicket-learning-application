@@ -13,5 +13,16 @@ package sf.wicketlearningapplication.domain;
 
 public enum Severity
 {
-  showstopper, high, medium, low
+  showstopper, high, medium, low;
+
+  public String getName()
+  {
+    return name();
+  }
+
+  public int getId()
+  {
+    return ordinal();
+  }
+
 }
