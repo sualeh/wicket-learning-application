@@ -33,7 +33,7 @@ import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.Model;
 import org.apache.wicket.spring.injection.annot.SpringBean;
 import org.apache.wicket.validation.validator.DateValidator;
-import org.apache.wicket.validation.validator.NumberValidator;
+import org.apache.wicket.validation.validator.MinimumValidator;
 import org.apache.wicket.validation.validator.StringValidator;
 
 import sf.wicketlearningapplication.domain.Bug;
@@ -78,7 +78,7 @@ final class BugForm
 
     final TextField<Integer> estimatedHours = new TextField<Integer>("estimatedHours",
                                                                      Integer.class);
-    estimatedHours.add(NumberValidator.POSITIVE);
+    estimatedHours.add(new MinimumValidator<Integer>(0));
     add(estimatedHours);
 
     final List<User> users = new UserDao(entityManagerFactory).findAll();
