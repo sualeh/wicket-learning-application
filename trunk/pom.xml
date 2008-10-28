@@ -31,8 +31,8 @@
 	</build>
 	<repositories>
 		<repository>
-			<id>Apache</id>
-			<name>apache</name>
+			<id>apache</id>
+			<name>Apache</name>
 			<url>
 				http://people.apache.org/repo/m2-ibiblio-rsync-repository
 			</url>
@@ -41,6 +41,17 @@
 				<enabled>true</enabled>
 			</snapshots>
 		</repository>
+		<repository>
+			<id>java.net</id>
+			<name>java.net</name>
+			<url>
+				http://download.java.net/maven/2
+			</url>
+			<layout>default</layout>
+			<snapshots>
+				<enabled>true</enabled>
+			</snapshots>
+		</repository>		
 		<repository>
 			<id>wicketstuff</id>
 			<name>Wicket Stuff</name>
@@ -95,7 +106,7 @@
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
-			<version>4.4</version>
+			<version>4.5</version>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
