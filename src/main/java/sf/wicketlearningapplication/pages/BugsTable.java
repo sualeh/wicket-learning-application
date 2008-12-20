@@ -79,8 +79,8 @@ final class BugsTable
     }
   }
 
-  private static IColumn<Bug>[] getColumns(final EntityManagerFactory entityManagerFactory,
-                                           final User user)
+  private static List<IColumn<Bug>> getColumns(final EntityManagerFactory entityManagerFactory,
+                                               final User user)
   {
     final List<IColumn<Bug>> columns = new ArrayList<IColumn<Bug>>();
     columns.add(new AbstractColumn<Bug>(new Model<String>(""))
@@ -173,7 +173,7 @@ final class BugsTable
       });
     }
 
-    return columns.toArray(new IColumn[columns.size()]);
+    return columns;
   }
 
   BugsTable(final String id,
