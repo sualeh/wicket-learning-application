@@ -176,7 +176,7 @@
   <properties>
     <hibernate.version>3.2.1.ga</hibernate.version>
     <spring.version>2.5.6</spring.version>
-    <jetty.version>6.1.7</jetty.version>
+    <jetty.version>6.1.16</jetty.version>
     <wicket.version>1.4.2</wicket.version>
   </properties>
 </project>
