@@ -11,30 +11,28 @@
 <wicket:panel>
 	<span wicket:id="errorMessages"></span>
 	<form wicket:id="bugForm">
-	<table>
-		<tr>
-			<td><wicket:message key="bugForm.summary"></wicket:message>:</td>
-			<td><input type="text" wicket:id="summary"></td>
-		</tr>
-		<tr>
-			<td><wicket:message key="bugForm.severity"></wicket:message>:</td>
-			<td><select wicket:id="severity" /></td>
-		</tr>
-		<tr>
-			<td><wicket:message key="bugForm.dueByDate"></wicket:message>:</td>
-			<td><input type="text" wicket:id="dueByDate"></td>
-		</tr>
-		<tr>
-			<td><wicket:message key="bugForm.estimatedHours"></wicket:message>:</td>
-			<td><input type="text" wicket:id="estimatedHours"></td>
-		</tr>
-		<tr>
-			<td><wicket:message key="bugForm.owner"></wicket:message>:</td>
-			<td><select wicket:id="owner" /></td>
-		</tr>
-		<tr>
-			<td><input type="submit" wicket:id="save" value="Save"></td>
-		</tr>
-	</table>
+		<p>
+			<label for="summary"><wicket:message key="bugForm.summary"></wicket:message></label>
+			<input type="text" name="summary" wicket:id="summary">
+		</p>
+		<p>
+			<label for="severity"><wicket:message key="bugForm.severity"></wicket:message></label>
+			<select name="severity" wicket:id="severity" />
+		</p>
+		<p>			
+			<label for="dueByDate"><wicket:message key="bugForm.dueByDate"></wicket:message></label>
+			<input type="text" name="dueByDate" wicket:id="dueByDate">
+		</p>
+		<p>				
+			<label for="estimatedHours"><wicket:message key="bugForm.estimatedHours"></wicket:message></label>
+			<input type="text" name="estimatedHours" wicket:id="estimatedHours">
+		</p>
+		<p>			
+			<label for="owner"><wicket:message key="bugForm.owner"></wicket:message></label>
+			<select name="owner" wicket:id="owner" />
+		</p>
+		<p>				
+			<input type="submit" wicket:id="save" value="Save" />
+	  </p>			
 	</form>
 </wicket:panel>
