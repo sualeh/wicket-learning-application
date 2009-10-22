@@ -1,0 +1,15 @@
+label {
+	width: 10em;
+	float: left;
+	text-align: right;
+	margin-right: 0.5em;
+	display: block;
+}
+
+input select textarea {
+	margin-left: 12em;
+}
+
+fieldset {
+	width: 25em;
+}
